@@ -1,0 +1,69 @@
+/**
+ * GInputGroup
+ * Javascript range input
+ *
+ * @filesource js/inputgroup.js
+ * @link http://www.kotchasan.com/
+ * @copyright 2018 Goragod.com
+ * @license http://www.kotchasan.com/license/
+ */
+(function() {
+  "use strict";
+  window.GInputGroup = GClass.create();
+  GInputGroup.prototype = {
+    initialize: function(id, o) {
+      this.input = $G(id);
+      this.id = this.input.id;
+      this.ul = this.input.parentNode.parentNode;
+      var self = this;
+      forEach(this.ul.getElementsByTagName("button"), function() {
+        callClick(this, function() {
+          self.removeItem(this);
+        });
+      });
+      this.input.addEvent("keydown", function(e) {
+        if (GEvent.keyCode(e) == 8 && this.value == "") {
+          var btns = self.ul.getElementsByTagName("button");
+          if (btns.length > 0) {
+            self.ul.removeChild(btns[btns.length - 1].parentNode);
+          }
+          GEvent.stop(e);
+        }
+      });
+      this.input.addEvent("keypress", function(e) {
+        if (GEvent.keyCode(e) == 13) {
+          self.addItem(this.value, this.value);
+          this.value = "";
+          GEvent.stop(e);
+        }
+      });
+      $G(this.ul).addEvent("click", function() {
+        self.input.focus();
+      });
+      this.input.inputGroup = this;
+    },
+    addItem: function(text, value) {
+      var li = document.createElement("li"),
+        span = document.createElement("span"),
+        button = document.createElement("button"),
+        hidden = document.createElement("input"),
+        self = this;
+      span.appendChild(document.createTextNode(text));
+      li.appendChild(span);
+      button.type = "button";
+      button.innerHTML = "x";
+      li.appendChild(button);
+      hidden.type = "hidden";
+      hidden.name = this.id + "[]";
+      hidden.value = value;
+      li.appendChild(hidden);
+      this.ul.insertBefore(li, this.input.parentNode);
+      callClick(button, function() {
+        self.removeItem(this);
+      });
+    },
+    removeItem: function(button) {
+      this.ul.removeChild(button.parentNode);
+    }
+  };
+})();
