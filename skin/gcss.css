@@ -3904,7 +3904,7 @@ td.buttons .button:last-child {
   float: left;
   margin: 5px 5px 5px 0;
   display: block;
-  max-width: 60px;
+  max-width: 5.3em;
 }
 .thumbview .figure {
   display: table;

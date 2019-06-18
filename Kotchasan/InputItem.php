@@ -345,13 +345,13 @@ class InputItem
      * และลบช่องว่างหัวท้าย
      * ใช้รับข้อมูลที่มาจาก textarea.
      *
-     * @assert create("ทด\/สอบ\n<?php echo '555'?>")->textarea() [==] "ทด&#92;/สอบ\n&lt;?php echo '555'?&gt;"
+     * @assert create("ทด\/สอบ\n<?php echo '$555'?>")->textarea() [==] "ทด&#92;/สอบ\n&lt;?php echo '&#36;555'?&gt;"
      *
      * @return string|array
      */
     public function textarea()
     {
-        return trim(preg_replace(array('/</s', '/>/s', '/\\\/s', '/\{/', '/\}/'), array('&lt;', '&gt;', '&#92;', '&#x007B;', '&#x007D;'), $this->value));
+        return trim(preg_replace(array('/</s', '/>/s', '/\\\/s', '/\{/', '/\}/', '/\$/'), array('&lt;', '&gt;', '&#92;', '&#x007B;', '&#x007D;', '&#36;'), $this->value));
     }
 
     /**

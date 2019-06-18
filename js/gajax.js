@@ -122,7 +122,7 @@ window.$K = (function() {
                   if (obj.type == "email") {
                     obj.pattern = /^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/;
                   } else {
-                    obj.pattern = /^[a-z0-9\-\.:\/\#%\?\&\=_]{3,100}$/i;
+                    obj.pattern = /^[a-z0-9\-\.:\/\#%\?\&\=_@~]{3,}$/i;
                   }
                 }
                 text.addEvent("keyup", _docheck);
@@ -3193,7 +3193,7 @@ window.$K = (function() {
           }
           self._draw();
           GEvent.stop(e);
-        } else if (key == 8) {
+        } else if (key == 8 && self.hidden.readOnly == false) {
           self.setDate(null);
           GEvent.stop(e);
         } else {
@@ -3612,7 +3612,7 @@ window.$K = (function() {
       return this;
     },
     setDate: function(date) {
-      if (date === null || !/[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}/.test(date)) {
+      if (date === null || !/[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}(\s[0-9:]+)?/.test(date)) {
         this.date = null;
       } else {
         this.date = this._toDate(date);

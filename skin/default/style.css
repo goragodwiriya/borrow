@@ -255,6 +255,10 @@ fieldset.search input[type="submit"],
   border-color: #dbdbdb;
   padding-bottom: 10px;
   clear: both;
+  background-color: #fff;
+}
+.dashboard .section {
+  margin: 0;
 }
 section>header {
   padding: 10px;
@@ -507,6 +511,9 @@ header .inline {
   margin-top: 10px;
   width: 100%;
   height: 200px;
+}
+.ggraphs td {
+  text-align: center;
 }
 #GModal_modaldiv>.modaldiv>article,
 #GModal_modaldiv>.modaldiv>form {

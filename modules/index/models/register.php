@@ -44,7 +44,7 @@ class Model extends \Kotchasan\Model
                     'status' => $isAdmin ? $request->post('register_status')->toInt() : 0,
                     'active' => 1,
                 );
-                $permission = $request->post('register_permission', array())->topic();
+                $permission = $isAdmin ? $request->post('register_permission', array())->topic() : array();
                 if (empty($save['username'])) {
                     $ret['ret_register_username'] = 'Please fill in';
                 } else {
