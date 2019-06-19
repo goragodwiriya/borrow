@@ -87,7 +87,7 @@ class Controller extends \Gcms\Controller
         if (is_file(ROOT_PATH.DATA_FOLDER.'logo.png')) {
             $logo = '<img src="'.WEB_URL.DATA_FOLDER.'logo.png" alt="{WEBTITLE}">&nbsp;{WEBTITLE}';
         } else {
-            $logo = '<span class="icon-exchange">{WEBTITLE}</span>';
+            $logo = '<span class="'.self::$cfg->default_icon.'">{WEBTITLE}</span>';
         }
         // เนื้อหา
         self::$view->setContents(array(

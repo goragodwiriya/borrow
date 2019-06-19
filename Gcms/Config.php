@@ -95,6 +95,12 @@ class Config extends \Kotchasan\Config
      */
     public $skin = 'skin/default';
     /**
+     * ไอคอนเริ่มต้นของไซต์ (โลโก)
+     *
+     * @var string
+     */
+    public $default_icon = 'icon-office';
+    /**
      * สามารถขอรหัสผ่านในหน้าเข้าระบบได้.
      *
      * @var bool
