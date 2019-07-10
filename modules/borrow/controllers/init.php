@@ -79,7 +79,7 @@ class Controller extends \Kotchasan\KBase
     public static function updatePermissions($permissions)
     {
         $permissions['can_manage_borrow'] = '{LNG_Can manage borrow}';
-        $permissions['can_approve_borrow'] = '{LNG_Can be approve}';
+        $permissions['can_approve_borrow'] = '{LNG_Can be approve} ({LNG_Borrow} &amp; {LNG_Return})';
 
         return $permissions;
     }

@@ -286,18 +286,6 @@ class Html extends \Kotchasan\KBase
     }
 
     /**
-     * create Table.
-     *
-     * @param array $attributes
-     *
-     * @return \Kotchasan\HtmlTable
-     */
-    public static function table($attributes = array())
-    {
-        return HtmlTable::create($attributes);
-    }
-
-    /**
      * สร้าง Attributes ของ tag.
      *
      * @return string
@@ -600,6 +588,9 @@ class Html extends \Kotchasan\KBase
                 'for' => $attributes['id'],
             ));
         }
+        if (isset($attributes['button']) && $attributes['button'] === true) {
+            $c[] = 'groupsbutton';
+        }
         $div = $obj->add('div', array(
             'class' => implode(' ', $c),
         ));
@@ -620,9 +611,21 @@ class Html extends \Kotchasan\KBase
                     $item['name'] = $name;
                 }
                 if (isset($attributes['id'])) {
-                    $item['id'] = $attributes['id'];
-                    $result_id = $attributes['id'];
-                    unset($attributes['id']);
+                    if (isset($attributes['button']) && $attributes['button'] === true) {
+                        $item['button'] = $attributes['button'];
+                        $item['id'] = $attributes['id'].'_'.$item['value'];
+                        if (!isset($result_id)) {
+                            $result_id = $item['id'];
+                        }
+                        $item['class'] = (empty($attributes['class']) ? '' : $attributes['class'].' ').str_replace('groups', 'button', $tag);
+                    } else {
+                        $item['id'] = $attributes['id'];
+                        $result_id = $attributes['id'];
+                        unset($attributes['id']);
+                        if (isset($attributes['class'])) {
+                            $item['class'] = $attributes['class'];
+                        }
+                    }
                 }
                 if (isset($attributes['comment'])) {
                     $item['title'] = strip_tags($attributes['comment']);

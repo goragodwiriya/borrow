@@ -27,7 +27,7 @@ class Model extends \Kotchasan\Model
      * อ่านข้อมูลรายการที่เลือก
      * คืนค่าข้อมูล object ไม่พบคืนค่า null.
      *
-     * @param int   $id
+     * @param int $id
      *
      * @return object|null
      */
@@ -62,14 +62,14 @@ class Model extends \Kotchasan\Model
     }
 
     /**
-     * บันทึกข้อมูลที่ส่งมาจากฟอร์ม ยืม (order.php)
+     * บันทึกข้อมูลที่ส่งมาจากฟอร์ม (order.php)
      *
      * @param Request $request
      */
     public function submit(Request $request)
     {
         $ret = array();
-        // session, token, สมาชิก, สามารถอนุมัติ ยืม-คืน ได้
+        // session, token, member, สามารถอนุมัติได้
         if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
             if (Login::checkPermission($login, 'can_approve_borrow')) {
                 $order = array(
@@ -107,7 +107,7 @@ class Model extends \Kotchasan\Model
                         $db->update($table_borrow, $borrow->id, $order);
                         if ($request->post('send_mail')->toBoolean()) {
                             // ส่งอีเมลไปยังผู้ที่เกี่ยวข้อง
-                            $ret['alert'] = \Borrow\Email\Model::send($login['username'], $order['borrow_no'], 0);
+                            $ret['alert'] = \Borrow\Email\Model::send($login['username'], $login['name'], $order);
                         } else {
                             // คืนค่า
                             $ret['alert'] = Language::get('Saved successfully');

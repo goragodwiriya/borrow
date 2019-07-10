@@ -53,7 +53,7 @@ class Model extends \Kotchasan\Model
     public function submit(Request $request)
     {
         $ret = array();
-        // session, token, สมาชิก, สามารถอนุมัติ ยืม-คืน ได้
+        // session, token, member, สามารถอนุมัติได้
         if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
             if (Login::checkPermission($login, 'can_approve_borrow')) {
                 $index = self::get($request->post('borrow_id')->toInt(), $request->post('id')->toInt());
@@ -153,7 +153,7 @@ class Model extends \Kotchasan\Model
     public function action(Request $request)
     {
         $ret = array();
-        // session, referer, member
+        // session, referer, member, สามารถอนุมัติได้
         if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
             if (Login::checkPermission($login, 'can_approve_borrow')) {
                 if (preg_match('/^(delivery|return|status)_([0-9]+)_([0-9]+)$/', $request->post('id')->toString(), $match)) {

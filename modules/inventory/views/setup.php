@@ -24,10 +24,13 @@ use Kotchasan\Language;
 class View extends \Gcms\View
 {
     /**
-     * @var mixed
+     * @var array
      */
     private $params = array();
-    private $categories;
+    /**
+     * @var object
+     */
+    private $category;
 
     /**
      * ตารางรายชื่อสมาชิก
@@ -55,7 +58,7 @@ class View extends \Gcms\View
         );
         $cols = array();
         $filters = array();
-        $this->categories = \Inventory\Category\Model::init();
+        $this->category = \Inventory\Category\Model::init();
         foreach (Language::get('INVENTORY_CATEGORIES') as $type => $text) {
             $this->params[] = $type;
             $fields[] = $type;
@@ -68,7 +71,7 @@ class View extends \Gcms\View
                 'name' => $type,
                 'default' => 0,
                 'text' => $text,
-                'options' => array(0 => '{LNG_all items}') + $this->categories->toSelect($type),
+                'options' => array(0 => '{LNG_all items}') + $this->category->toSelect($type),
                 'value' => $request->request($type)->toInt(),
             );
         }
@@ -97,9 +100,9 @@ class View extends \Gcms\View
             /* ฟิลด์ที่กำหนด (หากแตกต่างจาก Model) */
             'fields' => $fields,
             /* รายการต่อหน้า */
-            'perPage' => $request->cookie('inventory_perPage', 30)->toInt(),
+            'perPage' => $request->cookie('inventorySetup_perPage', 30)->toInt(),
             /* เรียงลำดับ */
-            'sort' => $request->cookie('inventory_sort', 'id desc')->toString(),
+            'sort' => $request->cookie('inventorySetup_sort', 'id desc')->toString(),
             /* ฟังก์ชั่นจัดรูปแบบการแสดงผลแถวของตาราง */
             'onRow' => array($this, 'onRow'),
             /* คอลัมน์ที่ไม่ต้องแสดงผล */
@@ -135,8 +138,8 @@ class View extends \Gcms\View
             ),
         ));
         // save cookie
-        setcookie('inventory_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
-        setcookie('inventory_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('inventorySetup_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('inventorySetup_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
         // คืนค่า HTML
 
         return $table->render();
@@ -145,18 +148,20 @@ class View extends \Gcms\View
     /**
      * จัดรูปแบบการแสดงผลในแต่ละแถว.
      *
-     * @param array $item
+     * @param array  $item ข้อมูลแถว
+     * @param int    $o    ID ของข้อมูล
+     * @param object $prop กำหนด properties ของ TR
      *
-     * @return array
+     * @return array คืนค่า $item กลับไป
      */
     public function onRow($item, $o, $prop)
     {
         foreach ($this->params as $key) {
-            $item[$key] = $this->categories->get($key, $item[$key]);
+            $item[$key] = $this->category->get($key, $item[$key]);
         }
         $item['in_use'] = '<a id="inuse_'.$item['id'].'" class="icon-valid '.($item['in_use'] == 1 ? 'access' : 'disabled').'" title="{LNG_Is in use}"></a>';
         $thumb = is_file(ROOT_PATH.DATA_FOLDER.'inventory/'.$item['id'].'.jpg') ? WEB_URL.DATA_FOLDER.'inventory/'.$item['id'].'.jpg' : WEB_URL.'modules/inventory/img/noimage.png';
-        $item['stock'] .= ' '.$this->categories->get('units', $item['unit']);
+        $item['stock'] .= ' '.$this->category->get('units', $item['unit']);
         $item['id'] = '<img src="'.$thumb.'" style="max-height:50px;max-width:50px" alt=thumbnail>';
 
         return $item;

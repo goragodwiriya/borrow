@@ -164,6 +164,6 @@ class Controller extends \Gcms\Controller
      */
     public static function renderQuickMenu($menu, $icon, $title, $url)
     {
-        $menu->set($title, '<a href="'.$url.'"><span class="'.$icon.'">'.$title.'</span></a>');
+        $menu->set($title, '<a class="cuttext" href="'.$url.'"><span class="'.$icon.'">'.$title.'</span></a>');
     }
 }

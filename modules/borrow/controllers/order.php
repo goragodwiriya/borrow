@@ -39,7 +39,7 @@ class Controller extends \Gcms\Controller
         $this->menu = 'report';
         // ตรวจสอบรายการที่เลือก
         $index = \Borrow\Order\Model::get($request->request('id')->toInt());
-        // เจ้าของ และ สามารถอนุมัติ ยืม-คืน ได้
+        // เจ้าของ และ สามารถอนุมัติได้
         if ($index && Login::checkPermission(Login::isMember(), 'can_approve_borrow')) {
             // แสดงผล
             $section = Html::create('section', array(
@@ -58,6 +58,7 @@ class Controller extends \Gcms\Controller
             ));
             // แสดงฟอร์ม
             $section->appendChild(createClass('Borrow\Order\View')->render($index));
+            // คืนค่า HTML
 
             return $section->render();
         }

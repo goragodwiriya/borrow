@@ -25,7 +25,7 @@ class Model extends \Kotchasan\Model
 {
     /**
      * ค้นหาสินค้า สำหรับ autocomplete
-     * คืนค่าเป็น JSON.
+     * คืนค่าเป็น JSON
      *
      * @param Request $request
      */
@@ -33,7 +33,6 @@ class Model extends \Kotchasan\Model
     {
         if ($request->initSession() && $request->isReferer() && Login::isMember()) {
             $search = $request->post('equipment')->topic();
-            $order = 'I.equipment';
             $where = array(
                 array('I.in_use', 1),
             );

@@ -139,7 +139,7 @@ window.$K = (function() {
                 }
                 if (obj.dataset["keyboard"]) {
                   obj.pattern = new RegExp("^(?:[" + obj.dataset["keyboard"].preg_quote() + "]+)$");
-                  if (obj.type == "integer" || obj.type == "currency" || obj.type == "number") {
+                  if (obj.type == "integer" || obj.type == "currency") {
                     new GInput(text, obj.dataset["keyboard"], function() {
                       var val = floatval(this.value);
                       if (obj.min) {
@@ -180,28 +180,45 @@ window.$K = (function() {
                 elem.style.width = "100%";
                 elem.addEvent("change", function() {
                   if (this.files) {
-                    display.value = this.value;
+                    var input = this,
+                      hs,
+                      files = [],
+                      preview = $E(this.get("data-preview")),
+                      max = floatval(input.get("data-max")),
+                      validImageTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/png'];
+                    if (preview) {
+                      preview.innerHTML = '';
+                    }
+                    forEach(input.files, function() {
+                      if (max > 0 && this.size > max) {
+                        input.invalid(input.title);
+                      } else {
+                        files.push(this.name);
+                        input.valid();
+                        if (preview) {
+                          hs = /\.([a-z0-9]+)$/.exec(this.name.toLowerCase());
+                          var div = document.createElement('div');
+                          div.className = 'file-thumb';
+                          if (hs) {
+                            div.innerHTML = hs[1];
+                          }
+                          preview.appendChild(div);
+                          if (validImageTypes.includes(this.type) && window.FileReader) {
+                            var r = new FileReader();
+                            r.onload = function(evt) {
+                              div.innerHTML = '';
+                              div.style.backgroundImage = 'url(' + evt.target.result + ')';
+                            };
+                            r.readAsDataURL(this);
+                          }
+                        }
+                      }
+                    });
+                    display.value = files.join(', ');
                     display.callEvent("change", {
                       value: this.value,
                       files: this.files
                     });
-                    var preview = $E(this.get("data-preview"));
-                    if (preview) {
-                      var input = this,
-                        max = floatval(input.get("data-max"));
-                      forEach(input.files, function() {
-                        if (max > 0 && this.size > max) {
-                          input.invalid(input.title);
-                        } else if (window.FileReader) {
-                          var r = new FileReader();
-                          r.onload = function(evt) {
-                            preview.src = evt.target.result;
-                            input.valid();
-                          };
-                          r.readAsDataURL(this);
-                        }
-                      });
-                    }
                   }
                 });
                 elem.initObj = true;
@@ -408,7 +425,7 @@ window.$K = (function() {
   Date.prototype.compare = function(d) {
     var date, month, year;
     if (Object.isString(d)) {
-      var ds = d.split("-");
+      var ds = d.replace(/\//g, '-').split("-");
       year = floatval(ds[0]);
       month = floatval(ds[1]) - 1;
       date = floatval(ds[2]);

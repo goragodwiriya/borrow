@@ -22,9 +22,8 @@ use Kotchasan\Language;
  */
 class View extends \Gcms\View
 {
-
     /**
-     *  ฟอร์ม รายละเอียดการยืมพัสดุ
+     * ฟอร์ม รายละเอียดการยืมพัสดุ
      *
      * @param object $index
      *

@@ -36,7 +36,7 @@ class Model extends \Kotchasan\Model
     }
 
     /**
-     * ฟังก์ชั่นอ่านจำนวนสมาชิกทั้งหมด.
+     * ฟังก์ชั่นอ่านจำนวนสมาชิกทั้งหมด
      *
      * @return int
      */
@@ -83,6 +83,7 @@ class Model extends \Kotchasan\Model
                                 array('id', '!=', 1),
                                 array('social', 0),
                                 array('username', '!=', ''),
+                                array('active', 1),
                             ))
                             ->toArray();
                         $msgs = array();

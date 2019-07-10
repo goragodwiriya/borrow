@@ -40,7 +40,7 @@ class Model extends \Kotchasan\KBase
         $err = \Kotchasan\Email::send($username, self::$cfg->noreply_email, $subject, $msg);
         if ($err->error()) {
             // คืนค่า error
-            return $err->getErrorMessage();
+            return strip_tags($err->getErrorMessage());
         } else {
             // อัปเดทรหัสผ่านใหม่
             $model = new \Kotchasan\Model();

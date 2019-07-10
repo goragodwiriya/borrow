@@ -13,7 +13,7 @@ namespace Borrow\Index;
 use Kotchasan\Html;
 
 /**
- * module=borrow-index.
+ * module=borrow-index
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -21,12 +21,11 @@ use Kotchasan\Html;
  */
 class View extends \Gcms\View
 {
-
     /**
-     *  ฟอร์ม ยืมพัสดุ
+     * ฟอร์ม ยืมพัสดุ
      *
      * @param object $index
-     * @param array   $login
+     * @param array $login
      *
      * @return string
      */

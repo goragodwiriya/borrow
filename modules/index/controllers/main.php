@@ -102,6 +102,7 @@ class Controller extends \Gcms\Controller
         ));
         // คืนค่า controller
         $controller->detail = $template->render();
+        // คืนค่า HTML
 
         return $controller;
     }

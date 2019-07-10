@@ -187,16 +187,16 @@ class InputItem
     }
 
     /**
-     * ลบ PHP tag และแปลง \ เป็น $#92; ใช้รับข้อมูลจาก editor
+     * ลบ PHP tag และแปลง \ { } สำหรับใช้รับข้อมูลจาก editor
      * เช่นเนื้อหาของบทความ
      *
-     * @assert create('ทด\/สอบ<?php echo "555"?>')->detail() [==] 'ทด&#92;/สอบ'
+     * @assert create('{ทด\/สอบ<?php echo "555"?>}')->detail() [==] '&#x007B;ทด&#92;/สอบ&#x007D;'
      *
      * @return string|array
      */
     public function detail()
     {
-        return preg_replace(array('/<\?(.*?)\?>/su', '/\\\/'), array('', '&#92;'), $this->value);
+        return preg_replace(array('/<\?(.*?)\?>/su', '/\{/', '/\}/', '/\\\/'), array('', '&#x007B;', '&#x007D;', '&#92;'), $this->value);
     }
 
     /**

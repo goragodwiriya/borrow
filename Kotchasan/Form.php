@@ -326,6 +326,7 @@ class Form extends \Kotchasan\KBase
                 case 'result':
                 case 'checked':
                 case 'datalist':
+                case 'button':
                     $$k = $v;
                     break;
                 case 'title':
@@ -469,12 +470,16 @@ class Form extends \Kotchasan\KBase
             if (empty($labelClass) && empty($label)) {
                 $input .= $element;
             } elseif (isset($type) && ($type === 'checkbox' || $type === 'radio')) {
-                $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.$element.$label.'</label>';
+                if (isset($button) && $button === true) {
+                    $input .= $element.'<label for="'.$id.'"'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.$label.'</label>';
+                } else {
+                    $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.$element.$label.'</label>';
+                }
             } else {
                 $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.(empty($label) ? '' : $label.'&nbsp;').$element.'</label>';
             }
             if (!empty($unit)) {
-                $input .= '<span class=label>'.$unit.'</span></div>';
+                $input .= '<span class="label">'.$unit.'</span></div>';
             }
             if (!empty($comment)) {
                 $input .= '<div class="comment"'.(empty($id) ? '' : ' id="result_'.$id.'"').'>'.$comment.'</div>';
@@ -488,7 +493,9 @@ class Form extends \Kotchasan\KBase
                 $input .= '<label'.(empty($labelClass) ? '' : ' class="'.$labelClass.'"').'>'.$element.'&nbsp;'.(isset($label) ? $label : '').'</label>';
             } else {
                 if (isset($dataPreview)) {
-                    $input .= '<div class=usericon><span><img src="'.$previewSrc.'" alt="Image preview" id='.$dataPreview.'></span></div>';
+                    $input .= '<div class="file-preview" id="'.$dataPreview.'">';
+                    $input .= isset($previewSrc) ? '<div class="file-thumb" style="background-image:url('.$previewSrc.')"></div>' : '';
+                    $input .= '</div>';
                 }
                 if (isset($label) && isset($id)) {
                     $input .= '<label for="'.$id.'">'.$label.'</label>';

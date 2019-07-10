@@ -67,55 +67,57 @@ class Model extends \Kotchasan\Model
     }
 
     /**
-     * รับค่าจาก action.
+     * รับค่าจาก action
      *
      * @param Request $request
      */
     public function action(Request $request)
     {
         $ret = array();
-        // session, referer, member
+        // session, referer, member, ไม่ใช่สมาชิกตัวอย่าง
         if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
-            // รับค่าจากการ POST
-            $action = $request->post('action')->toString();
-            $borrow_id = $request->post('id')->toInt();
-            $id = $request->post('opt')->toInt();
-            if ($action == 'detail') {
-                // แสดงรายละเอียด (modal)
-                $borrow = $this->db()->createQuery()
-                    ->from('borrow B')
-                    ->join('user U', 'LEFT', array('U.id', 'B.borrower_id'))
-                    ->where(array('B.id', $borrow_id))
-                    ->first('B.*', 'U.name borrower', 'U.status');
-                if ($borrow) {
-                    // คืนค่า modal
-                    $ret['modal'] = \Borrow\Detail\View::render($borrow);
-                }
-            } elseif ($action == 'delete') {
-                // ลบ
-                $search = $this->db()->createQuery()
-                    ->from('borrow W')
-                    ->join('borrow_items S', 'INNER', array('S.borrow_id', 'W.id'))
-                    ->where(array(
-                        array('S.borrow_id', $borrow_id),
-                        array('S.id', $id),
-                        array('S.status', array(0, 1)),
-                        array('W.borrower_id', $login['id']),
-                    ))
-                    ->first('S.borrow_id', 'S.id');
-                if ($search) {
-                    // ลบรายการ
-                    $this->db()->delete($this->getTableName('borrow_items'), array(
-                        array('borrow_id', $search->borrow_id),
-                        array('id', $search->id),
-                    ));
-                    // ลบรายการ borrow ที่ไม่มี borrow_items แล้ว
-                    $this->db()->createQuery()
-                        ->delete('borrow', array('id', $search->borrow_id))
-                        ->notExists('borrow_items', array('borrow_id', $search->borrow_id))
-                        ->execute();
-                    // reload
-                    $ret['location'] = 'reload';
+            if (Login::notDemoMode($login)) {
+                // รับค่าจากการ POST
+                $action = $request->post('action')->toString();
+                $borrow_id = $request->post('id')->toInt();
+                $id = $request->post('opt')->toInt();
+                if ($action == 'detail') {
+                    // แสดงรายละเอียด (modal)
+                    $borrow = $this->db()->createQuery()
+                        ->from('borrow B')
+                        ->join('user U', 'LEFT', array('U.id', 'B.borrower_id'))
+                        ->where(array('B.id', $borrow_id))
+                        ->first('B.*', 'U.name borrower', 'U.status');
+                    if ($borrow) {
+                        // คืนค่า modal
+                        $ret['modal'] = \Borrow\Detail\View::render($borrow);
+                    }
+                } elseif ($action == 'delete') {
+                    // ลบ
+                    $search = $this->db()->createQuery()
+                        ->from('borrow W')
+                        ->join('borrow_items S', 'INNER', array('S.borrow_id', 'W.id'))
+                        ->where(array(
+                            array('S.borrow_id', $borrow_id),
+                            array('S.id', $id),
+                            array('S.status', array(0, 1)),
+                            array('W.borrower_id', $login['id']),
+                        ))
+                        ->first('S.borrow_id', 'S.id');
+                    if ($search) {
+                        // ลบรายการ
+                        $this->db()->delete($this->getTableName('borrow_items'), array(
+                            array('borrow_id', $search->borrow_id),
+                            array('id', $search->id),
+                        ));
+                        // ลบรายการ borrow ที่ไม่มี borrow_items แล้ว
+                        $this->db()->createQuery()
+                            ->delete('borrow', array('id', $search->borrow_id))
+                            ->notExists('borrow_items', array('borrow_id', $search->borrow_id))
+                            ->execute();
+                        // reload
+                        $ret['location'] = 'reload';
+                    }
                 }
             }
         }

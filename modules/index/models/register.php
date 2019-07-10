@@ -89,7 +89,7 @@ class Model extends \Kotchasan\Model
                         $err = \Kotchasan\Email::send($save['username'], self::$cfg->noreply_email, $subject, $msg);
                         if ($err->error()) {
                             // คืนค่า error
-                            $ret['alert'] = $err->getErrorMessage();
+                            $ret['alert'] = strip_tags($err->getErrorMessage());
                         } else {
                             // คืนค่า
                             $ret['alert'] = Language::replace('Register successfully, We have sent complete registration information to :email', array(':email' => $save['username']));

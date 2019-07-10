@@ -45,25 +45,27 @@ class View extends \Gcms\View
         $fieldset = $form->add('fieldset', array(
             'title' => '{LNG_Details of} {LNG_Equipment}',
         ));
+        $groups = $fieldset->add('groups');
         // equipment
-        $fieldset->add('text', array(
+        $groups->add('text', array(
             'id' => 'equipment',
             'labelClass' => 'g-input icon-edit',
-            'itemClass' => 'item',
+            'itemClass' => 'width50',
             'label' => '{LNG_Equipment}',
             'placeholder' => '{LNG_Details of} {LNG_Equipment}',
             'maxlength' => 64,
             'value' => isset($index->equipment) ? $index->equipment : '',
         ));
         // serial
-        $fieldset->add('text', array(
+        $groups->add('text', array(
             'id' => 'serial',
             'labelClass' => 'g-input icon-number',
-            'itemClass' => 'item',
+            'itemClass' => 'width50',
             'label' => '{LNG_Serial/Registration number}',
             'maxlength' => 20,
             'value' => isset($index->serial) ? $index->serial : '',
         ));
+        // category
         $category = \Inventory\Category\Model::init();
         $n = 0;
         foreach (Language::get('INVENTORY_CATEGORIES') as $key => $label) {
@@ -121,6 +123,7 @@ class View extends \Gcms\View
             'comment' => '{LNG_Browse image uploaded, type :type} ({LNG_resized automatically})',
             'dataPreview' => 'imgPicture',
             'previewSrc' => $img,
+            'accept' => array('jpg', 'jpeg', 'png'),
         ));
         // in_use
         $fieldset->add('checkbox', array(

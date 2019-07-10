@@ -10,10 +10,11 @@
 
 namespace Borrow\Email;
 
+use Kotchasan\Date;
 use Kotchasan\Language;
 
 /**
- * ส่งอีเมลไปยังผู้ที่เกี่ยวข้อง.
+ * ส่งอีเมลไปยังผู้ที่เกี่ยวข้อง
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -24,32 +25,41 @@ class Model extends \Kotchasan\KBase
     /**
      * ส่งอีเมลแจ้งการทำรายการ
      *
-     * @param string $mailto
-     * @param string $topic
-     * @param int    $status
+     * @param string $mailto อีเมล
+     * @param string $name   ชื่อ
+     * @param array  $order ข้อมูล
      */
-    public static function send($mailto, $topic, $status)
+    public static function send($mailto, $name, $order)
     {
         if (self::$cfg->noreply_email != '') {
+            // ข้อความ
+            $msg = array(
+                '{LNG_Borrow} & {LNG_Return}',
+                '{LNG_Transaction No.}: '.$order['borrow_no'],
+                '{LNG_Date}: '.Date::format($order['transaction_date'], 'd M Y'),
+                'URL: '.WEB_URL,
+            );
+            $msg = Language::trans(implode("\n", $msg));
+            // ส่งอีเมลไปยังผู้ทำรายการเสมอ
+            $emails = array($mailto => $mailto.'<'.$name.'>');
             // อีเมลของมาชิกที่สามารถอนุมัติได้ทั้งหมด
             $query = \Kotchasan\Model::createQuery()
-                ->select('username')
+                ->select('username', 'name')
                 ->from('user')
-                ->where(array('social', 0))
+                ->where(array(
+                    array('social', 0),
+                    array('active', 1),
+                ))
                 ->andWhere(array(
                     array('status', 1),
                     array('permission', 'LIKE', '%,can_approve_borrow,%'),
                 ), 'OR')
                 ->cacheOn();
-            $emails = array($mailto => $mailto);
             foreach ($query->execute() as $item) {
-                $emails[$item->username] = $item->username;
+                $emails[$item->username] = $item->username.'<'.$item->name.'>';
             }
             // ส่งอีเมล
-            $title = Language::trans('{LNG_Borrow} & {LNG_Return}');
-            $subject = '['.self::$cfg->web_title.'] '.$title;
-            $msg = $title.' '.$topic."\n".Language::get('Status').' : '.Language::find('BORROW_STATUS', null, $status);
-            $msg .= "\n".WEB_URL;
+            $subject = '['.self::$cfg->web_title.'] '.Language::trans('{LNG_Borrow} & {LNG_Return}');
             $err = \Kotchasan\Email::send(implode(',', $emails), self::$cfg->noreply_email, $subject, nl2br($msg));
             if ($err->error()) {
                 // คืนค่า error

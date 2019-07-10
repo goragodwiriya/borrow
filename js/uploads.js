@@ -302,15 +302,8 @@ function initGUploads(form_id, id, model) {
       }
     });
     if (cs.length == 0) {
-      alert(trans("Please select at least one item"));
-    } else if (
-      confirm(
-        trans("You want to XXX the selected items ?").replace(
-          /XXX/,
-          this.innerHTML
-        )
-      )
-    ) {
+      alert(trans("Please select at least one item").replace(/XXX/, this.innerHTML));
+    } else if (confirm(trans("You want to XXX the selected items ?").replace(/XXX/, this.innerHTML))) {
       _action(
         "action=deletep&mid=" +
         $E("module_id").value +

@@ -41,8 +41,8 @@ class Controller extends \Gcms\Controller
         $login = Login::isMember();
         // ตรวจสอบรายการที่เลือก
         $index = \Borrow\Index\Model::get($request->request('id')->toInt(), $login);
-        // เจ้าของ
-        if ($index && $login['id'] == $index->borrower_id) {
+        // ใหม่, เจ้าของ
+        if ($index && ($index->id == 0 || $login['id'] == $index->borrower_id)) {
             // ข้อความ title bar
             $title = Language::get($index->id == 0 ? 'Borrow' : 'Edit');
             $this->title .= ' - '.$title;
@@ -62,6 +62,7 @@ class Controller extends \Gcms\Controller
             ));
             // แสดงฟอร์ม
             $section->appendChild(createClass('Borrow\Index\View')->render($index, $login));
+            // คืนค่า HTML
 
             return $section->render();
         }

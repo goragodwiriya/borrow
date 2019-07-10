@@ -104,7 +104,7 @@
             }
           });
           if (cs.length == 0) {
-            alert(trans("Please select at least one item"));
+            alert(trans("Please select at least one item").replace(/XXX/, trans('Checkbox')));
           } else {
             cs = cs.join(",");
             var f = this.get("for");

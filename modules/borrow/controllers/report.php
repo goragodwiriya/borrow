@@ -49,7 +49,7 @@ class Controller extends \Gcms\Controller
         $this->title .= ' '.$title;
         // เลือกเมนู
         $this->menu = 'report';
-        // สามารถอนุมัติ ยืม-คืน ได้
+        // สามารถอนุมัติได้
         if (Login::checkPermission(Login::isMember(), 'can_approve_borrow')) {
             // แสดงผล
             $section = Html::create('section', array(
@@ -68,6 +68,7 @@ class Controller extends \Gcms\Controller
             ));
             // แสดงตาราง
             $section->appendChild(createClass('Borrow\Report\View')->render($request, $index));
+            // คืนค่า HTML
 
             return $section->render();
         }

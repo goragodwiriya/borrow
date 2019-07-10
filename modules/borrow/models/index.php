@@ -37,8 +37,10 @@ class Model extends \Kotchasan\Model
     {
         if (empty($id)) {
             // ใหม่
+
             return (object) array(
                 'id' => 0,
+                'borrower' => $login['name'],
                 'borrower_id' => $login['id'],
                 'borrow_no' => '',
                 'transaction_date' => date('Y-m-d'),
@@ -57,9 +59,9 @@ class Model extends \Kotchasan\Model
 
     /**
      * อ่านรายการพัสดุในใบยืม
-     * ถ้าไมมีคืนค่ารายการว่าง 1 รายการ.
+     * ถ้าไมมีคืนค่ารายการว่าง 1 รายการ
      *
-     * @param int    $borrow_id
+     * @param int $borrow_id
      *
      * @return array
      */
@@ -169,7 +171,7 @@ class Model extends \Kotchasan\Model
                                 $order['transaction_date'] = date('Y-m-d');
                                 $borrow_id = $db->insert($table_borrow, $order);
                                 // ส่งอีเมลไปยังผู้ที่เกี่ยวข้อง
-                                $ret['alert'] = \Borrow\Email\Model::send($login['username'], $order['borrow_no'], 0);
+                                $ret['alert'] = \Borrow\Email\Model::send($login['username'], $login['name'], $order);
                             }
                             // อ่านรายการ items เก่า (ถ้ามี)
                             foreach ($db->select($table_borrow_items, array(array('borrow_id', $borrow_id))) as $item) {

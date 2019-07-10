@@ -74,16 +74,22 @@ class Model extends \Kotchasan\Model
                     $ret['isMember'] = 0;
                 }
             } elseif ($search['social'] == 1) {
-                // facebook เคยเยี่ยมชมแล้ว อัปเดทการเยี่ยมชม
-                $save = $search;
-                ++$save['visited'];
-                $save['lastvisited'] = time();
-                $save['ip'] = $request->getClientIp();
-                $save['salt'] = uniqid();
-                $save['token'] = sha1($password.$save['salt']);
-                // อัปเดท
-                $db->update($user_table, $search['id'], $save);
-                $save['permission'] = explode(',', trim($save['permission'], " \t\n\r\0\x0B,"));
+                if ($search['active'] == 1) {
+                    // facebook เคยเยี่ยมชมแล้ว อัปเดทการเยี่ยมชม
+                    $save = $search;
+                    ++$save['visited'];
+                    $save['lastvisited'] = time();
+                    $save['ip'] = $request->getClientIp();
+                    $save['salt'] = uniqid();
+                    $save['token'] = sha1($password.$save['salt']);
+                    // อัปเดท
+                    $db->update($user_table, $search['id'], $save);
+                    $save['permission'] = explode(',', trim($save['permission'], " \t\n\r\0\x0B,"));
+                } else {
+                    // ไม่ใช่สมาชิกปัจจุบัน ไม่สามารถเข้าระบบได้
+                    $ret['alert'] = Language::get('Unable to complete the transaction');
+                    $ret['isMember'] = 0;
+                }
             } else {
                 // ไม่สามารถ login ได้ เนื่องจากมี email อยู่ก่อนแล้ว
                 $save = false;

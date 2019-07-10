@@ -24,29 +24,34 @@ class Model extends \Kotchasan\Model
 {
     /**
      * ค้นหาสมาชิก สำหรับ autocomplete
-     * คืนค่าเป็น JSON.
+     * คืนค่าเป็น JSON
      *
      * @param Request $request
      */
     public function findUser(Request $request)
     {
         if ($request->initSession() && $request->isReferer() && Login::isMember()) {
+            // ข้อความค้นหา
             $search = $request->post('name')->topic();
+            // 1 (default) คืนค่าสมาชิกที่สามารถเข้าระบบได้ (active=1), 0 ทั้งหมด
+            $active = $request->post('active', 1)->toBoolean();
+            // query
             $where = array();
-            $select = array('id', 'name', 'email');
+            $select = array('id', 'name');
             $order = array();
-            foreach (explode(',', $request->post('from', 'name,email')->filter('a-z,')) as $item) {
+            foreach (explode(',', $request->post('from', 'name')->filter('a-z,')) as $item) {
                 if ($item == 'name') {
                     if ($search != '') {
                         $where[] = array('name', 'LIKE', "%$search%");
                     }
                     $order[] = 'name';
                 }
-                if ($item == 'email') {
+                if ($item == 'username') {
                     if ($search != '') {
-                        $where[] = array('email', 'LIKE', "%$search%");
+                        $where[] = array('username', 'LIKE', "%$search%");
                     }
-                    $order[] = 'email';
+                    $select[] = 'username';
+                    $order[] = 'username';
                 }
                 if ($item == 'phone') {
                     if ($search != '') {
@@ -55,6 +60,13 @@ class Model extends \Kotchasan\Model
                     $select[] = 'phone';
                     $order[] = 'phone';
                 }
+                if ($item == 'id_card') {
+                    if ($search != '') {
+                        $where[] = array('id_card', 'LIKE', "$search%");
+                    }
+                    $select[] = 'id_card';
+                    $order[] = 'id_card';
+                }
             }
             $query = $this->db()->createQuery()
                 ->select($select)
@@ -62,13 +74,16 @@ class Model extends \Kotchasan\Model
                 ->order($order)
                 ->limit($request->post('count')->toInt())
                 ->toArray();
+            if ($active) {
+                $query->where(array('active', 1));
+            }
             if (!empty($where)) {
                 $query->andWhere($where, 'OR');
             }
             $result = $query->execute();
             // คืนค่า JSON
             if (!empty($result)) {
-                echo json_encode($query->execute());
+                echo json_encode($result);
             }
         }
     }

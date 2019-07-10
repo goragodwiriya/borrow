@@ -54,6 +54,7 @@ class Controller extends \Gcms\Controller
                     'innerHTML' => '<h2 class="icon-index">'.$this->title.'</h2>',
                 ));
                 $section->appendChild(file_get_contents(ROOT_PATH.'modules/index/views/'.$match[1].'.html'));
+                // คืนค่า HTML
 
                 return $section->render();
             }

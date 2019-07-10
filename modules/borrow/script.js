@@ -128,24 +128,7 @@ function initBorrowIndex() {
 }
 
 function initBorrowOrder() {
-  initAutoComplete(
-    "borrower",
-    WEB_URL + "index.php/index/model/autocomplete/findUser",
-    "name,email,phone",
-    "customer", {
-      get: function() {
-        return "name=" + encodeURIComponent($E("borrower").value) + "&from=name,email,phone";
-      },
-      callBack: function() {
-        $E("borrower_id").value = this.id;
-        $G("borrower").valid().value = this.name.unentityify();
-      },
-      onChanged: function() {
-        $E("borrower_id").value = 0;
-        $G("borrower").reset();
-      }
-    }
-  );
+  initBorrower();
   forEach($G('tb_products').elems("a"), function() {
     callClick(this, function() {
       send(WEB_URL + "index.php/borrow/model/orderstatus/action", 'id=' + this.id, doFormSubmit, this);
@@ -156,4 +139,27 @@ function initBorrowOrder() {
       $E('return_date').calendar.minDate(this.value);
     }
   });
+}
+
+function initBorrower() {
+  if ($E('borrower')) {
+    initAutoComplete(
+      "borrower",
+      WEB_URL + "index.php/index/model/autocomplete/findUser",
+      "name,username,phone",
+      "customer", {
+        get: function() {
+          return "name=" + encodeURIComponent($E("borrower").value) + "&from=name,username,phone";
+        },
+        callBack: function() {
+          $E("borrower_id").value = this.id;
+          $G("borrower").valid().value = this.name.unentityify();
+        },
+        onChanged: function() {
+          $E("borrower_id").value = 0;
+          $G("borrower").reset();
+        }
+      }
+    );
+  }
 }

@@ -32,7 +32,7 @@ class Model extends \Kotchasan\Model
     {
         return static::createQuery()
             ->select()
-            ->from('inventory I');
+            ->from('inventory');
     }
 
     /**

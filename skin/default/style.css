@@ -591,6 +591,7 @@ header .inline {
 }
 .qmenu [class*="icon"]:before {
   color: inherit;
+  font-size: 1em;
 }
 .qmenu a:hover {
   background-color: #333;
