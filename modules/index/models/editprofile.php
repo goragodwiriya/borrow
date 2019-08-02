@@ -80,8 +80,6 @@ class Model extends \Kotchasan\Model
                 $table_user = $this->getTableName('user');
                 // database connection
                 $db = $this->db();
-                // แอดมิน
-                $isAdmin = Login::isAdmin();
                 // ตรวจสอบค่าที่ส่งมา
                 $user = self::get($request->post('register_id')->toInt());
                 if ($user) {
@@ -89,7 +87,7 @@ class Model extends \Kotchasan\Model
                     if ($login['id'] == $user['id']) {
                         unset($save['status']);
                     }
-                    if ($isAdmin) {
+                    if (Login::isAdmin()) {
                         // แอดมิน อัปเดท permission ได้
                         $save['permission'] = empty($permission) ? '' : ','.implode(',', $permission).',';
                     } elseif ($login['id'] != $user['id']) {

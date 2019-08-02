@@ -1,19 +1,19 @@
 /**
- * GSortTable
- * Javascript sort table
+ * GDragDrop
+ * Javascript drag drop
  *
- * @filesource js/sorttable.js
+ * @filesource js/dragdrop.js
  * @link http://www.kotchasan.com/
- * @copyright 2016 Goragod.com
+ * @copyright 2019 Goragod.com
  * @license http://www.kotchasan.com/license/
  */
 (function() {
   "use strict";
-  window.GSortTable = GClass.create();
-  GSortTable.prototype = {
+  window.GDragDrop = GClass.create();
+  GDragDrop.prototype = {
     initialize: function(id, options) {
       this.options = {
-        sortClass: "icon-move",
+        dragClass: "icon-drag",
         itemClass: "sort",
         endDrag: $K.emptyFunction
       };
@@ -69,13 +69,13 @@
         }
       }
 
-      function _find(tr) {
-        if (tr.hasClass(self.options.sortClass)) {
-          return tr;
+      function _find(elem) {
+        if (elem.hasClass(self.options.dragClass)) {
+          return elem;
         } else {
-          var els = $E(tr).getElementsByTagName("*");
+          var els = $E(elem).getElementsByTagName("*");
           for (var i = 0; i < els.length; i++) {
-            if ($G(els[i]).hasClass(self.options.sortClass)) {
+            if ($G(els[i]).hasClass(self.options.dragClass)) {
               return els[i];
             }
           }

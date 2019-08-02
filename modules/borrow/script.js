@@ -78,13 +78,14 @@ function initBorrowIndex() {
     "serial,equipment",
     "product", {
       onSuccess: function() {
-        send(WEB_URL + "index.php/borrow/model/inventory/find", 'value=' + $E('equipment').value, function(xhr) {
+        send(WEB_URL + "index.php/inventory/model/inventory/find", 'value=' + $E('equipment').value, function(xhr) {
           var inputs,
             input,
             ntr,
             quantity = $E("quantity").value.toInt();
           ds = xhr.responseText.toJSON();
           if (ds) {
+            console.log(ds);
             ntr = findInputRow("id", ds.id);
             if (ntr == null) {
               ntr = findInputRow("topic", "");
@@ -117,7 +118,6 @@ function initBorrowIndex() {
             $E("quantity").value = 1;
           }
         }, this);
-
       },
       callBack: function() {
         $E('equipment').value = this.serial;
