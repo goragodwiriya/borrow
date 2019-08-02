@@ -393,7 +393,7 @@ final class Language extends \Kotchasan\KBase
                         self::$languages = (object) $language;
                         self::$language_name = $item;
                         // บันทึกภาษาที่กำลังใช้งานอยู่ลงใน cookie
-                        setcookie('my_lang', $item, time() + 2592000, '/', HOST, HTTPS, true);
+                        setcookie('my_lang', $item, time() + 2592000, '/');
                         break;
                     }
                 }

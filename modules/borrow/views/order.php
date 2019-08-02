@@ -55,11 +55,6 @@ class View extends \Gcms\View
             'value' => $index->borrower,
             'autofocus' => true,
         ));
-        // borrower_id
-        $fieldset->add('hidden', array(
-            'id' => 'borrower_id',
-            'value' => $index->borrower_id,
-        ));
         $fieldset = $form->add('fieldset', array(
             'title' => '{LNG_Transaction details}',
             'titleClass' => 'icon-cart',

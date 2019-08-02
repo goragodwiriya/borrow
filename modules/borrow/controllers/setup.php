@@ -67,6 +67,7 @@ class Controller extends \Gcms\Controller
             ));
             // แสดงตาราง
             $section->appendChild(createClass('Borrow\Setup\View')->render($request, $login, $index));
+            // คืนค่า HTML
 
             return $section->render();
         }

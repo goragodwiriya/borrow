@@ -9,6 +9,7 @@ if (defined('ROOT_PATH')) {
     $folders[] = ROOT_PATH.'settings/';
     $folders[] = ROOT_PATH.'datas/cache/';
     $folders[] = ROOT_PATH.'datas/logs/';
+    $folders[] = ROOT_PATH.'datas/images/';
     foreach ($folders as $folder) {
         makeDirectory($folder, 0755);
         if (is_writable($folder)) {

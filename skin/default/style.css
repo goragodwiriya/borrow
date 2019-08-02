@@ -13,10 +13,6 @@ html {
   height: 100%;
   min-height: 100%;
 }
-body.mainpage .footer,
-body.loginpage {
-  background-color: #3498db;
-}
 a {
   color: #1276b9;
 }
@@ -116,7 +112,6 @@ a:hover {
   background-position: 50% 50%;
 }
 header.header {
-  background-color: #2387ca;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
@@ -145,15 +140,6 @@ header.header li {
   -ms-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
-header.header .td,
-.topmenu>ul>li {
-  color: #ddd;
-}
-header.header .td,
-.topmenu>ul>li>span,
-.topmenu>ul>li>a {
-  text-shadow: -1px -1px rgba(0, 0, 0, 0.4);
-}
 .topmenu>ul ul,
 .gdpanel a {
   text-shadow: none;
@@ -162,10 +148,7 @@ header.header .td,
   margin-right: 10px;
 }
 .menu_wrapper {
-  background-color: #1276b9;
-}
-.topmenu ul>li:hover {
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .topmenu>ul>li.select,
 .topmenu>ul>li.hover {
@@ -178,12 +161,6 @@ header.header .td,
   box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.07);
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.language-menu li>a:hover,
-.topmenu>ul ul>li.hover>a,
-.gdpanel a:hover {
-  color: #fff;
-  background-color: #1e88e5;
-}
 header.header .td {
   white-space: nowrap;
 }
@@ -191,13 +168,11 @@ header.header a {
   color: inherit;
 }
 .footer {
-  color: rgba(255, 255, 255, 0.5);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(255, 255, 255, 0.1) inset;
   display: table;
   width: 100%;
   margin-top: 10px;
-  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1);
 }
 .footer p {
   height: 57px;

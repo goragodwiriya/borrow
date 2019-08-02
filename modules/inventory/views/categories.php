@@ -15,7 +15,7 @@ use Kotchasan\Form;
 use Kotchasan\Html;
 
 /**
- * module=inventory-categories.
+ * module=inventory-categories
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *

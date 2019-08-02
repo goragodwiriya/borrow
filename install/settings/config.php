@@ -3,7 +3,7 @@
 /* config.php */
 
 return array(
-    'version' => '2.0.5',
+    'version' => '2.0.7',
     'web_title' => 'E-Borrow',
     'web_description' => 'ระบบ ยืม-คืน พัสดุ ออนไลน์',
     'timezone' => 'Asia/Bangkok',

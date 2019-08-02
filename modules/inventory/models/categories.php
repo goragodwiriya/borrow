@@ -15,7 +15,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * หมวดหมู่.
+ * หมวดหมู่
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *

@@ -50,9 +50,9 @@ class View extends \Gcms\View
             /* Model */
             'model' => \Borrow\Report\Model::toDataTable($params),
             /* รายการต่อหน้า */
-            'perPage' => $request->cookie('borrow_report_perPage', 30)->toInt(),
+            'perPage' => $request->cookie('borrowReport_perPage', 30)->toInt(),
             /* เรียงลำดับ */
-            'sort' => $request->cookie('borrow_report_sort', 'borrow_date DESC,borrow_id')->toString(),
+            'sort' => $request->cookie('borrowReport_sort', 'borrow_date DESC,borrow_id')->toString(),
             /* ฟังก์ชั่นจัดรูปแบบการแสดงผลแถวของตาราง */
             'onRow' => array($this, 'onRow'),
             /* คอลัมน์ที่ไม่ต้องแสดงผล */
@@ -125,8 +125,8 @@ class View extends \Gcms\View
             ),
         ));
         // save cookie
-        setcookie('borrow_report_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
-        setcookie('borrow_report_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('borrowReport_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('borrowReport_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
         // คืนค่า HTML
 
         return $table->render();

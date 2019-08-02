@@ -15,7 +15,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * module=inventory-setup.
+ * module=inventory-setup
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -33,7 +33,7 @@ class View extends \Gcms\View
     private $category;
 
     /**
-     * ตารางรายชื่อสมาชิก
+     * ตาราง พัสดุ
      *
      * @param Request $request
      *
@@ -82,13 +82,13 @@ class View extends \Gcms\View
             'sort' => 'stock',
         );
         $cols['stock'] = array('class' => 'center');
-        $fields[] = 'in_use';
-        $headers['in_use'] = array(
+        $fields[] = 'status';
+        $headers['status'] = array(
             'text' => '',
             'class' => 'center notext',
-            'sort' => 'in_use',
+            'sort' => 'status',
         );
-        $cols['in_use'] = array('class' => 'center');
+        $cols['status'] = array('class' => 'center');
         // URL สำหรับส่งให้ตาราง
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         // ตาราง
@@ -159,7 +159,7 @@ class View extends \Gcms\View
         foreach ($this->params as $key) {
             $item[$key] = $this->category->get($key, $item[$key]);
         }
-        $item['in_use'] = '<a id="inuse_'.$item['id'].'" class="icon-valid '.($item['in_use'] == 1 ? 'access' : 'disabled').'" title="{LNG_Is in use}"></a>';
+        $item['status'] = '<a id="inuse_'.$item['id'].'" class="icon-valid '.($item['status'] == 1 ? 'access' : 'disabled').'" title="{LNG_Is in use}"></a>';
         $thumb = is_file(ROOT_PATH.DATA_FOLDER.'inventory/'.$item['id'].'.jpg') ? WEB_URL.DATA_FOLDER.'inventory/'.$item['id'].'.jpg' : WEB_URL.'modules/inventory/img/noimage.png';
         $item['stock'] .= ' '.$this->category->get('units', $item['unit']);
         $item['id'] = '<img src="'.$thumb.'" style="max-height:50px;max-width:50px" alt=thumbnail>';

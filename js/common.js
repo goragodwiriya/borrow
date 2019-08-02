@@ -95,6 +95,10 @@ function defaultSubmit(ds) {
       }, 1);
     } else if (prop == "tab") {
       initWriteTab("accordient_menu", val);
+    } else if (prop == "valid") {
+      if ($E(val)) {
+        $G(val).valid();
+      }
     } else if (remove.test(prop)) {
       if ($E(val)) {
         $G(val).fadeOut(function() {
@@ -497,8 +501,8 @@ function initEditInplace(id, model, addbtn) {
   }
 
   function _initOrder() {
-    new GSortTable(id, {
-      tag: "li",
+    new GDragDrop(id, {
+      dragClass: "icon-move",
       endDrag: function() {
         var trs = new Array();
         forEach($G(id).elems("li"), function() {
@@ -737,4 +741,17 @@ function initWeb(module) {
 }
 if (navigator.userAgent.match(/(iPhone|iPod|iPad)/i)) {
   document.addEventListener("touchstart", function() {}, false);
+}
+
+function barcodeEnabled(inputs) {
+  $G(window).Ready(function() {
+    forEach(inputs, function(item) {
+      $G(item).addEvent('keydown', function(e) {
+        if (GEvent.keyCode(e) == 13) {
+          GEvent.stop(e);
+          return false;
+        }
+      });
+    });
+  });
 }

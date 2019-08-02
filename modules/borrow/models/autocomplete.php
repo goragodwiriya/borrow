@@ -34,7 +34,7 @@ class Model extends \Kotchasan\Model
         if ($request->initSession() && $request->isReferer() && Login::isMember()) {
             $search = $request->post('equipment')->topic();
             $where = array(
-                array('I.in_use', 1),
+                array('I.status', 1),
             );
             if ($search != '') {
                 $where[] = Sql::create("(I.`equipment` LIKE '%$search%' OR I.`serial` LIKE '$search%')");

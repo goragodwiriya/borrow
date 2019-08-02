@@ -34,5 +34,6 @@ class NotFound extends Response
             $response->withContent($message);
         }
         $response->send();
+        exit;
     }
 }

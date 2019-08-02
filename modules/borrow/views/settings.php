@@ -22,7 +22,7 @@ use Kotchasan\Html;
 class View extends \Gcms\View
 {
     /**
-     * ฟอร์มตั้งค่า person.
+     * ตั้งค่าโมดูล
      *
      * @return string
      */

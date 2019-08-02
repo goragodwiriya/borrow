@@ -63,9 +63,8 @@ class View extends \Gcms\View
     public static function render($index)
     {
         $content = '<article class="modal_detail">';
-        $content .= '<header><h1 class="cuttext">{LNG_Details of} {LNG_Borrow} &amp; {LNG_Return}</h1></header>';
+        $content .= '<header><h1 class="cuttext">{LNG_Details of} '.$index->borrow_no.'</h1></header>';
         $content .= '<table class="border fullwidth"><tbody>';
-        $content .= '<tr><th>{LNG_Transaction No.}</th><td>'.$index->borrow_no.'</td></tr>';
         $content .= '<tr><th>{LNG_Borrower}</th><td class="status'.$index->status.'">'.$index->borrower.'</td></tr>';
         $content .= '<tr><th>{LNG_Transaction date}</th><td>'.Date::format($index->transaction_date, 'd M Y').'</td></tr>';
         $content .= '<tr><th>{LNG_Borrowed date}</th><td>'.Date::format($index->borrow_date, 'd M Y').'</td></tr>';

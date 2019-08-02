@@ -58,11 +58,11 @@ class Model extends \Kotchasan\Model
                     } elseif ($action === 'inuse') {
                         $search = \Inventory\Write\Model::get($match[1][0]);
                         if ($search) {
-                            $in_use = $search->in_use == 1 ? 0 : 1;
-                            $this->db()->update($this->getTableName('inventory'), array('id', $match[1]), array('in_use' => $in_use));
+                            $status = $search->status == 1 ? 0 : 1;
+                            $this->db()->update($this->getTableName('inventory'), array('id', $match[1]), array('status' => $status));
                             // คืนค่า
                             $ret['elem'] = 'inuse_'.$search->id;
-                            $ret['class'] = 'icon-valid '.($in_use == '1' ? 'access' : 'disabled');
+                            $ret['class'] = 'icon-valid '.($status == '1' ? 'access' : 'disabled');
                         }
                     }
                 }

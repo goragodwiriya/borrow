@@ -137,7 +137,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-address',
             'itemClass' => 'item',
             'label' => '{LNG_Address}',
-            'maxlength' => 64,
+            'maxlength' => 150,
             'value' => $user['address'],
         ));
         $groups = $fieldset->add('groups');
@@ -167,7 +167,6 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-number',
             'itemClass' => 'width33',
             'label' => '{LNG_Zipcode}',
-            'pattern' => '[0-9]+',
             'maxlength' => 10,
             'value' => $user['zipcode'],
         ));

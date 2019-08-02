@@ -12,6 +12,7 @@ namespace Index\System;
 
 use Gcms\Config;
 use Gcms\Login;
+use Kotchasan\File;
 use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
@@ -51,15 +52,21 @@ class Model extends \Kotchasan\KBase
                 $config->timezone = $request->post('timezone')->text();
                 $config->facebook_appId = $request->post('facebook_appId')->text();
                 $config->google_client_id = $request->post('google_client_id')->text();
+                $config->bg_color = $request->post('bg_color')->filter('#ABCDEF0-9');
+                $config->color = $request->post('color')->filter('#ABCDEF0-9');
                 if (empty($ret)) {
                     // อัปโหลดไฟล์
+                    $dir = ROOT_PATH.DATA_FOLDER.'images/';
                     foreach ($request->getUploadedFiles() as $item => $file) {
                         if (preg_match('/^file_(logo|bg_image)$/', $item, $match)) {
                             /* @var $file \Kotchasan\Http\UploadedFile */
-                            if ($request->post('delete_'.$match[1])->toBoolean() == 1) {
+                            if (!File::makeDirectory($dir)) {
+                                // ไดเรคทอรี่ไม่สามารถสร้างได้
+                                $ret['ret_file_'.$item] = sprintf(Language::get('Directory %s cannot be created or is read-only.'), DATA_FOLDER.'images/');
+                            } elseif ($request->post('delete_'.$match[1])->toBoolean() == 1) {
                                 // ลบ
-                                if (is_file(ROOT_PATH.DATA_FOLDER.$match[1].'.png')) {
-                                    unlink(ROOT_PATH.DATA_FOLDER.$match[1].'.png');
+                                if (is_file($dir.$match[1].'.png')) {
+                                    unlink($dir.$match[1].'.png');
                                 }
                             } elseif ($file->hasUploadFile()) {
                                 if (!$file->validFileExt(array('jpg', 'jpeg', 'png'))) {
@@ -67,7 +74,7 @@ class Model extends \Kotchasan\KBase
                                     $ret['ret_file_'.$match[1]] = Language::get('The type of file is invalid');
                                 } else {
                                     try {
-                                        $file->moveTo(ROOT_PATH.DATA_FOLDER.$match[1].'.png');
+                                        $file->moveTo($dir.$match[1].'.png');
                                     } catch (\Exception $exc) {
                                         // ไม่สามารถอัปโหลดได้
                                         $ret['ret_file_'.$match[1]] = Language::get($exc->getMessage());

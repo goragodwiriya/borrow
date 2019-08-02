@@ -65,8 +65,8 @@ class View extends \Gcms\View
                     'text' => '{LNG_With selected}',
                     'options' => array(
                         'sendpassword' => '{LNG_Get new password}',
-                        'active_1' => '{LNG_Can login}',
-                        'active_0' => '{LNG_Unable to login}',
+                        'active_1' => '{LNG_Current staff}',
+                        'active_0' => '{LNG_Past employees}',
                         'delete' => '{LNG_Delete}',
                     ),
                 ),
@@ -101,7 +101,6 @@ class View extends \Gcms\View
                 ),
                 'phone' => array(
                     'text' => '{LNG_Phone}',
-                    'class' => 'center',
                 ),
                 'status' => array(
                     'text' => '{LNG_Member status}',
@@ -123,9 +122,6 @@ class View extends \Gcms\View
                     'class' => 'center',
                 ),
                 'social' => array(
-                    'class' => 'center',
-                ),
-                'phone' => array(
                     'class' => 'center',
                 ),
                 'status' => array(
@@ -168,10 +164,10 @@ class View extends \Gcms\View
     {
         $item['create_date'] = Date::format($item['create_date'], 'd M Y');
         if ($item['active'] == 1) {
-            $item['active'] = '<span class="icon-valid access" title="{LNG_Can login}"></span>';
+            $item['active'] = '<span class="icon-valid access" title="{LNG_Current staff}"></span>';
             $item['lastvisited'] = empty($item['lastvisited']) ? '-' : Date::format($item['lastvisited'], 'd M Y H:i').' ('.number_format($item['visited']).')';
         } else {
-            $item['active'] = '<span class="icon-valid disabled" title="{LNG_Unable to login}"></span>';
+            $item['active'] = '<span class="icon-valid disabled" title="{LNG_Past employees}"></span>';
             $item['lastvisited'] = '-';
         }
         if ($item['social'] == 1) {

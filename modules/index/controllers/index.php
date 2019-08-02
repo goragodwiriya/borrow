@@ -79,13 +79,13 @@ class Controller extends \Gcms\Controller
         foreach (Language::installedLanguage() as $item) {
             $languages .= '<li><a id=lang_'.$item.' href="'.$page->canonical()->withParams(array('lang' => $item), true).'" title="{LNG_Language} '.strtoupper($item).'" style="background-image:url('.WEB_URL.'language/'.$item.'.gif)" tabindex=1>&nbsp;</a></li>';
         }
-        if ($bodyclass == 'loginpage' && is_file(ROOT_PATH.DATA_FOLDER.'bg_image.png')) {
-            $bg_image = WEB_URL.DATA_FOLDER.'bg_image.png';
+        if ($bodyclass == 'loginpage' && is_file(ROOT_PATH.DATA_FOLDER.'images/bg_image.png')) {
+            $bg_image = WEB_URL.DATA_FOLDER.'images/bg_image.png';
         } else {
             $bg_image = '';
         }
-        if (is_file(ROOT_PATH.DATA_FOLDER.'logo.png')) {
-            $logo = '<img src="'.WEB_URL.DATA_FOLDER.'logo.png" alt="{WEBTITLE}">&nbsp;{WEBTITLE}';
+        if (is_file(ROOT_PATH.DATA_FOLDER.'images/logo.png')) {
+            $logo = '<img src="'.WEB_URL.DATA_FOLDER.'images/logo.png" alt="{WEBTITLE}">&nbsp;{WEBTITLE}';
         } else {
             $logo = '<span class="'.self::$cfg->default_icon.'">{WEBTITLE}</span>';
         }

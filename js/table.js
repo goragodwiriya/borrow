@@ -107,9 +107,14 @@
             alert(trans("Please select at least one item").replace(/XXX/, trans('Checkbox')));
           } else {
             cs = cs.join(",");
-            var f = this.get("for");
-            var fn = window[temp.options.actionConfirm];
-            var t = $G(f).getText();
+            var t,
+              f = this.get("for"),
+              fn = window[temp.options.actionConfirm];
+            if ($E(f).type.toLowerCase() == 'text') {
+              t = this.innerText;
+            } else {
+              t = $G(f).getText();
+            }
             t = t ? t.strip_tags() : null;
             if (Object.isFunction(fn)) {
               action = fn(t, $E(f).value, cs);
@@ -129,7 +134,8 @@
           }
         });
         if (this.options.dragColumn > -1) {
-          new GSortTable(this.table, {
+          new GDragDrop(this.table, {
+            dragClass: "icon-move",
             endDrag: function() {
               var trs = new Array();
               forEach(temp.table.elems("tr"), function() {

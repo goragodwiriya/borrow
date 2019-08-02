@@ -32,7 +32,7 @@ class Model extends \Kotchasan\Model
         return static::createQuery()
             ->select()
             ->from('inventory')
-            ->where(array('in_use', 1))
+            ->where(array('status', 1))
             ->andWhere(array(
                 array('stock', '>', 0),
                 array('stock', -1),

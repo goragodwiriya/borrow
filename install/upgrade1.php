@@ -47,6 +47,12 @@ if (defined('ROOT_PATH')) {
             }
             $conn->query("ALTER TABLE `$table` CHANGE `password` `password` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL");
             $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
+            // ตาราง inventory
+            $table = $db_config['prefix'].'_inventory';
+            if (!fieldExists($conn, $table, 'country')) {
+                $conn->query("ALTER TABLE `$table` CHANGE `in_use` `status` TINYINT(1) NOT NULL DEFAULT 1");
+                $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
+            }
             // บันทึก settings/config.php
             $config['version'] = $new_config['version'];
             if (isset($new_config['default_icon'])) {

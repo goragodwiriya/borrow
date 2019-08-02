@@ -67,6 +67,7 @@ class Model extends \Kotchasan\Model
                     // โหมดตัวอย่างเป็นแอดมิน, ไม่ใช่เป็นสมาชิกทั่วไป
                     'status' => self::$cfg->demo_mode ? 1 : 0,
                     'token' => sha1($password.uniqid()),
+                    'active' => 1,
                 ), $permissions);
                 if ($save === null) {
                     // ไม่สามารถบันทึก owner ได้

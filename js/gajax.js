@@ -15,7 +15,7 @@ window.$K = (function() {
       return true;
     },
     isMobile: function() {
-      return navigator.userAgent.match(/(iPhone|iPod|iPad|Android|webOS|BlackBerry|Windows Phone)/i);
+      return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
     },
     init: function(element) {
       forEach(element.querySelectorAll("input,textarea"), function(elem) {
@@ -1273,29 +1273,28 @@ window.$K = (function() {
           c = !c ? false : c;
           input.addEventListener(e, f, c);
         } else if (input.attachEvent) {
-          tmp = input;
-          tmp["e" + e + f] = f;
-          tmp[e + f] = function() {
-            tmp["e" + e + f](window.event);
+          input["e" + e + f] = f;
+          input[e + f] = function() {
+            input["e" + e + f](window.event);
           };
-          tmp.attachEvent("on" + e, tmp[e + f]);
+          input.attachEvent("on" + e, input[e + f]);
         }
       });
       return this;
     },
-    removeEvent: function(t, f) {
-      if (this.removeEventListener) {
-        this.removeEventListener(
-          t == "mousewheel" && window.gecko ? "DOMMouseScroll" : t,
-          f,
-          false
-        );
-      } else if (this.detachEvent) {
-        var tmp = this;
-        tmp.detachEvent("on" + t, tmp[t + f]);
-        tmp["e" + t + f] = null;
-        tmp[t + f] = null;
-      }
+    removeEvent: function(t, f, c) {
+      var ts = t.split(" "),
+        input = this;
+      forEach(ts, function(e) {
+        if (input.removeEventListener) {
+          c = !c ? false : c;
+          input.removeEventListener(e == "mousewheel" && window.gecko ? "DOMMouseScroll" : e, f, c);
+        } else if (input.detachEvent) {
+          input.detachEvent("on" + e, input[e + f]);
+          input["e" + e + f] = null;
+          input[e + f] = null;
+        }
+      });
       return this;
     },
     highlight: function(o) {
@@ -2543,17 +2542,18 @@ window.$K = (function() {
         self.options.endDrag.call(self.src);
       }
 
-      function _mousedown(e) {
-        var delay;
-        var temp = this;
+      function _mousedown(event) {
+        var delay,
+          src = GEvent.element(event),
+          temp = this;
 
-        function _cancelClick(e) {
+        function _cancelClick(event) {
           window.clearTimeout(delay);
           this.removeEvent("mouseup", _cancelClick);
         }
-        if (GEvent.isLeftClick(e)) {
-          GEvent.stop(e);
-          self.mousePos = GEvent.pointer(e);
+        if (src == self.src && GEvent.isLeftClick(event)) {
+          GEvent.stop(event);
+          self.mousePos = GEvent.pointer(event);
           if (this.setCapture) {
             this.setCapture();
           }
@@ -2565,6 +2565,8 @@ window.$K = (function() {
             self.options.beginDrag.call(self);
           }, 100);
           temp.addEvent("mouseup", _cancelClick);
+        } else if ($K.isMobile()) {
+          src.callEvent('click');
         }
       }
       this.src.addEvent("mousedown", _mousedown);

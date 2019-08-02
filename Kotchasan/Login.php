@@ -112,7 +112,7 @@ class Login extends \Kotchasan\KBase
             self::$login_params['password'] = self::$request->post('login_password')->password();
             self::$from_submit = true;
         }
-        $action = self::$request->get('action')->toString();
+        $action = self::$request->request('action')->toString();
         // ตรวจสอบการ login
         if ($action === 'logout' && !self::$from_submit) {
             // logout ลบ session และ cookie

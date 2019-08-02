@@ -23,7 +23,7 @@ use Kotchasan\Language;
 class View extends \Gcms\View
 {
     /**
-     * ฟอร์มสร้าง/แก้ไข เอกสาร.
+     * ฟอร์มเพิ่ม/แก้ไข พัสดุ
      *
      * @param object $index
      * @param array  $login
@@ -125,13 +125,14 @@ class View extends \Gcms\View
             'previewSrc' => $img,
             'accept' => array('jpg', 'jpeg', 'png'),
         ));
-        // in_use
-        $fieldset->add('checkbox', array(
-            'id' => 'in_use',
+        // status
+        $fieldset->add('select', array(
+            'id' => 'status',
+            'labelClass' => 'g-input icon-star0',
             'itemClass' => 'item',
-            'label' => '{LNG_Is in use}',
-            'value' => 1,
-            'checked' => empty($index->in_use) ? false : true,
+            'label' => '{LNG_Status}',
+            'options' => Language::get('INVENTORY_STATUS'),
+            'value' => $index->status,
         ));
         $fieldset = $form->add('fieldset', array(
             'class' => 'submit',

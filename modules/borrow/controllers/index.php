@@ -44,7 +44,7 @@ class Controller extends \Gcms\Controller
         // ใหม่, เจ้าของ
         if ($index && ($index->id == 0 || $login['id'] == $index->borrower_id)) {
             // ข้อความ title bar
-            $title = Language::get($index->id == 0 ? 'Borrow' : 'Edit');
+            $title = Language::get($index->id == 0 ? 'Add Borrow' : 'Edit');
             $this->title .= ' - '.$title;
             // แสดงผล
             $section = Html::create('section', array(

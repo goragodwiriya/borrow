@@ -101,6 +101,18 @@ class Config extends \Kotchasan\Config
      */
     public $default_icon = 'icon-office';
     /**
+     * สีหลักของเว็บไซต์
+     *
+     * @var string
+     */
+    public $bg_color = '#3498DB';
+    /**
+     * สีของเมนูบนสุด+footer
+     *
+     * @var string
+     */
+    public $color = '#FFFFFF';
+    /**
      * สามารถขอรหัสผ่านในหน้าเข้าระบบได้.
      *
      * @var bool

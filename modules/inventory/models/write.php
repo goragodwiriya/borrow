@@ -45,7 +45,7 @@ class Model extends \Kotchasan\Model
             return (object) array(
                 'id' => $id,
                 'stock' => 1,
-                'in_use' => 1,
+                'status' => 1,
             );
         } else {
             // แก้ไข อ่านรายการที่เลือก
@@ -74,7 +74,7 @@ class Model extends \Kotchasan\Model
                     'stock' => $request->post('stock')->toInt(),
                     'unit' => $request->post('unit')->toInt(),
                     'detail' => $request->post('detail')->textarea(),
-                    'in_use' => $request->post('in_use')->toBoolean(),
+                    'status' => $request->post('status')->toBoolean(),
                 );
                 foreach (Language::get('INVENTORY_CATEGORIES') as $key => $label) {
                     $save[$key] = $request->post($key)->toInt();

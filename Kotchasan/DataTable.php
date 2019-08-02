@@ -1067,6 +1067,25 @@ class DataTable extends \Kotchasan\KBase
             }
 
             return '<fieldset><select id="'.$item['id'].'">'.implode('', $rows).'</select><label for="'.$item['id'].'" class="button '.$item['class'].' action"><span>'.$item['text'].'</span></label></fieldset>';
+        } elseif (isset($item['type'])) {
+            $prop = array(
+                'type="'.$item['type'].'"',
+            );
+            $prop2 = array(
+                'button' => 'class="button action"',
+            );
+            foreach ($item as $key => $value) {
+                if ($key == 'id') {
+                    $prop[] = 'id="'.$value.'"';
+                    $prop2[] = 'for="'.$value.'"';
+                } elseif ($key == 'class') {
+                    $prop2['button'] = 'class="button '.$value.' action"';
+                } elseif (!in_array($key, array('type', 'text'))) {
+                    $prop[] = $key.'="'.$value.'"';
+                }
+            }
+
+            return '<fieldset><input '.implode(' ', $prop).'><label '.implode(' ', $prop2).'><span>'.$item['text'].'</span></label></fieldset>';
         } else {
             // link, button
             $prop = array();

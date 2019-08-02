@@ -330,12 +330,14 @@ class QueryBuilder extends \Kotchasan\Database\Query
      */
     public function having($condition, $oprator = 'AND')
     {
-        $ret = $this->buildWhere($condition, $oprator);
-        if (is_array($ret)) {
-            $this->sqls['having'] = $ret[0];
-            $this->values = ArrayTool::replace($this->values, $ret[1]);
-        } else {
-            $this->sqls['having'] = $ret;
+        if (!empty($condition)) {
+            $ret = $this->buildWhere($condition, $oprator);
+            if (is_array($ret)) {
+                $this->sqls['having'] = $ret[0];
+                $this->values = ArrayTool::replace($this->values, $ret[1]);
+            } else {
+                $this->sqls['having'] = $ret;
+            }
         }
 
         return $this;

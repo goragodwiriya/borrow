@@ -35,10 +35,10 @@ class Model
         $obj = new static();
         // Query
         $query = \Kotchasan\Model::createQuery()
-            ->select('type', 'category_id', 'topic')
+            ->select('category_id', 'topic', 'type')
             ->from('category')
             ->where(array('published', 1))
-            ->order('type', 'category_id')
+            ->order('category_id')
             ->cacheOn();
         foreach ($query->execute() as $item) {
             $obj->datas[$item->type][$item->category_id] = $item->topic;
@@ -57,14 +57,7 @@ class Model
      */
     public function toSelect($type)
     {
-        $result = array();
-        if (isset($this->datas[$type])) {
-            foreach ($this->datas[$type] as $category_id => $topic) {
-                $result[$category_id] = $topic;
-            }
-        }
-
-        return $result;
+        return empty($this->datas[$type]) ? array() : $this->datas[$type];
     }
 
     /**

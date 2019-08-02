@@ -45,18 +45,18 @@ class Model extends \Kotchasan\Model
                     'active' => 1,
                 );
                 $permission = $isAdmin ? $request->post('register_permission', array())->topic() : array();
+                // table
+                $table_user = $this->getTableName('user');
+                // Database
+                $db = $this->db();
                 if (empty($save['username'])) {
                     $ret['ret_register_username'] = 'Please fill in';
                 } else {
                     // ตรวจสอบ username ซ้ำ
-                    $search = $this->db()->first($this->getTableName('user'), array('username', $save['username']));
+                    $search = $db->first($table_user, array('username', $save['username']));
                     if ($search) {
                         $ret['ret_register_username'] = Language::replace('This :name already exist', array(':name' => Language::get('Email')));
                     }
-                }
-                // name
-                if (empty($save['name'])) {
-                    $ret['ret_register_name'] = 'Please fill in';
                 }
                 // password
                 $password = $request->post('register_password')->password();
@@ -70,9 +70,13 @@ class Model extends \Kotchasan\Model
                 } else {
                     $save['password'] = $password;
                 }
+                // name
+                if (empty($save['name'])) {
+                    $ret['ret_register_name'] = 'Please fill in';
+                }
                 if (empty($ret)) {
                     // ลงทะเบียนสมาชิกใหม่
-                    self::execute($this, $save, $permission);
+                    $save = self::execute($this, $save, $permission);
                     if ($isAdmin) {
                         // คืนค่า
                         $ret['alert'] = Language::get('Saved successfully');

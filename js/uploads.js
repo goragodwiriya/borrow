@@ -285,14 +285,9 @@
   };
 })();
 
-function initGUploads(form_id, id, model) {
-  var patt = /^(preview|delete|cover)_([0-9]+)(_([0-9]+))?$/,
+function initGUploads(form_id, id, model, module_id) {
+  var patt = /^(delete)_([0-9]+)(_([0-9]+))?$/,
     form = $G(form_id);
-  if (G_Lightbox === null) {
-    G_Lightbox = new GLightbox();
-  } else {
-    G_Lightbox.clear();
-  }
   var _doDelete = function() {
     var cs = new Array();
     forEach(form.elems("a"), function() {
@@ -304,33 +299,13 @@ function initGUploads(form_id, id, model) {
     if (cs.length == 0) {
       alert(trans("Please select at least one item").replace(/XXX/, this.innerHTML));
     } else if (confirm(trans("You want to XXX the selected items ?").replace(/XXX/, this.innerHTML))) {
-      _action(
-        "action=deletep&mid=" +
-        $E("module_id").value +
-        "&aid=" +
-        id +
-        "&id=" +
-        cs.join(",")
-      );
+      _action("action=deletep&mid=" + module_id + "&aid=" + id + "&id=" + cs.join(","));
     }
   };
   var _doAction = function() {
     var hs = patt.exec(this.id);
     if (hs[1] == "delete") {
-      this.className =
-        this.className == "icon-check" ? "icon-uncheck" : "icon-check";
-    } else if (
-      hs[1] == "cover" &&
-      confirm(trans("You want to XXX ?").replace(/XXX/, this.title))
-    ) {
-      _action(
-        "action=cover&mid=" +
-        $E("module_id").value +
-        "&aid=" +
-        id +
-        "&id=" +
-        hs[2]
-      );
+      this.className = this.className == "icon-check" ? "icon-uncheck" : "icon-check";
     }
     return false;
   };
@@ -341,10 +316,19 @@ function initGUploads(form_id, id, model) {
   forEach(form.elems("a"), function() {
     var hs = patt.exec(this.id);
     if (hs) {
-      if (hs[1] == "preview") {
-        G_Lightbox.add(this);
-      } else {
-        callClick(this, _doAction);
+      callClick(this, _doAction);
+    }
+  });
+  new GDragDrop(form_id, {
+    endDrag: function() {
+      var elems = new Array();
+      forEach($G(form_id).elems("figure"), function() {
+        if (this.id) {
+          elems.push(this.id.replace("L_", ""));
+        }
+      });
+      if (elems.length > 1) {
+        _action("action=sort&mid=" + module_id + "&aid=" + id + "&id=" + elems.join(","));
       }
     }
   });

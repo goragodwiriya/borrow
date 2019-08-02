@@ -51,7 +51,6 @@ function initBorrowIndex() {
           });
           this.addEvent("change", function() {
             this.value = Math.min(this.max, this.value);
-            doChanged.call(this);
           });
         }
         this.addEvent("focus", function() {
@@ -65,57 +64,63 @@ function initBorrowIndex() {
             if (tbody.elems("tr").length > 1 && confirm(trans("You want to XXX ?").replace(/XXX/, trans("delete")))) {
               var tr = $G(this.parentNode.parentNode);
               tr.remove();
-              doChanged.call(null);
             }
           });
         }
       });
       row++;
     });
-    doChanged.call(null);
   }
-
-  var doChanged = function(e) {};
 
   initAutoComplete(
     "equipment",
     WEB_URL + "index.php/borrow/model/autocomplete/findInventory",
-    "equipment,serial",
+    "serial,equipment",
     "product", {
-      callBack: function() {
-        var inputs,
-          input,
-          ntr = findInputRow("id", this.id),
-          quantity = $E("quantity").value.toInt();
-        if (ntr == null) {
-          ntr = findInputRow("topic", "");
-          if (ntr == null) {
-            ntr = $G(tbody.firstChild).copy(false);
-            tbody.appendChild(ntr);
-          } else {
-            ntr = ntr.parentNode.parentNode.parentNode;
+      onSuccess: function() {
+        send(WEB_URL + "index.php/borrow/model/inventory/find", 'value=' + $E('equipment').value, function(xhr) {
+          var inputs,
+            input,
+            ntr,
+            quantity = $E("quantity").value.toInt();
+          ds = xhr.responseText.toJSON();
+          if (ds) {
+            ntr = findInputRow("id", ds.id);
+            if (ntr == null) {
+              ntr = findInputRow("topic", "");
+              if (ntr == null) {
+                ntr = $G(tbody.firstChild).copy(false);
+                tbody.appendChild(ntr);
+              } else {
+                ntr = ntr.parentNode.parentNode.parentNode;
+              }
+              var inputs = $G(ntr).elems("input");
+              setInputValue(inputs, "topic", (ds.equipment + ' (' + ds.serial + ')').unentityify());
+              setInputValue(inputs, "unit", ds.unit.unentityify());
+              setInputValue(inputs, "id", ds.id);
+              ntr.removeClass("hidden");
+              input = getInput(ntr.elems("input"), "quantity");
+            } else {
+              ntr = $G(ntr.parentNode.parentNode);
+              input = getInput(ntr.elems("input"), "quantity");
+              quantity += input.value.toInt();
+            }
+            if (ds.stock == -1) {
+              input.value = quantity;
+              input.max = 2147483647;
+            } else {
+              input.value = Math.min(ds.stock, quantity);
+              input.max = ds.stock;
+            }
+            initTBODY();
+            $E("equipment").value = "";
+            $E("quantity").value = 1;
           }
-          var inputs = $G(ntr).elems("input");
-          setInputValue(inputs, "topic", (this.equipment + ' (' + this.serial + ')').unentityify());
-          setInputValue(inputs, "unit", this.unit.unentityify());
-          setInputValue(inputs, "id", this.id);
-          ntr.removeClass("hidden");
-          input = getInput(ntr.elems("input"), "quantity");
-        } else {
-          ntr = $G(ntr.parentNode.parentNode);
-          input = getInput(ntr.elems("input"), "quantity");
-          quantity += input.value.toInt();
-        }
-        if (this.stock == -1) {
-          input.value = quantity;
-          input.max = 2147483647;
-        } else {
-          input.value = Math.min(this.stock, quantity);
-          input.max = this.stock;
-        }
-        initTBODY();
-        $E("equipment").value = "";
-        $E("quantity").value = 1;
+        }, this);
+
+      },
+      callBack: function() {
+        $E('equipment').value = this.serial;
       }
     }
   );

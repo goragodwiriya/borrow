@@ -35,24 +35,11 @@ function initGoogleButton(button) {
           if ($E("token")) {
             q.push("token=" + encodeURIComponent($E("token").value));
           }
-          if ($E("login_action")) {
-            q.push(
-              "login_action=" + encodeURIComponent($E("login_action").value)
-            );
-          }
           q.push("id=" + encodeURIComponent(profile.getId()));
           q.push("name=" + encodeURIComponent(profile.getName()));
           q.push("image=" + encodeURIComponent(profile.getImageUrl()));
           q.push("email=" + encodeURIComponent(profile.getEmail()));
-          send(
-            WEB_URL +
-            "index.php/" +
-            ($E("google_action") ?
-              $E("google_action").value :
-              "index/model/gglogin/chklogin"),
-            q.join("&"),
-            ggLoginSubmit
-          );
+          send(WEB_URL + "index.php/" + ($E("google_action") ? $E("google_action").value : "index/model/gglogin/chklogin"), q.join("&"), ggLoginSubmit);
         });
       } else {
         initGoogleButton(button);
@@ -68,10 +55,11 @@ function ggLoginSubmit(xhr) {
       alert(ds.alert);
     }
     if (ds.isMember == 1) {
-      window.location = window.location.href.replace(
-        "action=logout",
-        "action=login"
-      );
+      if ($E("login_action")) {
+        window.location = $E("login_action").value;
+      } else {
+        window.location = window.location.href.replace("action=logout", "action=login");
+      }
     }
   } else if (xhr.responseText != "") {
     console.log(xhr.responseText);

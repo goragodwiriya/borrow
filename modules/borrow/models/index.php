@@ -37,7 +37,6 @@ class Model extends \Kotchasan\Model
     {
         if (empty($id)) {
             // ใหม่
-
             return (object) array(
                 'id' => 0,
                 'borrower' => $login['name'],

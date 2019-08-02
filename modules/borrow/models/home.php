@@ -39,8 +39,8 @@ class Model extends \Kotchasan\Model
                 array('W.borrower_id', $login['id']),
                 array('S.status', 0),
             ));
-        // อนุมัติ/ใช้งานอยู่
-        $q2 = static::createQuery()
+        // ครบกำหนดคืน
+        $q1 = static::createQuery()
             ->select(Sql::COUNT('S.id'))
             ->from('borrow W')
             ->join('borrow_items S', 'INNER', array('S.borrow_id', 'W.id'))
@@ -50,8 +50,8 @@ class Model extends \Kotchasan\Model
                 array('S.status', 2),
                 array(Sql::DATEDIFF('W.return_date', date('Y-m-d')), '<=', 0),
             ));
-        // ครบกำหนดคืน
-        $q4 = static::createQuery()
+        // อนุมัติ/ใช้งานอยู่
+        $q2 = static::createQuery()
             ->select(Sql::COUNT('S.id'))
             ->from('borrow W')
             ->join('borrow_items S', 'INNER', array('S.borrow_id', 'W.id'))
@@ -66,16 +66,16 @@ class Model extends \Kotchasan\Model
             ), 'OR');
         if (Login::checkPermission($login, 'can_approve_borrow')) {
             // รายการรอตรวจสอบทั้งหมด
-            $qx = static::createQuery()
+            $q3 = static::createQuery()
                 ->select(Sql::COUNT('S.id'))
                 ->from('borrow W')
                 ->join('borrow_items S', 'INNER', array('S.borrow_id', 'W.id'))
                 ->join('inventory I', 'INNER', array('I.id', 'S.inventory_id'))
                 ->where(array('S.status', 0));
 
-            return static::createQuery()->cacheOn()->first(array($q0, 'pending'), array($q2, 'confirmed'), array($q4, 'returned'), array($qx, 'allpending'));
+            return static::createQuery()->cacheOn()->first(array($q0, 'pending'), array($q1, 'returned'), array($q2, 'confirmed'), array($q3, 'allpending'));
         } else {
-            return static::createQuery()->cacheOn()->first(array($q0, 'pending'), array($q2, 'confirmed'), array($q4, 'returned'));
+            return static::createQuery()->cacheOn()->first(array($q0, 'pending'), array($q1, 'returned'), array($q2, 'confirmed'));
         }
     }
 }
