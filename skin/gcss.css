@@ -321,16 +321,16 @@ mark {
   background-color: #4a5db9;
 }
 .term1 {
-  background-color: #9c27b0;
+  background-color: #117864;
 }
 .term2 {
-  background-color: #2196f3;
-}
-.term3 {
   background-color: #e08b00;
 }
-.term4 {
+.term3 {
   background-color: #f44336;
+}
+.term4 {
+  background-color: #2196f3;
 }
 .term5 {
   background-color: #c768be;
@@ -348,7 +348,7 @@ mark {
   background-color: #76448a;
 }
 .term10 {
-  background-color: #117864;
+  background-color: #9c27b0;
 }
 
 /* layout */

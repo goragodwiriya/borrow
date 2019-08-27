@@ -4,7 +4,7 @@
   </h1>
   <form id=login_frm method=post autocomplete=off action="{URL}">
     <h2 class="table fullwidth">
-      <span class="td icon-signin">{LNG_Sign in}</span>
+      <span class="td icon-signin">{LNG_Login}</span>
       <span class="td icon-language language-menu" title="{LNG_Change language}">
         <ul>{LANGUAGES}</ul>
       </span>
@@ -13,19 +13,19 @@
     <fieldset>
       <p>
         <label class="g-input icon-email">
-          <input type=text name=login_username id=login_username value="{EMAIL}" maxlength=255 placeholder="{LNG_Email}">
+          <input type=text name=login_username id=login_username value="{EMAIL}" maxlength=255 placeholder="{LNG_Email}" title="{LNG_Email}">
         </label>
       </p>
       <p>
         <label class="g-input icon-password">
-          <input type=password name=login_password id=login_password value="{PASSWORD}" maxlength=20 placeholder="{LNG_Password}">
+          <input type=password name=login_password id=login_password value="{PASSWORD}" maxlength=20 placeholder="{LNG_Password}" title="{LNG_Password}">
         </label>
       </p>
       <p class="table fullwidth collapse">
       </p>
     </fieldset>
     <fieldset>
-      <button type=submit class="button login wide">{LNG_Sign in}</button>
+      <button type=submit class="button login wide">{LNG_Login}</button>
       <FACEBOOK>
         <button type=button class="button facebook wide margin-top" id=facebook_login>
           <span class="icon-facebook">Login with Facebook</span>

@@ -89,9 +89,7 @@ class View extends \Kotchasan\KBase
         $response = new \Kotchasan\Http\Response();
         $response->withHeaders(array(
             'Content-type' => 'application/javascript; charset=utf-8',
-            'Cache-Control' => 'public',
-            // cache 1 month
-            'Expires' => gmdate('D, d M Y H:i:s', strtotime('+1 month')).' GMT',
+            'Cache-Control' => 'max-age=31557600',
         ))
             ->withContent(preg_replace($patt, $replace, implode("\n", $js)))
             ->send();

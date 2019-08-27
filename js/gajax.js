@@ -3443,24 +3443,8 @@ window.$K = (function() {
           }
           var initial_day = 1;
           var tmp_init = new Date(intyear, intmonth, 1, 0, 0, 0, 0).dayOfWeek();
-          var max_prev = new Date(
-            tmp_prev_year,
-            tmp_prev_month,
-            0,
-            0,
-            0,
-            0,
-            0
-          ).daysInMonth();
-          var max_this = new Date(
-            intyear,
-            intmonth,
-            0,
-            0,
-            0,
-            0,
-            0
-          ).daysInMonth();
+          var max_prev = new Date(tmp_prev_year, tmp_prev_month, 0, 0, 0, 0, 0).daysInMonth();
+          var max_this = new Date(intyear, intmonth, 0, 0, 0, 0, 0).daysInMonth();
           if (tmp_init !== 0) {
             initial_day = max_prev - (tmp_init - 1);
           }
@@ -3470,19 +3454,8 @@ window.$K = (function() {
           tmp_prev_month = tmp_prev_month.toString();
           var pointer = initial_day;
           var flag_init = initial_day == 1 ? 1 : 0;
-          var tmp_month =
-            initial_day == 1 ? intmonth : parseInt(tmp_prev_month);
+          var tmp_month = initial_day == 1 ? intmonth : parseInt(tmp_prev_month);
           var tmp_year = initial_day == 1 ? intyear : parseInt(tmp_prev_year);
-          if (this.mdate !== null) {
-            var min_month = this.mdate.getMonth() + 1;
-            var min_year = this.mdate.getFullYear();
-            var min_date = this.mdate.getDate();
-          }
-          if (this.xdate !== null) {
-            var max_month = this.xdate.getMonth() + 1;
-            var max_year = this.xdate.getFullYear();
-            var max_date = this.xdate.getDate();
-          }
           var flag_end = 0;
           r = 0;
           for (var x = 0; x < 42; x++) {
@@ -3509,33 +3482,11 @@ window.$K = (function() {
             cell.appendChild(document.createTextNode(pointer));
             var canclick = true;
             if (this.mdate !== null && this.xdate !== null) {
-              canclick =
-                tmp_year == min_year &&
-                tmp_month == min_month &&
-                pointer >= min_date;
-              canclick =
-                canclick ||
-                (tmp_year == max_year &&
-                  tmp_month == max_month &&
-                  pointer <= max_date);
+              canclick = cell.oDate >= this.mdate && cell.oDate <= this.xdate;
             } else if (this.mdate !== null) {
-              canclick =
-                tmp_year > min_year ||
-                (tmp_year == min_year && tmp_month > min_month);
-              canclick =
-                canclick ||
-                (tmp_year == min_year &&
-                  tmp_month == min_month &&
-                  pointer >= min_date);
+              canclick = cell.oDate >= this.mdate;
             } else if (this.xdate !== null) {
-              canclick =
-                tmp_year < max_year ||
-                (tmp_year == max_year && tmp_month < max_month);
-              canclick =
-                canclick ||
-                (tmp_year == max_year &&
-                  tmp_month == max_month &&
-                  pointer <= max_date);
+              canclick = cell.oDate <= this.xdate;
             }
             if (canclick) {
               $G(cell).addEvent("click", function(e) {
@@ -3551,18 +3502,10 @@ window.$K = (function() {
             } else {
               cls = "ex";
             }
-            if (
-              tmp_year == sel_year &&
-              tmp_month == sel_month &&
-              pointer == sel_date
-            ) {
+            if (tmp_year == sel_year && tmp_month == sel_month && pointer == sel_date) {
               cls = cls + " select";
             }
-            if (
-              tmp_year == today_year &&
-              tmp_month == today_month &&
-              pointer == today_date
-            ) {
+            if (tmp_year == today_year && tmp_month == today_month && pointer == today_date) {
               cls = cls + " today";
             }
             cell.className = cls;
@@ -3572,20 +3515,12 @@ window.$K = (function() {
         var vpo = this.input.viewportOffset(),
           t = vpo.top + this.input.getHeight() + 5,
           dm = this.calendar.getDimensions();
-        if (
-          t + dm.height + 5 >=
-          document.viewport.getHeight() + document.viewport.getscrollTop()
-        ) {
+        if (t + dm.height + 5 >= document.viewport.getHeight() + document.viewport.getscrollTop()) {
           this.calendar.style.top = Math.max(vpo.top - dm.height - 5, 0) + "px";
         } else {
           this.calendar.style.top = t + "px";
         }
-        var l = Math.max(
-          vpo.left + dm.width > document.viewport.getWidth() ?
-          vpo.left + this.input.getWidth() - dm.width :
-          vpo.left,
-          document.viewport.getscrollLeft() + 5
-        );
+        var l = Math.max(vpo.left + dm.width > document.viewport.getWidth() ? vpo.left + this.input.getWidth() - dm.width : vpo.left, document.viewport.getscrollLeft() + 5);
         this.calendar.style.left = l + "px";
         this.calendar.style.display = "block";
       }
@@ -3655,7 +3590,9 @@ window.$K = (function() {
       return null;
     },
     minDate: function(date) {
-      if (Object.isNull(date)) {
+      if (date === null) {
+        this.mdate = null;
+      } else if (Object.isString(date) && date === '') {
         if (this.mdate == null) {
           this.mdate = new Date();
         }
@@ -3666,7 +3603,9 @@ window.$K = (function() {
       return this;
     },
     maxDate: function(date) {
-      if (Object.isNull(date)) {
+      if (date === null) {
+        this.xdate = null;
+      } else if (Object.isString(date) && date === '') {
         if (this.xdate == null) {
           this.xdate = new Date();
         }

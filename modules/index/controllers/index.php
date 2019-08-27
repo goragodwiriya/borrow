@@ -77,7 +77,8 @@ class Controller extends \Gcms\Controller
         }
         $languages = '';
         foreach (Language::installedLanguage() as $item) {
-            $languages .= '<li><a id=lang_'.$item.' href="'.$page->canonical()->withParams(array('lang' => $item), true).'" title="{LNG_Language} '.strtoupper($item).'" style="background-image:url('.WEB_URL.'language/'.$item.'.gif)" tabindex=1>&nbsp;</a></li>';
+            $t = '{LNG_Language} '.strtoupper($item);
+            $languages .= '<li><a id=lang_'.$item.' href="'.$page->canonical()->withParams(array('lang' => $item), true).'" aria-label="'.$t.'"  style="background-image:url('.WEB_URL.'language/'.$item.'.gif)" tabindex=1>&nbsp;</a></li>';
         }
         if ($bodyclass == 'loginpage' && is_file(ROOT_PATH.DATA_FOLDER.'images/bg_image.png')) {
             $bg_image = WEB_URL.DATA_FOLDER.'images/bg_image.png';

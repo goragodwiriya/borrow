@@ -886,7 +886,6 @@ class DataTable extends \Kotchasan\KBase
                     }
                     if (!empty($this->buttons)) {
                         if (!empty($buttons)) {
-                            $module_id = isset($items['module_id']) ? $items['module_id'] : 0;
                             $patt = array();
                             $replace = array();
                             $keys = array_keys($src_items);
@@ -1130,11 +1129,16 @@ class DataTable extends \Kotchasan\KBase
                     foreach ($value as $k => $v) {
                         $datalist .= '<option value="'.$k.'">'.$v.'</option>';
                     }
-                } elseif ($key != 'text' && $key != 'default') {
+                } elseif ($key != 'text' && $key != 'default' && !is_array($value)) {
                     $prop[$key] = $key.'="'.$value.'"';
                 }
             }
             if ($datalist != '' && isset($item['name'])) {
+                if (!isset($item['id'])) {
+                    $item['id'] = $item['name'];
+                }
+                $prop['autocomplete'] = 'autocomplete="off"';
+                $this->javascript[] = 'new Datalist("'.$item['id'].'");';
                 $prop['list'] = 'list="'.$item['name'].'-datalist"';
                 $datalist = '<datalist id="'.$item['name'].'-datalist">'.$datalist.'</datalist>';
             } else {
@@ -1144,7 +1148,7 @@ class DataTable extends \Kotchasan\KBase
         } else {
             $prop = array();
             foreach ($item as $key => $value) {
-                if ($key != 'options' && $key != 'value' && $key != 'text' && $key != 'default') {
+                if ($key != 'options' && $key != 'value' && $key != 'text' && $key != 'default' && !is_array($value)) {
                     $prop[$key] = $key.'="'.$value.'"';
                 }
             }

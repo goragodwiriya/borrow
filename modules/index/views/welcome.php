@@ -12,6 +12,7 @@ namespace Index\Welcome;
 
 use Gcms\Login;
 use Kotchasan\Http\Request;
+use Kotchasan\Http\Uri;
 use Kotchasan\Language;
 use Kotchasan\Template;
 
@@ -46,7 +47,7 @@ class View extends \Kotchasan\View
             '/{CLASS}/' => empty(Login::$login_message) ? 'hidden' : (empty(Login::$login_input) ? 'message' : 'error'),
             '/{URL}/' => $request->getUri()->withoutParams('action'),
             '/{LOGINMENU}/' => self::menus('login'),
-            '/{LOGIN_ACTION}/' => $login_action == '' ? WEB_URL.'index.php' : $login_action,
+            '/{LOGIN_ACTION}/' => $login_action == '' ? WEB_URL.'index.php' : Uri::createFromUri($login_action)->withoutParams('action'),
         ));
 
         return (object) array(
@@ -115,7 +116,7 @@ class View extends \Kotchasan\View
     {
         $menus = array();
         if (in_array($from, array('register', 'forgot'))) {
-            $menus[] = '<a href="index.php?action=login">{LNG_Sign in}</a>';
+            $menus[] = '<a href="index.php?action=login">{LNG_Login}</a>';
         }
         if (in_array($from, array('forgot', 'login')) && !empty(self::$cfg->user_register)) {
             $menus[] = '<a href="index.php?action=register">{LNG_Register}</a>';

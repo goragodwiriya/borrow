@@ -83,7 +83,7 @@ class Model
                 'submenus' => $settings,
             ),
             'signout' => array(
-                'text' => '{LNG_Sign out}',
+                'text' => '{LNG_Logout}',
                 'url' => 'index.php?action=logout',
             ),
         );

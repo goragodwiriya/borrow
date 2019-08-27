@@ -186,6 +186,7 @@ class View extends \Gcms\View
             // permission
             $fieldset->add('checkboxgroups', array(
                 'id' => 'register_permission',
+                'itemClass' => 'item',
                 'label' => '{LNG_Permission}',
                 'labelClass' => 'g-input icon-list',
                 'options' => \Gcms\Controller::getPermissions(),

@@ -88,7 +88,7 @@ class Login extends \Kotchasan\Login
             $where[] = array("U.{$field}", $params['username']);
         }
         $query = \Kotchasan\Model::createQuery()
-            ->select()
+            ->select('U.*')
             ->from('user U')
             ->where($where, 'OR')
             ->order('U.status DESC')
