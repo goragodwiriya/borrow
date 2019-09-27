@@ -16,7 +16,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * เพิ่ม/แก้ไข ข้อมูล Inventory.
+ * module=inventory-write
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -27,7 +27,7 @@ class Model extends \Kotchasan\Model
     /**
      * อ่านข้อมูลรายการที่เลือก
      * ถ้า $id = 0 หมายถึงรายการใหม่
-     * คืนค่าข้อมูล object ไม่พบคืนค่า null.
+     * คืนค่าข้อมูล object ไม่พบคืนค่า null
      *
      * @param int  $id     ID
      * @param bool $new_id true คืนค่า ID ของรายการใหม่ (สำหรับการบันทึก), false คืนค่า ID หากเป็นรายการใหม่
@@ -57,14 +57,14 @@ class Model extends \Kotchasan\Model
     }
 
     /**
-     * บันทึกข้อมูลที่ส่งมาจากฟอร์ม write.php.
+     * บันทึกข้อมูลที่ส่งมาจากฟอร์ม (write.php)
      *
      * @param Request $request
      */
     public function submit(Request $request)
     {
         $ret = array();
-        // session, token, can_manage_inventory
+        // session, token, สามารถบริหารจัดการได้, ไม่ใช่สมาชิกตัวอย่าง
         if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
             if (Login::notDemoMode($login) && Login::checkPermission($login, 'can_manage_inventory')) {
                 // ค่าที่ส่งมา
@@ -76,7 +76,7 @@ class Model extends \Kotchasan\Model
                     'detail' => $request->post('detail')->textarea(),
                     'status' => $request->post('status')->toBoolean(),
                 );
-                foreach (Language::get('INVENTORY_CATEGORIES') as $key => $label) {
+                foreach (Language::get('INVENTORY_CATEGORIES', array()) as $key => $label) {
                     $save[$key] = $request->post($key)->toInt();
                 }
                 $id = $request->post('id')->toInt();
@@ -88,6 +88,9 @@ class Model extends \Kotchasan\Model
                 } elseif ($save['equipment'] == '') {
                     // ไม่ได้กรอก equipment
                     $ret['ret_equipment'] = 'Please fill in';
+                } elseif ($save['unit'] == 0) {
+                    // ไม่ได้กรอก unit
+                    $ret['ret_unit'] = 'Please fill in';
                 } else {
                     if ($save['serial'] == '') {
                         // ไม่ได้กรอก serial

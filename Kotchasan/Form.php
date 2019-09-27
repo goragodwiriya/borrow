@@ -57,29 +57,6 @@ class Form extends \Kotchasan\KBase
      *
      * @return \static
      */
-    public static function antispam($attributes = array())
-    {
-        $obj = new static();
-        $obj->tag = 'input';
-        $attributes['type'] = 'text';
-        $labelClass = array(
-            'antispam' => 'antispam',
-            'g-input' => 'g-input',
-        );
-        foreach (explode(' ', $attributes['labelClass']) as $c) {
-            $labelClass[$c] = $c;
-        }
-        $attributes['labelClass'] = implode(' ', $labelClass);
-        $obj->attributes = $attributes;
-
-        return $obj;
-    }
-
-    /**
-     * @param array $attributes
-     *
-     * @return \static
-     */
     public static function button($attributes = array())
     {
         $obj = new static();
@@ -320,7 +297,6 @@ class Form extends \Kotchasan\KBase
                 case 'options':
                 case 'optgroup':
                 case 'multiple':
-                case 'antispamid':
                 case 'text':
                 case 'validator':
                 case 'result':
@@ -445,6 +421,7 @@ class Form extends \Kotchasan\KBase
                 $list = $prop['list'];
             }
             $prop['list'] = 'list="'.$list.'"';
+            $prop['autocomplete'] = 'autocomplete="off"';
         }
         $prop = implode(' ', $prop);
         if ($this->tag == 'input') {
@@ -460,9 +437,6 @@ class Form extends \Kotchasan\KBase
                 $element .= '<option value="'.$k.'">'.$v.'</option>';
             }
             $element .= '</datalist>';
-        }
-        if (!empty($antispamid)) {
-            $element = Antispam::createImage($antispamid, true).$element;
         }
         if (empty($itemClass)) {
             $input = empty($comment) ? '' : '<div class="item"'.(empty($itemId) ? '' : ' id="'.$itemId.'"').'>';

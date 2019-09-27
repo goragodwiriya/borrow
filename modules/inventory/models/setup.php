@@ -15,7 +15,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * โมเดลสำหรับ (setup.php).
+ * module=inventory-setup
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -24,7 +24,7 @@ use Kotchasan\Language;
 class Model extends \Kotchasan\Model
 {
     /**
-     * Query ข้อมูลสำหรับส่งให้กับ DataTable.
+     * Query ข้อมูลสำหรับส่งให้กับ DataTable
      *
      * @return \Kotchasan\Database\QueryBuilder
      */
@@ -48,20 +48,30 @@ class Model extends \Kotchasan\Model
             if (Login::notDemoMode($login) && Login::checkPermission($login, 'can_manage_inventory')) {
                 // รับค่าจากการ POST
                 $action = $request->post('action')->toString();
+                // Database
+                $db = $this->db();
                 // id ที่ส่งมา
                 if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->toString(), $match)) {
                     if ($action === 'delete') {
                         // ลบ
-                        $this->db()->delete($this->getTableName('inventory'), array('id', $match[1]), 0);
+                        $db->delete($this->getTableName('inventory'), array('id', $match[1]), 0);
+                        // ลบรูปภาพ
+                        $dir = ROOT_PATH.DATA_FOLDER.'inventory/';
+                        foreach ($match[1] as $id) {
+                            if (file_exists($dir.$id.'.jpg')) {
+                                unlink($dir.$id.'.jpg');
+                            }
+                        }
                         // reload
                         $ret['location'] = 'reload';
                     } elseif ($action === 'inuse') {
                         $search = \Inventory\Write\Model::get($match[1][0]);
                         if ($search) {
                             $status = $search->status == 1 ? 0 : 1;
-                            $this->db()->update($this->getTableName('inventory'), array('id', $match[1]), array('status' => $status));
+                            $db->update($this->getTableName('inventory'), array('id', $match[1]), array('status' => $status));
                             // คืนค่า
                             $ret['elem'] = 'inuse_'.$search->id;
+                            $ret['title'] = Language::find('INVENTORY_STATUS', '', $status);
                             $ret['class'] = 'icon-valid '.($status == '1' ? 'access' : 'disabled');
                         }
                     }

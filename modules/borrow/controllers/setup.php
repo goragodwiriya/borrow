@@ -33,7 +33,11 @@ class Controller extends \Gcms\Controller
      */
     public function render(Request $request)
     {
+        // สมาชิก
+        $login = Login::isMember();
+        // ค่าที่ส่งมา
         $index = (object) array(
+            'borrower_id' => $login['id'],
             'due' => $request->request('due')->toInt(),
             'status' => $request->request('status')->toInt(),
             'borrow_status' => Language::get('BORROW_STATUS'),
@@ -50,7 +54,7 @@ class Controller extends \Gcms\Controller
         // เลือกเมนู
         $this->menu = 'borrow';
         // สมาชิก
-        if ($login = Login::isMember()) {
+        if ($login) {
             // แสดงผล
             $section = Html::create('section', array(
                 'class' => 'content_bg',
@@ -66,7 +70,7 @@ class Controller extends \Gcms\Controller
                 'innerHTML' => '<h2 class="icon-list">'.$this->title.'</h2>',
             ));
             // แสดงตาราง
-            $section->appendChild(createClass('Borrow\Setup\View')->render($request, $login, $index));
+            $section->appendChild(createClass('Borrow\Setup\View')->render($request, $index));
             // คืนค่า HTML
 
             return $section->render();

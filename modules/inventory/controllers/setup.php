@@ -16,7 +16,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * module=inventory/setup.
+ * module=inventory-setup
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -37,7 +37,7 @@ class Controller extends \Gcms\Controller
         $this->title = Language::trans('{LNG_List of} {LNG_Equipment}');
         // เลือกเมนู
         $this->menu = 'settings';
-        // สามารถบริหารจัดการคลังสินค้าได้
+        // สามารถบริหารจัดการ inventory ได้
         if (Login::checkPermission(Login::isMember(), 'can_manage_inventory')) {
             // แสดงผล
             $section = Html::create('section', array(

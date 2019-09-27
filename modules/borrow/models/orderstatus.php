@@ -37,7 +37,7 @@ class Model extends \Kotchasan\Model
         return static::createQuery()
             ->from('borrow_items S')
             ->join('inventory I', 'INNER', array('I.id', 'S.inventory_id'))
-            ->join('category C', 'LEFT', array(array('C.type', 'units'), array('C.category_id', 'I.unit')))
+            ->join('category C', 'LEFT', array(array('C.type', 'unit'), array('C.category_id', 'I.unit')))
             ->where(array(
                 array('S.borrow_id', $borrow_id),
                 array('S.id', $id),
@@ -66,7 +66,7 @@ class Model extends \Kotchasan\Model
                     $amount = $request->post('amount')->toInt();
                     $status = $request->post('status')->toInt();
                     if ($action === 'status') {
-                        // อัปเดทสถานะ
+                        // อัปเดตสถานะ
                         if ($status == 3 && $index->amount != 0) {
                             // คุณยังไม่ได้คืนพัสดุ กรุณาคืนพัสดุก่อน
                             $ret['alert'] = Language::get('You have not returned the equipment. Please return it first.');
@@ -83,11 +83,11 @@ class Model extends \Kotchasan\Model
                                 } else {
                                     // ตัดสต๊อค
                                     $save = array('amount' => $index->amount + $amount, 'status' => $status);
-                                    // อัปเดทรายการ
+                                    // อัปเดตรายการ
                                     $inventory = array('stock' => $index->stock - $amount);
                                 }
                             } else {
-                                // อัปเดทรายการ
+                                // อัปเดตรายการ
                                 $save = array('amount' => $index->amount + $amount, 'status' => $status);
                             }
                         }
@@ -103,11 +103,11 @@ class Model extends \Kotchasan\Model
                                 } else {
                                     // ตัดสต๊อค
                                     $save = array('amount' => $index->amount - $amount, 'status' => $status);
-                                    // อัปเดทรายการ
+                                    // อัปเดตรายการ
                                     $inventory = array('stock' => $index->stock + $amount);
                                 }
                             } else {
-                                // อัปเดทรายการ
+                                // อัปเดตรายการ
                                 $save = array('amount' => $index->amount - $amount, 'status' => $status);
                             }
                         }

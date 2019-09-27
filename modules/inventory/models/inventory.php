@@ -14,7 +14,7 @@ use Gcms\Login;
 use Kotchasan\Http\Request;
 
 /**
- * โมเดลสำหรับ (vehicles.php).
+ * module=inventory-inventory
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -23,7 +23,7 @@ use Kotchasan\Http\Request;
 class Model extends \Kotchasan\Model
 {
     /**
-     * ฟังก์ชั่นค้นหาพัสดุจาก เลขพัสดุ
+     * ฟังก์ชั่นค้นหาพัสดุจาก serial
      *
      * @param Request $request
      *
@@ -33,11 +33,11 @@ class Model extends \Kotchasan\Model
     {
         if ($request->initSession() && $request->isAjax() && Login::isMember()) {
             $result = static::createQuery()
-                ->from('inventory I')
-                ->join('category C', 'LEFT', array(array('C.type', 'units'), array('C.category_id', 'I.unit')))
-                ->where(array('I.serial', $request->post('value')->topic()))
+                ->from('inventory V')
+                ->join('category C', 'LEFT', array(array('C.type', 'unit'), array('C.category_id', 'V.unit')))
+                ->where(array('V.serial', $request->post('value')->topic()))
                 ->toArray()
-                ->first('I.id', 'I.equipment', 'I.serial', 'C.topic unit', 'I.stock');
+                ->first('V.id', 'V.equipment', 'V.serial', 'C.topic unit', 'V.stock');
             if ($result) {
                 echo json_encode($result);
             }

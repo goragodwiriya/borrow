@@ -34,6 +34,7 @@ class Controller extends \Gcms\Controller
     public function render(Request $request)
     {
         $index = (object) array(
+            'borrower_id' => $request->request('borrower_id')->toInt(),
             'due' => $request->request('due')->toInt(),
             'status' => $request->request('status')->toInt(),
             'borrow_status' => Language::get('BORROW_STATUS'),

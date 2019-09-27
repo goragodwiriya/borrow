@@ -11,7 +11,15 @@
   window.Datalist = GClass.create();
   Datalist.prototype = {
     initialize: function(text) {
+      if (!$E(text)) {
+        console.log("[Datalist] Cannot find target element " + text);
+        return;
+      }
       this.input = $G(text);
+      if (this.input.getAttribute('Datalist')) {
+        return;
+      }
+      this.input.setAttribute('Datalist', true);
       this.hidden = document.createElement("input");
       this.hidden.type = 'hidden';
       this.hidden.name = this.input.id || this.input.name;

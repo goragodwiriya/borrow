@@ -16,7 +16,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * โมเดลสำหรับ (setup.php).
+ * module=borrow-setup
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -27,24 +27,24 @@ class Model extends \Kotchasan\Model
     /**
      * Query ข้อมูลสำหรับส่งให้กับ DataTable.
      *
-     * @param array $params
+     * @param object $index
      *
      * @return \Kotchasan\Database\QueryBuilder
      */
-    public static function toDataTable($params)
+    public static function toDataTable($index)
     {
         $where = array(
-            array('W.borrower_id', $params['borrower_id']),
-            array('S.status', $params['status']),
+            array('S.status', $index->status),
+            array('W.borrower_id', $index->borrower_id),
         );
-        if (!empty($params['borrow_id'])) {
-            $where[] = array('S.borrow_id', $params['borrow_id']);
+        if (!empty($index->borrow_id)) {
+            $where[] = array('S.borrow_id', $index->borrow_id);
         }
-        if (!empty($params['inventory_id'])) {
-            $where[] = array('S.inventory_id', $params['inventory_id']);
+        if (!empty($index->inventory_id)) {
+            $where[] = array('S.inventory_id', $index->inventory_id);
         }
-        if ($params['status'] == 2) {
-            if ($params['due'] == 1) {
+        if ($index->status == 2) {
+            if ($index->due == 1) {
                 $where[] = array(Sql::DATEDIFF('W.return_date', date('Y-m-d')), '<=', 0);
             } else {
                 $where[] = Sql::create('(W.`return_date` IS NULL OR DATEDIFF(W.`return_date`, "'.date('Y-m-d').'") > 0)');
@@ -63,11 +63,10 @@ class Model extends \Kotchasan\Model
             ->join('borrow_items S', 'INNER', array('S.borrow_id', 'W.id'))
             ->join(array($q1, 'Q1'), 'LEFT', array('Q1.borrow_id', 'W.id'))
             ->where($where);
-
     }
 
     /**
-     * รับค่าจาก action
+     * รับค่าจาก action (setup.php)
      *
      * @param Request $request
      */

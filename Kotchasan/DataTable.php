@@ -1136,6 +1136,7 @@ class DataTable extends \Kotchasan\KBase
             if ($datalist != '' && isset($item['name'])) {
                 if (!isset($item['id'])) {
                     $item['id'] = $item['name'];
+                    $prop['id'] = 'id="'.$item['name'].'"';
                 }
                 $prop['autocomplete'] = 'autocomplete="off"';
                 $this->javascript[] = 'new Datalist("'.$item['id'].'");';

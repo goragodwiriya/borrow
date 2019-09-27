@@ -15,7 +15,7 @@ use Kotchasan\Date;
 use Kotchasan\Http\Request;
 
 /**
- * module=borrow-setup.
+ * module=borrow-setup
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -27,21 +27,12 @@ class View extends \Gcms\View
      * รายงานการยืม-คืน
      *
      * @param Request $request
-     * @param array   $login
      * @param object   $index
      *
      * @return string
      */
-    public function render(Request $request, $login, $index)
+    public function render(Request $request, $index)
     {
-        // ค่าที่ส่งมา
-        $params = array(
-            'borrow_id' => $request->request('borrow_id')->toInt(),
-            'inventory_id' => $request->request('inventory_id')->toInt(),
-            'borrower_id' => $login['id'],
-            'status' => $index->status,
-            'due' => $index->due,
-        );
         // URL สำหรับส่งให้ตาราง
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         // ตาราง
@@ -49,11 +40,11 @@ class View extends \Gcms\View
             /* Uri */
             'uri' => $uri,
             /* Model */
-            'model' => \Borrow\Setup\Model::toDataTable($params),
+            'model' => \Borrow\Setup\Model::toDataTable($index),
             /* รายการต่อหน้า */
-            'perPage' => $request->cookie('borrow_setup_perPage', 30)->toInt(),
+            'perPage' => $request->cookie('borrowSetup_perPage', 30)->toInt(),
             /* เรียงลำดับ */
-            'sort' => $request->cookie('borrow_setup_sort', 'id desc')->toString(),
+            'sort' => $request->cookie('borrowSetup_sort', 'id desc')->toString(),
             /* ฟังก์ชั่นจัดรูปแบบการแสดงผลแถวของตาราง */
             'onRow' => array($this, 'onRow'),
             /* คอลัมน์ที่ไม่ต้องแสดงผล */
@@ -141,8 +132,8 @@ class View extends \Gcms\View
             ),
         ));
         // save cookie
-        setcookie('borrow_setup_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
-        setcookie('borrow_setup_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('borrowSetup_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
+        setcookie('borrowSetup_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
         // คืนค่า HTML
 
         return $table->render();
@@ -164,7 +155,7 @@ class View extends \Gcms\View
         $item['borrow_date'] = Date::format($item['borrow_date'], 'd M Y');
         $item['return_date'] = Date::format($item['return_date'], 'd M Y');
         if ($item['return_date'] != '' && $item['status'] == 2 && $item['due'] <= 0) {
-            $item['return_date'] = '<span class="term4">'.$item['return_date'].'</span>';
+            $item['return_date'] = '<span class="term3">'.$item['return_date'].'</span>';
         }
 
         return $item;

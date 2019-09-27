@@ -75,14 +75,14 @@ class Model extends \Kotchasan\Model
                 }
             } elseif ($search['social'] == 2) {
                 if ($search['active'] == 1) {
-                    // google เคยเยี่ยมชมแล้ว อัปเดทการเยี่ยมชม
+                    // google เคยเยี่ยมชมแล้ว อัปเดตการเยี่ยมชม
                     $save = $search;
                     ++$save['visited'];
                     $save['lastvisited'] = time();
                     $save['ip'] = $request->getClientIp();
                     $save['salt'] = uniqid();
                     $save['token'] = sha1($password.$save['salt']);
-                    // อัปเดท
+                    // อัปเดต
                     $db->update($user_table, $search['id'], $save);
                     $save['permission'] = explode(',', trim($save['permission'], " \t\n\r\0\x0B,"));
                 } else {

@@ -24,7 +24,7 @@ use Kotchasan\Language;
 class Model extends \Kotchasan\Model
 {
     /**
-     * อ่านข้อมูลสำหรับใส่ลงในตาราง.
+     * อ่านข้อมูลสำหรับใส่ลงในตาราง
      *
      * @return \Kotchasan\Database\QueryBuilder
      */

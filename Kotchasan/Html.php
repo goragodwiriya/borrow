@@ -80,8 +80,6 @@ class Html extends \Kotchasan\KBase
             $obj = self::addRadioOrCheckbox($tag, $attributes);
         } elseif ($tag == 'menubutton') {
             $obj = self::addMenuButton($attributes);
-        } elseif ($tag == 'antispam') {
-            $obj = self::addAntispam($tag, $attributes);
         } elseif ($tag == 'ckeditor') {
             $obj = self::addCKEditor($tag, $attributes);
         } elseif ($tag == 'row') {
@@ -304,29 +302,6 @@ class Html extends \Kotchasan\KBase
         }
 
         return count($attr) == 0 ? '' : ' '.implode(' ', $attr);
-    }
-
-    /**
-     * @param  $tag
-     * @param  $attributes
-     *
-     * @return mixed
-     */
-    private function addAntispam($tag, $attributes)
-    {
-        $antispam = new Antispam();
-        $attributes['antispamid'] = $antispam->getId();
-        if (isset($attributes['value']) && $attributes['value'] === true) {
-            $attributes['value'] = $antispam->getValue();
-        }
-        $obj = self::create($tag, $attributes);
-        $this->rows[] = $obj;
-        $this->rows[] = self::create('hidden', array(
-            'id' => $attributes['id'].'id',
-            'value' => $attributes['antispamid'],
-        ));
-
-        return $obj;
     }
 
     /**

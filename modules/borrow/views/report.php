@@ -27,20 +27,12 @@ class View extends \Gcms\View
      * รายงานการยืม-คืน
      *
      * @param Request $request
-     * @param object  $index
+     * @param object $index
      *
      * @return string
      */
     public function render(Request $request, $index)
     {
-        // ค่าที่ส่งมา
-        $params = array(
-            'borrow_id' => $request->request('borrow_id')->toInt(),
-            'inventory_id' => $request->request('inventory_id')->toInt(),
-            'borrower_id' => $request->request('borrower_id')->toInt(),
-            'status' => $index->status,
-            'due' => $index->due,
-        );
         // URL สำหรับส่งให้ตาราง
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         // ตาราง
@@ -48,7 +40,7 @@ class View extends \Gcms\View
             /* Uri */
             'uri' => $uri,
             /* Model */
-            'model' => \Borrow\Report\Model::toDataTable($params),
+            'model' => \Borrow\Report\Model::toDataTable($index),
             /* รายการต่อหน้า */
             'perPage' => $request->cookie('borrowReport_perPage', 30)->toInt(),
             /* เรียงลำดับ */
@@ -149,7 +141,7 @@ class View extends \Gcms\View
         $item['borrow_date'] = Date::format($item['borrow_date'], 'd M Y');
         $item['return_date'] = Date::format($item['return_date'], 'd M Y');
         if ($item['status'] == 2 && $item['due'] <= 0 && $item['return_date'] != '') {
-            $item['return_date'] = '<span class="term4">'.$item['return_date'].'</span>';
+            $item['return_date'] = '<span class="term3">'.$item['return_date'].'</span>';
         }
         $item['stock'] = $item['stock'] == -1 ? '{LNG_Unlimited}' : $item['stock'];
 

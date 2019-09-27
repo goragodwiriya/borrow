@@ -37,7 +37,7 @@ class Controller extends \Gcms\Controller
             // ประเภทที่ต้องการ
             'type' => $request->request('type')->topic(),
             // ชื่อหมวดหมู่ที่สามารถใช้งานได้
-            'categories' => Language::get('INVENTORY_CATEGORIES') + array('units' => Language::get('Units')),
+            'categories' => Language::get('INVENTORY_CATEGORIES') + array('unit' => Language::get('Units')),
         );
         if (!isset($index->categories[$index->type])) {
             $index->type = \Kotchasan\ArrayTool::getFirstKey($index->categories);

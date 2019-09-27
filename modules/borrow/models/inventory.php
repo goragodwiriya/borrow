@@ -14,7 +14,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * โมเดลสำหรับ (vehicles.php).
+ * module=borrow-inventory
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -23,7 +23,7 @@ use Kotchasan\Language;
 class Model extends \Kotchasan\Model
 {
     /**
-     * Query ข้อมูลสำหรับส่งให้กับ DataTable.
+     * Query ข้อมูลสำหรับส่งให้กับ DataTable
      *
      * @return \Kotchasan\Database\QueryBuilder
      */
@@ -51,7 +51,7 @@ class Model extends \Kotchasan\Model
     {
         $query = static::createQuery()
             ->from('inventory I')
-            ->join('category C', 'LEFT', array(array('C.type', 'units'), array('C.category_id', 'I.unit')))
+            ->join('category C', 'LEFT', array(array('C.type', 'unit'), array('C.category_id', 'I.unit')))
             ->where(array('I.id', $id));
         $select = array('I.id', 'I.equipment', 'I.serial', 'I.detail', 'I.stock', 'C.topic unit');
         $n = 1;

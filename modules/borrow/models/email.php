@@ -69,7 +69,7 @@ class Model extends \Kotchasan\KBase
                 return Language::get('Your message was sent successfully');
             }
         } else {
-            // ไม่สามารถส่งอีเมล์ได้
+            // ไม่สามารถส่งอีเมลได้
             return Language::get('Saved successfully');
         }
     }

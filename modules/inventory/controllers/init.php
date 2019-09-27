@@ -50,7 +50,7 @@ class Controller extends \Kotchasan\KBase
                     'url' => 'index.php?module=inventory-write',
                 ),
             );
-            foreach (Language::get('INVENTORY_CATEGORIES') as $type => $text) {
+            foreach (Language::get('INVENTORY_CATEGORIES', array()) as $type => $text) {
                 $submenus[] = array(
                     'text' => $text,
                     'url' => 'index.php?module=inventory-categories&amp;type='.$type,
@@ -58,7 +58,7 @@ class Controller extends \Kotchasan\KBase
             }
             $submenus[] = array(
                 'text' => '{LNG_Units}',
-                'url' => 'index.php?module=inventory-categories&amp;type=units',
+                'url' => 'index.php?module=inventory-categories&amp;type=unit',
             );
             $menu->add('settings', '{LNG_Inventory}', null, $submenus);
         }

@@ -60,7 +60,7 @@ class Model extends \Kotchasan\Model
                     ++$next_id;
                 }
             }
-            // อัปเดท running number
+            // อัปเดต running number
             if ($number) {
                 $db->update($table_number, $number->id, array($name => $next_id));
             } else {

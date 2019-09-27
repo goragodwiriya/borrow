@@ -516,7 +516,7 @@ header .inline {
 }
 .card {
   color: #fff;
-  line-height: 1;
+  line-height: 1.2;
 }
 .card:nth-child(1) {
   background-color: #8cc152;

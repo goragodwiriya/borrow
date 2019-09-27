@@ -487,7 +487,7 @@ window.$K = (function() {
       day: inDays,
       month: inMonths,
       year: inYears,
-      days: Math.round((this - d) / 86400000)
+      days: Math.floor(Math.abs(this.getTime() - d.getTime()) / 86400000)
     };
   };
   Date.monthNames = [
@@ -3212,7 +3212,7 @@ window.$K = (function() {
           }
           self._draw();
           GEvent.stop(e);
-        } else if (key == 8 && self.hidden.readOnly == false) {
+        } else if (key == 8 && self.hidden.readOnly == false && self.hidden.disabled == false) {
           self.setDate(null);
           GEvent.stop(e);
         } else {
@@ -3298,7 +3298,7 @@ window.$K = (function() {
       GEvent.stop(e);
     },
     _draw: function() {
-      if (this.hidden.readOnly == false) {
+      if (this.hidden.readOnly == false && this.hidden.disabled == false) {
         var self = this;
         this.calendar.innerHTML = "";
         var div = document.createElement("div");

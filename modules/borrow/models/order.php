@@ -54,7 +54,7 @@ class Model extends \Kotchasan\Model
                 'S.amount', 'S.status', 'I.stock')
             ->from('borrow_items S')
             ->join('inventory I', 'LEFT', array(array('I.id', 'S.inventory_id')))
-            ->join('category C', 'LEFT', array(array('C.type', 'units'), array('C.category_id', 'I.unit')))
+            ->join('category C', 'LEFT', array(array('C.type', 'unit'), array('C.category_id', 'I.unit')))
             ->where(array('S.borrow_id', $borrow_id))
             ->order('S.id')
             ->toArray()
@@ -103,7 +103,7 @@ class Model extends \Kotchasan\Model
                         }
                     }
                     if (empty($ret)) {
-                        // อัปเดท borrow
+                        // อัปเดต borrow
                         $db->update($table_borrow, $borrow->id, $order);
                         if ($request->post('send_mail')->toBoolean()) {
                             // ส่งอีเมลไปยังผู้ที่เกี่ยวข้อง

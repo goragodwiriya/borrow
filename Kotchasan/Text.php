@@ -149,7 +149,7 @@ class Text
     /**
      * รับค่าสำหรับ password อักขระทุกตัวไม่มีช่องว่าง.
      *
-     * @assert (" 0\n12   34\r\r6\t5@#$&{}! ") [==] '0123465@#$&{}!'
+     * @assert (" 0\n12   34\r\r6\t5ทดสอบ@#$&{}! ") [==] '0123465ทดสอบ@#$&{}!'
      *
      * @param string $text
      *
@@ -157,7 +157,7 @@ class Text
      */
     public static function password($text)
     {
-        return preg_replace('/[^\w\@\#\$\&\{\}\!]+/', '', $text);
+        return preg_replace('/[^\w\@\#\$\&\{\}\!ก-ฮ]+/', '', $text);
     }
 
     /**
@@ -215,26 +215,6 @@ class Text
         }
 
         return $source;
-    }
-
-    /**
-     * ฟังก์ชั่น สุ่มตัวอักษร.
-     *
-     * @param int    $count จำนวนหลักที่ต้องการ
-     * @param string $chars (optional) ตัวอักษรที่ใช้ในการสุ่ม default abcdefghjkmnpqrstuvwxyz
-     *
-     * @return string
-     */
-    public static function rndname($count, $chars = 'abcdefghjkmnpqrstuvwxyz')
-    {
-        srand((float) microtime() * 10000000);
-        $ret = '';
-        $num = strlen($chars);
-        for ($i = 0; $i < $count; ++$i) {
-            $ret .= $chars[rand() % $num];
-        }
-
-        return $ret;
     }
 
     /**

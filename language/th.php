@@ -12,6 +12,7 @@ return array(
   'Attendees number' => 'จำนวนผู้เข้าประชุม',
   'Authentication require' => 'การตรวจสอบความถูกต้อง',
   'Authority' => 'ผู้มีอำนาจอนุมัติ',
+  'Background color' => 'สีพื้นหลัง',
   'Background image' => 'รูปภาพพื้นหลัง',
   'Begin date' => 'วันที่เริ่มต้น',
   'Begin time' => 'เวลาเริ่มต้น',
@@ -205,6 +206,10 @@ return array(
   'Product code' => 'รหัสสินค้า',
   'Profile' => 'ข้อมูลส่วนตัว',
   'Province' => 'จังหวัด',
+  'PUBLISHEDS' => array(
+    0 => 'ระงับการเผยแพร่',
+    1 => 'เผยแพร่'
+  ),
   'Quantity' => 'จำนวน',
   'Reason' => 'เหตุผล',
   'Register' => 'สมัครสมาชิก',

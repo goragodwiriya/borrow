@@ -26,7 +26,7 @@ class View extends \Gcms\View
     /**
      * @var array
      */
-    private $params = array();
+    private $typies = array();
     /**
      * @var object
      */
@@ -60,7 +60,7 @@ class View extends \Gcms\View
         $filters = array();
         $this->category = \Inventory\Category\Model::init();
         foreach (Language::get('INVENTORY_CATEGORIES') as $type => $text) {
-            $this->params[] = $type;
+            $this->typies[] = $type;
             $fields[] = $type;
             $headers[$type] = array(
                 'text' => $text,
@@ -156,12 +156,12 @@ class View extends \Gcms\View
      */
     public function onRow($item, $o, $prop)
     {
-        foreach ($this->params as $key) {
+        foreach ($this->typies as $key) {
             $item[$key] = $this->category->get($key, $item[$key]);
         }
-        $item['status'] = '<a id="inuse_'.$item['id'].'" class="icon-valid '.($item['status'] == 1 ? 'access' : 'disabled').'" title="{LNG_Is in use}"></a>';
+        $item['status'] = '<a id="inuse_'.$item['id'].'" class="icon-valid '.($item['status'] == 1 ? 'access' : 'disabled').'" title="'.Language::find('INVENTORY_STATUS', '', $item['status']).'"></a>';
         $thumb = is_file(ROOT_PATH.DATA_FOLDER.'inventory/'.$item['id'].'.jpg') ? WEB_URL.DATA_FOLDER.'inventory/'.$item['id'].'.jpg' : WEB_URL.'modules/inventory/img/noimage.png';
-        $item['stock'] .= ' '.$this->category->get('units', $item['unit']);
+        $item['stock'] .= ' '.$this->category->get('unit', $item['unit']);
         $item['id'] = '<img src="'.$thumb.'" style="max-height:50px;max-width:50px" alt=thumbnail>';
 
         return $item;

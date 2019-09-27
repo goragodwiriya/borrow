@@ -66,21 +66,26 @@ final class Language extends \Kotchasan\KBase
     }
 
     /**
-     * ฟังก์ชั่นอ่านภาษา.
+     * ฟังก์ชั่นอ่านภาษาที่
+     * ถ้าไม่พบ $key ที่ต้อง
+     * $default = null (หรือไม่ระบุ) คืนค่า $key
+     * $default = อื่นๆ คืนค่า $default
      *
      * @assert ('YEAR_OFFSET') [==] 543
+     * @assert ('XYZ', array()) [==] array()
      *
      * @param string $key ข้อความในภาษาอังกฤษ หรือ คีย์ของภาษา
+     * @param mixed $default ถ้าไม่ระบุ (null) และไม่พบ $key
      *
      * @return mixed
      */
-    public static function get($key)
+    public static function get($key, $default = null)
     {
         if (null === self::$languages) {
             new static();
         }
 
-        return isset(self::$languages->$key) ? self::$languages->$key : $key;
+        return isset(self::$languages->$key) ? self::$languages->$key : ($default === null ? $key : $default);
     }
 
     /**

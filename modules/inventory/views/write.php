@@ -14,7 +14,7 @@ use Kotchasan\Html;
 use Kotchasan\Language;
 
 /**
- * module=inventory-write.
+ * module=inventory-write
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -68,7 +68,7 @@ class View extends \Gcms\View
         // category
         $category = \Inventory\Category\Model::init();
         $n = 0;
-        foreach (Language::get('INVENTORY_CATEGORIES') as $key => $label) {
+        foreach (Language::get('INVENTORY_CATEGORIES', array()) as $key => $label) {
             if ($n % 2 == 0) {
                 $groups = $fieldset->add('groups');
             }
@@ -106,7 +106,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-star0',
             'itemClass' => 'width50',
             'label' => '{LNG_Units}',
-            'datalist' => $category->toSelect('units'),
+            'datalist' => $category->toSelect('unit'),
             'value' => isset($index->unit) ? $index->unit : 0,
         ));
         // picture

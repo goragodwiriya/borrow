@@ -104,6 +104,8 @@ class Controller extends \Gcms\Controller
             '/{BODYCLASS}/' => $bodyclass,
             // รูปภาพพื้นหลัง
             '/{BGIMAGE}/' => $bg_image,
+            // เวอร์ชั่น
+            '/{VERSION}/' => self::$cfg->version,
         ));
         if ($login) {
             self::$view->setContents(array(

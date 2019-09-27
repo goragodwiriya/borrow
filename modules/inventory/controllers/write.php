@@ -16,7 +16,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * module=inventory-write.
+ * module=inventory-write
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -25,7 +25,7 @@ use Kotchasan\Language;
 class Controller extends \Gcms\Controller
 {
     /**
-     * เพิ่ม-แก้ไข สินค้า.
+     * เพิ่ม-แก้ไข สินค้า
      *
      * @param Request $request
      *

@@ -564,7 +564,7 @@ class Recordset extends Query implements \Iterator
     }
 
     /**
-     * อัปเดทข้อมูล
+     * อัปเดตข้อมูล
      * สำเร็จ คืนค่า true, ผิดพลาด คืนค่า false.
      *
      * @param array       $condition
@@ -603,7 +603,7 @@ class Recordset extends Query implements \Iterator
     }
 
     /**
-     * อัปเดทข้อมูลทุก record.
+     * อัปเดตข้อมูลทุก record.
      * สำเร็จ คืนค่า true, ผิดพลาด คืนค่า false.
      *
      * @param array $save ข้อมูลที่ต้องการบันทึก array('key1'=>'value1', 'key2'=>'value2', ...)

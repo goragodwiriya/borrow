@@ -66,9 +66,9 @@ class Model extends \Kotchasan\Model
     public function submit(Request $request)
     {
         $ret = array();
-        // session, token, can_config
+        // session, token, สามารถบริหารจัดการได้, ไม่ใช่สมาชิกตัวอย่าง
         if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
-            if (Login::notDemoMode($login) && Login::checkPermission($login, 'can_config')) {
+            if (Login::notDemoMode($login) && Login::checkPermission($login, 'can_manage_inventory')) {
                 // ค่าที่ส่งมา
                 $type = $request->post('type')->topic();
                 $save = array();

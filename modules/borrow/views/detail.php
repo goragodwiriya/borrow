@@ -39,7 +39,7 @@ class View extends \Gcms\View
         $content .= '<table class="border fullwidth"><tbody>';
         $content .= '<tr><th>{LNG_Equipment}</th><td>'.$index->equipment.'</td></tr>';
         $content .= '<tr><th>{LNG_Serial/Registration number}</th><td>'.$index->serial.'</td></tr>';
-        foreach (Language::get('INVENTORY_CATEGORIES') as $key => $label) {
+        foreach (Language::get('INVENTORY_CATEGORIES', array()) as $key => $label) {
             $content .= '<tr><th>'.$label.'</th><td>'.$index->{$key}.'</td></tr>';
         }
         if ($index->detail != '') {

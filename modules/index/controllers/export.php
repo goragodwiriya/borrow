@@ -38,9 +38,9 @@ class Controller extends \Kotchasan\Controller
         // ตรวจสอบโมดูลที่เรียก
         $className = \Index\Main\Controller::parseModule($request);
         $ret = false;
-        if ($className && method_exists($className, 'execute')) {
+        if ($className && method_exists($className, 'export')) {
             // create Class
-            $ret = createClass($className)->execute($request);
+            $ret = createClass($className)->export($request);
         }
         if ($ret === false) {
             // ไม่พบโมดูล หรือ ไม่สามารถทำรายการได้

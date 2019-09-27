@@ -50,10 +50,14 @@ if (defined('ROOT_PATH')) {
             $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
             // ตาราง inventory
             $table = $db_config['prefix'].'_inventory';
-            if (!fieldExists($conn, $table, 'country')) {
+            if (fieldExists($conn, $table, 'in_use')) {
                 $conn->query("ALTER TABLE `$table` CHANGE `in_use` `status` TINYINT(1) NOT NULL DEFAULT 1");
                 $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
             }
+            // ตาราง category
+            $table = $db_config['prefix'].'_category';
+            $conn->query("UPDATE `$table` SET `type`='unit' WHERE `type`='units'");
+            $content[] = '<li class="correct">ปรับปรุงตาราง `'.$table.'` สำเร็จ</li>';
             // บันทึก settings/config.php
             $config['version'] = $new_config['version'];
             if (isset($new_config['default_icon'])) {

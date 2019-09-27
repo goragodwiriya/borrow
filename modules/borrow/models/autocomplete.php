@@ -42,7 +42,7 @@ class Model extends \Kotchasan\Model
             $result = $this->db()->createQuery()
                 ->select('I.id', 'I.equipment', 'I.serial', 'C.topic unit', 'I.stock')
                 ->from('inventory I')
-                ->join('category C', 'LEFT', array(array('C.type', 'units'), array('C.category_id', 'I.unit')))
+                ->join('category C', 'LEFT', array(array('C.type', 'unit'), array('C.category_id', 'I.unit')))
                 ->where($where)
                 ->andWhere(array(
                     array('I.stock', '>', 0),
@@ -50,6 +50,7 @@ class Model extends \Kotchasan\Model
                 ), 'OR')
                 ->order('I.equipment', 'I.serial')
                 ->limit($request->post('count')->toInt())
+                ->cacheOn()
                 ->toArray()
                 ->execute();
             if (!empty($result)) {

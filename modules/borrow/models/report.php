@@ -24,23 +24,23 @@ class Model extends \Kotchasan\Model
     /**
      * Query ข้อมูลสำหรับส่งให้กับ DataTable.
      *
-     * @param array $params
+     * @param object $index
      *
      * @return \Kotchasan\Database\QueryBuilder
      */
-    public static function toDataTable($params)
+    public static function toDataTable($index)
     {
         $where = array(
-            array('S.status', $params['status']),
+            array('S.status', $index->status),
         );
-        if (!empty($params['borrow_id'])) {
-            $where[] = array('S.borrow_id', $params['borrow_id']);
+        if (!empty($index->borrower_id)) {
+            $where[] = array('W.borrower_id', $index->borrower_id);
         }
-        if (!empty($params['inventory_id'])) {
-            $where[] = array('S.inventory_id', $params['inventory_id']);
+        if (!empty($index->borrow_id)) {
+            $where[] = array('S.borrow_id', $index->borrow_id);
         }
-        if (!empty($params['borrower_id'])) {
-            $where[] = array('W.borrower_id', $params['borrower_id']);
+        if (!empty($index->inventory_id)) {
+            $where[] = array('S.inventory_id', $index->inventory_id);
         }
         $query = static::createQuery()
             ->select('S.borrow_id', 'S.id', 'W.borrow_no', 'S.inventory_id', 'S.topic', 'I.stock', 'S.num_requests', 'W.borrow_date',
@@ -51,8 +51,8 @@ class Model extends \Kotchasan\Model
             ->join('inventory I', 'INNER', array('I.id', 'S.inventory_id'))
             ->join('user U', 'LEFT', array('U.id', 'W.borrower_id'))
             ->where($where);
-        if ($params['status'] == 2) {
-            if ($params['due'] == 1) {
+        if ($index->status == 2) {
+            if ($index->due == 1) {
                 $query->andWhere(array(
                     array(Sql::DATEDIFF('W.return_date', date('Y-m-d')), '<=', 0),
                 ));

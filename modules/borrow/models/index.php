@@ -71,7 +71,7 @@ class Model extends \Kotchasan\Model
                 ->select('S.borrow_id id', 'S.num_requests quantity', 'S.inventory_id', 'S.topic', 'C.topic unit', 'I.stock')
                 ->from('borrow_items S')
                 ->join('inventory I', 'LEFT', array(array('I.id', 'S.inventory_id')))
-                ->join('category C', 'LEFT', array(array('C.type', 'units'), array('C.category_id', 'I.unit')))
+                ->join('category C', 'LEFT', array(array('C.type', 'unit'), array('C.category_id', 'I.unit')))
                 ->where(array('S.borrow_id', $borrow_id))
                 ->order('S.id')
                 ->toArray()

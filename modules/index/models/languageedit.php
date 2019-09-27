@@ -143,7 +143,7 @@ class Model extends \Kotchasan\Model
                                 // redirect
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'language', 'js' => $save['js'])).'#datatable_'.$id;
                             }
-                            // อัปเดทไฟล์ ภาษา
+                            // อัปเดตไฟล์ ภาษา
                             $error = \Index\Language\Model::updateLanguageFile();
                             if (empty($error)) {
                                 $ret['alert'] = Language::get('Saved successfully');

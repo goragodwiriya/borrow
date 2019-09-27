@@ -183,4 +183,33 @@ class Login extends \Kotchasan\KBase
     {
         return empty($_SESSION['login']) ? null : $_SESSION['login'];
     }
+
+    /**
+     * ตรวจสอบสถานะสมาชิก
+     * แอดมินสูงสุด (status=1) ทำได้ทุกอย่าง
+     * คืนค่าข้อมูลสมาชิก (แอเรย์) ถ้าไม่สามารถทำรายการได้คืนค่า null.
+     *
+     * @param array        $login
+     * @param array|int $statuses
+     *
+     * @return array|null
+     */
+    public static function checkStatus($login, $statuses)
+    {
+        if (!empty($login)) {
+            if ($login['status'] == 1) {
+                // แอดมิน
+                return $login;
+            } elseif (is_array($statuses)) {
+                if (in_array($login['status'], $statuses)) {
+                    return $login;
+                }
+            } elseif ($login['status'] == $statuses) {
+                return $login;
+            }
+        }
+        // ไม่มีสิทธิ
+
+        return null;
+    }
 }
