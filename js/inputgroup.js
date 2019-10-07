@@ -64,6 +64,15 @@
     },
     removeItem: function(button) {
       this.ul.removeChild(button.parentNode);
+    },
+    values: function() {
+      var ret = [];
+      forEach(this.ul.getElementsByTagName("input"), function() {
+        if (this.type == 'hidden') {
+          ret.push(this.value);
+        }
+      });
+      return ret;
     }
   };
 })();

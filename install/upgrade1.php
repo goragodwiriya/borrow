@@ -13,6 +13,7 @@ if (defined('ROOT_PATH')) {
         $dbdriver = empty($db_config['dbdriver']) ? 'mysql' : $db_config['dbdriver'];
         $hostname = empty($db_config['hostname']) ? 'localhost' : $db_config['hostname'];
         $conn = new \PDO($dbdriver.':host='.$hostname.';dbname='.$db_config['dbname'], $db_config['username'], $db_config['password'], $options);
+        $conn->query("SET SESSION sql_mode = ''");
     } catch (\PDOException $e) {
         $error = true;
         echo '<h2>ความผิดพลาดในการเชื่อมต่อกับฐานข้อมูล</h2>';

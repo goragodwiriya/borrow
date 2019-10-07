@@ -57,6 +57,9 @@ class PdoMysqlDriver extends Driver
         if (isset($this->settings->username) && isset($this->settings->password)) {
             try {
                 $this->connection = new \PDO($sql, $this->settings->username, $this->settings->password, $this->options);
+                if (defined('SQL_MODE')) {
+                    $this->connection->query("SET SESSION sql_mode = '".SQL_MODE."'");
+                }
             } catch (\PDOException $e) {
                 throw new \Exception($e->getMessage(), 500, $e);
             }

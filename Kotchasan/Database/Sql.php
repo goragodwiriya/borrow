@@ -606,10 +606,7 @@ class Sql
      */
     public static function fieldName($column_name)
     {
-        if (is_numeric($column_name)) {
-            // ตัวเลขเท่านั้น
-            return $column_name;
-        } elseif ($column_name instanceof self) {
+        if ($column_name instanceof self) {
             // Sql
             return $column_name->text();
         } elseif ($column_name instanceof QueryBuilder) {
@@ -626,6 +623,9 @@ class Sql
                 // อื่นๆ คืนค่าเป็นข้อความภายใต้เครื่องหมาย ' (อัญประกาศเดี่ยว)
                 return "'$column_name'";
             }
+        } elseif (is_numeric($column_name)) {
+            // ตัวเลขเท่านั้น
+            return $column_name;
         }
         throw new \InvalidArgumentException('Invalid arguments in fieldName');
     }

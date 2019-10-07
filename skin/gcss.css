@@ -2509,7 +2509,7 @@ html[dir="rtl"] .tab>ul>li:first-child>a {
   opacity: 0;
   width: 600px;
   max-width: 90%;
-  overflow-x: auto;
+  overflow-x: hidden;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;

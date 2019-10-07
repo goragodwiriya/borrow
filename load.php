@@ -21,7 +21,7 @@ define('DATA_FOLDER', 'datas/');
  * 1 บันทึกข้อผิดพลาดและคำเตือนลง error_log .php
  * 2 แสดงผลข้อผิดพลาดและคำเตือนออกทางหน้าจอ (ใช้เฉพาะตอนออกแบบเท่านั้น)
  */
-define('DEBUG', 2);
+define('DEBUG', 0);
 /*
  * false (default)
  * true บันทึกการ query ฐานข้อมูลลง log (ใช้เฉพาะตอนออกแบบเท่านั้น)
@@ -31,6 +31,11 @@ define('DB_LOG', false);
  * ภาษาอัตโนมัติจากบราวเซอร์
  */
 define('AUTO_LANGUAGE', false);
+/*
+ * ระบุ SQL Mode ที่ต้องการ
+ * หากพบปัญหาการใช้งาน
+ */
+//define('SQL_MODE','');
 /**
  * load Kotchasan.
  */

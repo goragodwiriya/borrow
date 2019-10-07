@@ -83,12 +83,12 @@ CREATE TABLE `{prefix}_borrow` (
 
 CREATE TABLE `{prefix}_borrow_items` (
   `id` int(11) NOT NULL,
-  `borrow_id` int(11) NOT NULL COMMENT 'ใบเบิก',
-  `topic` varchar(90) COLLATE utf8_unicode_ci NOT NULL COMMENT '1 พัสดุ/หมายเลขเครื่อง/เลขทะเบียน',
-  `num_requests` int(11) NOT NULL COMMENT 'จำนวนที่ขอเบิก',
-  `inventory_id` int(11) NOT NULL COMMENT 'ID ของพัสดุ',
-  `amount` int(11) NOT NULL COMMENT 'จำนวนที่อนุมัติ/เบิก',
-  `status` tinyint(4) NOT NULL COMMENT '0 รอตรวจสอบ,1 ไม่อนุมัติ,2 อนุมัติ,3 คืน'
+  `borrow_id` int(11) NOT NULL,
+  `topic` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
+  `num_requests` int(11) NOT NULL,
+  `inventory_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT 0,
+  `status` tinyint(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

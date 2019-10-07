@@ -15,6 +15,7 @@ if (defined('ROOT_PATH')) {
             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         );
         $conn = new \PDO('mysql:host='.$_SESSION['db_server'].';dbname='.$_SESSION['db_name'], $_SESSION['db_username'], $_SESSION['db_password'], $options);
+        $conn->query("SET SESSION sql_mode = ''");
     } catch (\PDOException $e) {
         $error = true;
         echo '<h2>ความผิดพลาดในการเชื่อมต่อกับฐานข้อมูล</h2>';
