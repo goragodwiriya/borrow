@@ -115,7 +115,7 @@ function defaultSubmit(ds) {
       if (val == "") {
         el.valid();
       } else {
-        if (val == "Please fill in" || val == "Please select" || val == "Please browse file" || val == "already exist" || val == "Please select at least one item" || val=="Invalid data") {
+        if (val == "Please fill in" || val == "Please select" || val == "Please browse file" || val == "already exist" || val == "Please select at least one item" || val == "Invalid data") {
           var label = el.findLabel();
           if (label) {
             t = label.innerHTML.strip_tags();

@@ -436,6 +436,7 @@ td.icons a.icon-minus:before {
 .icon-minus:before {
   font-size: 1.2em;
 }
+.icon-valid.checked,
 .icon-plus:before {
   color: #259b24;
 }

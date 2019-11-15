@@ -47,7 +47,7 @@ class Model extends \Kotchasan\KBase
             $salt = uniqid();
             $model->db()->update($model->getTableName('user'), (int) $id, array(
                 'salt' => $salt,
-                'password' => sha1($password.$salt),
+                'password' => sha1(self::$cfg->password_key.$password.$salt),
             ));
             // สำเร็จ คืนค่าข้อความว่าง
 

@@ -131,6 +131,7 @@ return array(
   'Leave empty for generate auto' => 'ปล่อยว่างไว้เพื่อสร้างอัตโนมัติ',
   'Limit access to only one account per member. Members who have logged in before will be forced to log out.' => 'จำกัดการเข้าระบบต่อหนึ่งบัญชี สมาชิกที่เข้าระบบอยู่ก่อนหน้าจะถูกบังคับให้ออกจากระบบ',
   'List of' => 'รายการ',
+  'Local time' => 'เวลาท้องถิ่น',
   'Login' => 'เข้าสู่ระบบ',
   'Login information' => 'ข้อมูลการเข้าระบบ',
   'Login per one account' => 'การเข้าระบบต่อหนึ่งบัญชี',

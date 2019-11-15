@@ -17,10 +17,14 @@ Calendar.prototype = {
     this.events = {};
     this.cdate = new Date();
     this.calendar = $G(document.createElement("div"));
-    this.calendar.className = "event-calendar";
+    this.buttons = $G(document.createElement("div"));
+    this.calendar.className = 'event-calendar';
+    this.buttons.className = 'event-calendar-buttons';
+    this.buttonFormat = 'M';
     this.showToday = false;
     this.first_day_of_calendar = null;
     this.next_day_of_calendar = null;
+    this.showButton = false;
     for (var property in o) {
       if (property == "month") {
         this.cdate.setMonth(floatval(o[property]) - 1);
@@ -32,6 +36,7 @@ Calendar.prototype = {
         this[property] = o[property];
       }
     }
+    $E(id).appendChild(this.buttons);
     $E(id).appendChild(this.calendar);
     self = this;
     $G(window).addEvent("resize", function() {
@@ -39,10 +44,20 @@ Calendar.prototype = {
     });
     this.setDate(this.cdate);
   },
+  moveTo: function(y, m) {
+    var d = new Date();
+    if (m) {
+      d.setMonth(floatval(m) - 1);
+    }
+    if (y) {
+      d.setFullYear(floatval(y));
+    }
+    this.setDate(d);
+  },
   _resize: function() {
     var cw = this.calendar.getClientWidth(),
       w = cw / 7;
-    document.css("#" + this.id + " td div{width:" + (w - 2) + "px}#" + this.id + " td{width:" + w + "px;height:" + w + "px}", this.id);
+    document.css("#" + this.id + " td div{width:" + w + "px}#" + this.id + " td{width:" + w + "px;height:" + w + "px}", this.id);
   },
   _drawMonth: function() {
     var self = this,
@@ -52,13 +67,10 @@ Calendar.prototype = {
     this.calendar.appendChild(header);
     this.first_day_of_calendar = null;
     this.next_day_of_calendar = null;
-    var a = document.createElement("a"),
-      span = document.createElement("span");
+    var a = document.createElement("a");
     a.className = "prev";
     a.title = trans("Prev Month");
     header.appendChild(a);
-    span.innerHTML = a.title;
-    a.appendChild(span);
     callClick(a, function() {
       self._move(-1);
     });
@@ -67,12 +79,9 @@ Calendar.prototype = {
     header.appendChild(a);
     a.innerHTML = this.cdate.format("F Y");
     a = document.createElement("a");
-    span = document.createElement("span");
     a.className = "next";
     a.title = trans("Next Month");
     header.appendChild(a);
-    span.innerHTML = a.title;
-    a.appendChild(span);
     callClick(a, function() {
       self._move(1);
     });
@@ -178,20 +187,23 @@ Calendar.prototype = {
     }
     this._resize();
   },
-  _addLabel: function(d, prop, first) {
+  _addLabel: function(d, prop, c) {
     var self = this,
       div = $E(this.id + "-" + d.format("y-m-d"));
     if (div) {
+      $G(div.parentNode).addClass('mark');
       var a = document.createElement("a");
       if (prop.id) {
         a.id = prop.id;
       }
       if (prop.title) {
         a.title = prop.title;
-        if (first) {
+        if (c == 'sub' && d == self.first_day_of_calendar) {
           a.innerHTML = "<span>" + prop.title + "</span>";
-        } else {
+        } else if (c == 'sub' || c == 'last') {
           a.innerHTML = "<span>&nbsp;</span>";
+        } else {
+          a.innerHTML = "<span>" + prop.title + "</span>";
         }
       } else {
         a.innerHTML = "<span>&nbsp;</span>";
@@ -202,9 +214,7 @@ Calendar.prototype = {
       if (prop.color) {
         a.style.backgroundColor = prop.color;
       }
-      if (!first) {
-        a.className = "sub";
-      }
+      a.className = c;
       div.appendChild(a);
       a.onclick = function() {
         return self.onclick.call(this, d);
@@ -216,53 +226,65 @@ Calendar.prototype = {
   _drawEvents: function() {
     var a,
       diff,
-      diff_start,
-      elems,
-      top,
+      diff_start_first,
+      diff_end_first,
+      elems = [],
+      top = 0,
       start,
       start_date,
+      end_date,
+      c,
       d,
+      e,
       self = this;
     forEach(this.events, function() {
       if (this.start) {
         start_date = this.start.split('T')[0].replace(/-/g, '/');
         a = new Date(start_date);
-        diff_next = a.compare(self.next_day_of_calendar);
-        if (diff_next.days >= -42 || this.end) {
-          diff_start = a.compare(self.first_day_of_calendar);
-          if (diff_next.days >= -42) {
-            if (diff_start.days < 0) {
-              a = self._addLabel(self.first_day_of_calendar, this, true);
-              start_date = self.first_day_of_calendar.format("y/m/d H:i:s");
-            } else {
-              a = self._addLabel(a, this, true);
-            }
+        end_date = this.end ? new Date(this.end.split('T')[0].replace(/-/g, '/')) : a;
+        diff_end_first = end_date.compare(self.first_day_of_calendar);
+        diff_end_first = diff_end_first.year < 0 ? 0 - diff_end_first.days : diff_end_first.days;
+        diff_start_first = a.compare(self.first_day_of_calendar);
+        diff_start_first = diff_start_first.year < 0 ? 0 - diff_start_first.days : diff_start_first.days;
+        diff = a.compare(end_date);
+        if (
+          (diff_start_first >= 0) ||
+          (diff_start_first < 0 && diff_end_first > 0 && diff_end_first < 42) ||
+          (diff_start_first <= 0 && diff_end_first >= 41)
+        ) {
+          if (diff.days == 0) {
+            c = 'first last';
+          } else if (
+            (diff_start_first < 0 && diff_end_first > 0 && diff_end_first < 42) ||
+            (diff_start_first <= 0 && diff_end_first >= 41)
+          ) {
+            c = diff_start_first == 0 && diff_end_first == diff.days ? 'first' : 'sub';
+            a = self.first_day_of_calendar;
+            start = Date.parse(a);
+            diff = a.compare(end_date);
+          } else {
+            c = 'first';
+            start = Date.parse(start_date);
           }
-          if (a && this.end) {
-            diff = new Date(this.end.split('T')[0].replace(/-/g, '/')).compare(new Date(start_date));
-            if (diff_start.days < 0) {
-              diff.days--;
-            }
-            if (diff.days > 0) {
-              elems = [a];
-              top = a.offsetTop;
-              start = Date.parse(start_date);
-              for (var i = 1; i <= diff.days; i++) {
-                d = new Date(start + i * 86400000);
-                a = self._addLabel(d, this, false);
-                if (a) {
-                  if (d.getDay() == 0) {
-                    self._align(elems, top);
-                    top = a.offsetTop;
-                    elems = [a];
-                  } else {
-                    top = Math.max(top, a.offsetTop);
-                    elems.push(a);
-                  }
+          e = self._addLabel(a, this, c);
+          if (e) {
+            elems = [e];
+            top = e.offsetTop;
+            for (var i = 1; i <= diff.days; i++) {
+              d = new Date(start + i * 86400000);
+              e = self._addLabel(d, this, i == diff.days ? 'last' : 'sub');
+              if (e) {
+                if (d.getDay() == 0) {
+                  self._align(elems, top);
+                  elems = [e];
+                  top = e.offsetTop;
+                } else {
+                  elems.push(e);
+                  top = Math.max(top, e.offsetTop);
                 }
               }
-              self._align(elems, top);
             }
+            self._align(elems, top);
           }
         }
       }
@@ -285,6 +307,8 @@ Calendar.prototype = {
       self.events = ds || {};
       self._drawMonth();
       self._drawEvents();
+      self._drawButtons();
+      self._setButton();
     });
   },
   _move: function(value) {
@@ -293,9 +317,49 @@ Calendar.prototype = {
     d.setMonth(d.getMonth() + value);
     this.setDate(d);
   },
+  _setButton: function() {
+    var y = this.cdate.getFullYear(),
+      m = this.cdate.getMonth(),
+      id = this.id + '-' + this.cdate.format('y-m');
+    forEach(this.buttons.querySelectorAll('.button'), function() {
+      if (this.id == id) {
+        this.className = 'button select';
+      } else {
+        this.className = 'button';
+      }
+    });
+  },
+  _drawButtons: function() {
+    var self = this;
+
+    function doClick() {
+      var ds = this.id.replace(self.id + '-', '').split('-');
+      self.moveTo(ds[0], ds[1]);
+    }
+    if (this.showButton) {
+      var d, ds = {};
+      self.buttons.innerHTML = '';
+      forEach(this.events, function() {
+        if (this.start) {
+          d = new Date(this.start.split('T')[0].replace(/-/g, '/'));
+          ds[d.format('y-m')] = d;
+        }
+      });
+      Object.keys(ds).sort().forEach(function(key) {
+        var a = document.createElement('a');
+        a.className = 'button';
+        a.innerHTML = ds[key].format(self.buttonFormat);
+        a.id = self.id + '-' + key;
+        self.buttons.appendChild(a);
+        a.onclick = doClick;
+      });
+    }
+  },
   setEvents: function(events) {
     this.events = events;
     this._drawEvents();
+    this._drawButtons();
+    this._setButton();
   },
   setDate: function(date) {
     if (this.url !== null) {
@@ -304,6 +368,8 @@ Calendar.prototype = {
       this.cdate = date;
       this._drawMonth();
       this._drawEvents();
+      this._drawButtons();
+      this._setButton();
     }
   }
 };

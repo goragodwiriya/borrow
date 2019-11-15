@@ -288,6 +288,11 @@
 function initGUploads(form_id, id, model, module_id) {
   var patt = /^(delete)_([0-9]+)(_([0-9]+))?$/,
     form = $G(form_id);
+  if (G_Lightbox === null) {
+    G_Lightbox = new GLightbox();
+  } else {
+    G_Lightbox.clear();
+  }
   var _doDelete = function() {
     var cs = new Array();
     forEach(form.elems("a"), function() {
@@ -302,11 +307,12 @@ function initGUploads(form_id, id, model, module_id) {
       _action("action=deletep&mid=" + module_id + "&aid=" + id + "&id=" + cs.join(","));
     }
   };
-  var _doAction = function() {
+  var _doAction = function(e) {
     var hs = patt.exec(this.id);
     if (hs[1] == "delete") {
       this.className = this.className == "icon-check" ? "icon-uncheck" : "icon-check";
     }
+    GEvent.stop(e);
     return false;
   };
 
@@ -316,6 +322,7 @@ function initGUploads(form_id, id, model, module_id) {
   forEach(form.elems("a"), function() {
     var hs = patt.exec(this.id);
     if (hs) {
+      G_Lightbox.add(this.parentNode);
       callClick(this, _doAction);
     }
   });

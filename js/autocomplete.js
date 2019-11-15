@@ -38,9 +38,9 @@
       }
       var display = $G("gautocomplete_div");
       display.className = "gautocomplete";
-      display.style.left = "-100000px";
+      display.style.left = "0px";
       display.style.position = "absolute";
-      display.style.display = "block";
+      display.style.display = "none";
       display.style.zIndex = 9999;
 
       function _movehighlight(id) {
@@ -100,7 +100,7 @@
 
       function _hide() {
         self.input.removeClass("wait");
-        display.style.left = "-100000px";
+        display.style.display = 'none';
         showing = false;
       }
       var _search = function() {
@@ -131,6 +131,7 @@
                   if (vp.left + dd.width > cw) {
                     vp.left = Math.max(5, vp.left + dm.width - dd.width);
                   }
+                  display.style.display = "block";
                   display.style.left = vp.left + "px";
                   if (vp.left + dd.width > cw) {
                     display.style.width = cw - vp.left - 5 + "px";
@@ -243,15 +244,19 @@ function initAutoComplete(id, link, displayFields, icon, options) {
     obj.valid();
   }
 
+  function doPopulateItem() {
+    var datas = new Array();
+    for (var i in df) {
+      if (this[df[i]] !== null && this[df[i]] != "") {
+        datas.push(this[df[i]]);
+      }
+    }
+    return datas.join(" ").unentityify();
+  }
+
   function doPopulate() {
     if ($E(id)) {
-      var datas = new Array();
-      for (var i in df) {
-        if (this[df[i]] !== null && this[df[i]] != "") {
-          datas.push(this[df[i]]);
-        }
-      }
-      var row = datas.join(" ").unentityify();
+      var row = o.populateItem.call(this);
       forEach($E(id).value.replace(/[\s]+/, " ").split(" "), function() {
         if (this.length > 0) {
           var patt = new RegExp("(" + this.preg_quote() + ")", "gi");
@@ -264,6 +269,7 @@ function initAutoComplete(id, link, displayFields, icon, options) {
   var o = {
     get: doGetQuery,
     populate: doPopulate,
+    populateItem: doPopulateItem,
     callBack: doCallBack,
     url: link
   };

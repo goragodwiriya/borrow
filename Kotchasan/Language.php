@@ -57,7 +57,7 @@ final class Language extends \Kotchasan\KBase
         if (null === self::$languages) {
             new static();
         }
-        $result = isset(self::$languages->$key) ? self::$languages->$key : ($default === null ? $key : $default);
+        $result = $value_key === null || !isset(self::$languages->{$key}) ? ($default === null ? $key : $default) : self::$languages->{$key};
         if ($value_key !== null && is_array($result)) {
             $result = isset($result[$value_key]) ? $result[$value_key] : null;
         }

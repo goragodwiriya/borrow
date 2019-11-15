@@ -1,119 +1,34 @@
 <?php
 
 if (defined('ROOT_PATH')) {
-    // ค่าที่ส่งมา
-    $_SESSION['db_username'] = $_POST['db_username'];
-    $_SESSION['db_password'] = $_POST['db_password'];
-    $_SESSION['db_server'] = $_POST['db_server'];
-    $_SESSION['db_name'] = $_POST['db_name'];
-    $_SESSION['prefix'] = $_POST['prefix'];
-    $content = array();
-    $error = false;
-    try {
-        $options = array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-        );
-        $conn = new \PDO('mysql:host='.$_SESSION['db_server'].';dbname='.$_SESSION['db_name'], $_SESSION['db_username'], $_SESSION['db_password'], $options);
-        $conn->query("SET SESSION sql_mode = ''");
-    } catch (\PDOException $e) {
-        $error = true;
-        echo '<h2>ความผิดพลาดในการเชื่อมต่อกับฐานข้อมูล</h2>';
-        echo '<p class=warning>ไม่สามารถเชื่อมต่อกับฐานข้อมูลของคุณได้ในขณะนี้</p>';
-        echo '<p>อาจเป็นไปได้ว่า</p>';
-        echo '<ol>';
-        echo '<li>เซิร์ฟเวอร์ของฐานข้อมูลของคุณไม่สามารถใช้งานได้ในขณะนี้</li>';
-        echo '<li>ไม่มีฐานข้อมูลที่ต้องการติดตั้ง กรุณาสร้างฐานข้อมูลก่อน หรือใช้ฐานข้อมูลที่มีอยู่แล้ว</li>';
-        echo '<li>'.$e->getMessage().'</li>';
-        echo '</ol>';
-        echo '<p>หากคุณไม่สามารถดำเนินการแก้ไขข้อผิดพลาดด้วยตัวของคุณเองได้ ให้ติดต่อผู้ดูแลระบบเพื่อขอข้อมูลที่ถูกต้อง</p>';
-        echo '<p><a href="index.php?step=2" class="button large pink">กลับไปลองใหม่</a></p>';
-    }
-    if (!$error) {
-        // เชื่อมต่อฐานข้อมูลสำเร็จ
-        $content[] = '<li class="correct">เชื่อมต่อฐานข้อมูลสำเร็จ</li>';
-        // ประมวลผลฐานข้อมูล
-        $commands = file_get_contents('database.sql');
-        $lines = explode("\n", $commands);
-        $commands = '';
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if ($line && !startsWith($line, '--')) {
-                $commands .= $line."\n";
-            }
-        }
-        $commands = explode(";\n", $commands);
-        foreach ($commands as $command) {
-            if (trim($command)) {
-                $command = str_replace('{prefix}', $_SESSION['prefix'], $command);
-                try {
-                    $conn->query($command);
-                    $content[] = '<li class="correct">'.$command.'</li>';
-                } catch (\PDOException $ex) {
-                    $error = true;
-                    $content[] = '<li class="incorrect">'.$ex->getMessage().'</li>';
-                }
-            }
-        }
-        if (!$error) {
-            // บันทึก settings/database.php
-            $database_cfg = include 'settings/database.php';
-            $database_cfg['mysql']['username'] = $_SESSION['db_username'];
-            $database_cfg['mysql']['password'] = $_SESSION['db_password'];
-            $database_cfg['mysql']['dbname'] = $_SESSION['db_name'];
-            $database_cfg['mysql']['hostname'] = $_SESSION['db_server'];
-            $database_cfg['mysql']['prefix'] = $_SESSION['prefix'];
-            $f = save($database_cfg, ROOT_PATH.'settings/database.php');
-            $content[] = '<li class="'.($f ? 'correct' : 'incorrect').'">สร้างไฟล์ตั้งค่า <b>database.php</b> ...</li>';
-            // บันทึก settings/config.php
-            $cfg = include 'settings/config.php';
-            $f = save($cfg, ROOT_PATH.'settings/config.php');
-            $content[] = '<li class="'.($f ? 'correct' : 'incorrect').'">สร้างไฟล์ตั้งค่า <b>config.php</b> ...</li>';
-        }
-        if (!$error) {
-            echo '<h2>ติดตั้งเรียบร้อย</h2>';
-            echo '<p>การติดตั้งได้ดำเนินการเสร็จเรียบร้อยแล้ว หากคุณต้องการความช่วยเหลือในการใช้งาน คุณสามารถ ติดต่อสอบถามได้ที่ <a href="https://www.kotchasan.com" target="_blank">https://www.kotchasan.com</a></p>';
-            echo '<ul>'.implode('', $content).'</ul>';
-            echo '<p class=warning>กรุณาลบไดเร็คทอรี่ <em>install/</em> ออกจาก Server ของคุณ</p>';
-            echo '<p>คุณควรปรับ chmod ให้ไดเร็คทอรี่ <em>datas/</em> และ <em>settings/</em> (และไดเร็คทอรี่อื่นๆที่คุณได้ปรับ chmod ไว้ก่อนการติดตั้ง) ให้เป็น 644 ก่อนดำเนินการต่อ (ถ้าคุณได้ทำการปรับ chmod ไว้ด้วยตัวเอง)</p>';
-            echo '<p>เมื่อเรียบร้อยแล้ว กรุณา<b>เข้าระบบ</b>เพื่อตั้งค่าที่จำเป็นอื่นๆโดยใช้ขื่ออีเมลและรหัสผ่านของผู้ดูแลระบบ</p>';
-            echo '<p><a href="../index.php" class="button large admin">เข้าระบบ</a></p>';
-        } else {
-            echo '<h2>ติดตั้งไม่สำเร็จ</h2>';
-            echo '<p>การติดตั้งยังไม่สมบูรณ์ ลองตรวจสอบข้อผิดพลาดที่เกิดขึ้นและแก้ไขดู หากคุณต้องการความช่วยเหลือการติดตั้ง คุณสามารถ ติดต่อสอบถามได้ที่ <a href="https://www.kotchasan.com" target="_blank">https://www.kotchasan.com</a></p>';
-            echo '<ul>'.implode('', $content).'</ul>';
-            echo '<p><a href="." class="button large admin">ลองใหม่</a></p>';
-        }
-    }
-}
-
-/**
- * @param $haystack
- * @param $needle
- */
-function startsWith($haystack, $needle)
-{
-    $length = strlen($needle);
-
-    return substr($haystack, 0, $length) === $needle;
-}
-
-/**
- * @param $config
- * @param $file
- */
-function save($config, $file)
-{
-    $f = @fopen($file, 'wb');
-    if ($f !== false) {
-        if (!preg_match('/^.*\/([^\/]+)\.php?/', $file, $match)) {
-            $match[1] = 'config';
-        }
-        fwrite($f, '<'."?php\n/* $match[1].php */\nreturn ".var_export((array) $config, true).';');
-        fclose($f);
-
-        return true;
+    if (empty($_POST['username']) || empty($_POST['password'])) {
+        include ROOT_PATH.'install/step2.php';
     } else {
-        return false;
+        // ค่าที่ส่งมา
+        $_SESSION['username'] = $_POST['username'];
+        $_SESSION['password'] = $_POST['password'];
+        // database settings
+        $database = include 'settings/database.php';
+        $db_username = isset($_SESSION['db_username']) ? $_SESSION['db_username'] : $database['mysql']['username'];
+        $db_password = isset($_SESSION['db_password']) ? $_SESSION['db_password'] : $database['mysql']['password'];
+        $db_server = isset($_SESSION['db_server']) ? $_SESSION['db_server'] : 'localhost';
+        $db_name = isset($_SESSION['db_name']) ? $_SESSION['db_name'] : $database['mysql']['dbname'];
+        $prefix = isset($_SESSION['prefix']) ? $_SESSION['prefix'] : $database['mysql']['prefix'];
+        echo '<form method=post action=index.php autocomplete=off>';
+        echo '<h2>ค่ากำหนดของฐานข้อมูล</h2>';
+        echo '<p>คุณจะต้องระบุข้อมูลการเชื่อมต่อที่ถูกต้องด้านล่างเพื่อเริ่มดำเนินการติดตั้งฐานข้อมูล</p>';
+        echo '<p class=item><label for=db_username>ชื่อผู้ใช้</label><span class="g-input icon-user"><input type=text size=50 id=db_username name=db_username value="'.$db_username.'"></span></p>';
+        echo '<p class=comment>ชื่อผู้ใช้ของ MySQL ของคุณ</p>';
+        echo '<p class=item><label for=db_password>รหัสผ่าน</label><span class="g-input icon-password"><input type=password size=50 id=db_password name=db_password value="'.$db_password.'"></span></p>';
+        echo '<p class=comment>รหัสผ่านของ MySQL ของคุณ</p>';
+        echo '<p class=item><label for=db_server>โฮสท์ของฐานข้อมูล</label><span class="g-input icon-world"><input type=text size=50 id=db_server name=db_server value="'.$db_server.'"></span></p>';
+        echo '<p class=comment>ดาตาเบสเซิร์ฟเวอร์ของคุณ (โฮสท์ส่วนใหญ่ใช้ localhost)</p>';
+        echo '<p class=item><label for=db_name>ชื่อฐานข้อมูล</label><span class="g-input icon-database"><input type=text size=50 id=db_name name=db_name value="'.$db_name.'"></span></p>';
+        echo '<p class=comment>ชื่อฐานข้อมูลที่ใช้ในการติดตั้งโปรแกรม ต้องเป็นฐานข้อมูลที่มีอยู่แล้ว หรือสร้างฐานข้อมูลก่อน</p>';
+        echo '<p class=item><label for=prefix>คำนำหน้าตาราง</label><span class="g-input icon-table"><input type=text size=50 id=prefix name=prefix value="'.$prefix.'"></span></p>';
+        echo '<p class=comment>ใช้สำหรับแยกฐานข้อมูลที่กำลังจะติดตั้งออกจากฐานข้อมูลอื่นๆ หากมีการติดตั้งข้อมูลอื่นๆร่วมกันบนฐานข้อมูลนี้</p>';
+        echo '<input type=hidden name=step value=4>';
+        echo '<p><input class="button large save" type=submit value="ติดตั้ง"></p>';
+        echo '</form>';
     }
 }

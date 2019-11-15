@@ -32,6 +32,10 @@ class View extends \Gcms\View
      */
     public function render(Request $request)
     {
+        // ค่าที่ส่งมา
+        $params = array(
+            'status' => $request->request('status', -1)->toInt(),
+        );
         // สถานะสมาชิก
         $member_status = array(-1 => '{LNG_all items}');
         foreach (self::$cfg->member_status as $key => $value) {
@@ -44,7 +48,7 @@ class View extends \Gcms\View
             /* Uri */
             'uri' => $uri,
             /* Model */
-            'model' => \Index\Member\Model::toDataTable(),
+            'model' => \Index\Member\Model::toDataTable($params),
             /* รายการต่อหน้า */
             'perPage' => $request->cookie('member_perPage', 30)->toInt(),
             /* เรียงลำดับ */
@@ -78,12 +82,11 @@ class View extends \Gcms\View
             ),
             /* ตัวเลือกด้านบนของตาราง ใช้จำกัดผลลัพท์การ query */
             'filters' => array(
-                'status' => array(
+                array(
                     'name' => 'status',
-                    'default' => -1,
                     'text' => '{LNG_Member status}',
                     'options' => $member_status,
-                    'value' => $request->request('status', -1)->toInt(),
+                    'value' => $params['status'],
                 ),
             ),
             /* ส่วนหัวของตาราง และการเรียงลำดับ (thead) */

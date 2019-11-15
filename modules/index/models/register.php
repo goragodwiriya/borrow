@@ -141,7 +141,7 @@ class Model extends \Kotchasan\Model
             $save['password'] = '';
         } else {
             $save['salt'] = uniqid();
-            $save['password'] = sha1($save['password'].$save['salt']);
+            $save['password'] = sha1(self::$cfg->password_key.$save['password'].$save['salt']);
         }
         $save['permission'] = empty($permission) ? '' : ','.implode(',', $permission).',';
         $save['create_date'] = date('Y-m-d H:i:s');

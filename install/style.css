@@ -1,6 +1,6 @@
 body {
   background-color: #333;
-  font-size: 14px;
+  font-size: 18px;
   color: #333333;
   font-family: "Athiti", Tahoma, Loma;
 }
@@ -20,7 +20,7 @@ main {
   max-width: 85%;
 }
 h1 {
-  font-size: 400%;
+  font-size: 250%;
   text-shadow: 1px 1px 5px #666;
 }
 h2 {

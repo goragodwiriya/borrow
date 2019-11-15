@@ -1037,6 +1037,9 @@ class DataTable extends \Kotchasan\KBase
                     return '<a '.implode(' ', $prop).'><span class="'.$match[2].'"></span></a>';
                 } else {
                     $prop['class'] = 'class="'.implode(' ', $class).'"';
+                    if (!isset($prop['title'])) {
+                        $prop['title'] = 'title="'.strip_tags($properties['text']).'"';
+                    }
 
                     return '<a '.implode(' ', $prop).'><span class="'.$match[2].' button_w_text"><span class=mobile>'.$properties['text'].'</span></span></a>';
                 }
@@ -1089,6 +1092,9 @@ class DataTable extends \Kotchasan\KBase
             // link, button
             $prop = array();
             $text = isset($item['text']) ? $item['text'] : '';
+            if ($text != '' && !isset($item['title'])) {
+                $item['title'] = strip_tags($text);
+            }
             if (isset($item['class'])) {
                 if (empty($match[3])) {
                     $prop[] = 'class="'.$item['class'].'"';

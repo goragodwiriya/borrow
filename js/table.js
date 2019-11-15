@@ -432,30 +432,27 @@
     },
     redirect: function() {
       var hs,
-        url = "",
         patt = /^(.*)=(.*)$/,
-        urls = new Object(),
+        urls = {},
         u = window.location.href,
         us2 = u.split("#"),
         us1 = us2[0].split("?");
-      if (us2.length == 2) {
-        url = us2[1];
-      } else if (us1.length == 2) {
-        url = us1[1];
-      }
-      if (url != "") {
-        forEach(url.split("&"), function() {
-          if ((hs = patt.exec(this))) {
-            hs[1] = hs[1].toLowerCase();
-            hs[2] = hs[2].toLowerCase();
-            if (hs[1] != "page" && hs[1] != "sort" && hs[1] != "search" && !(hs[1] == "action" && (hs[2] == "login" || hs[2] == "logout"))) {
-              urls[hs[1]] = this;
+      forEach([us1[1], us2[1]], function() {
+        if (this) {
+          forEach(this.split("&"), function() {
+            if ((hs = patt.exec(this))) {
+              hs[1] = hs[1].toLowerCase();
+              hs[2] = hs[2].toLowerCase();
+              if (hs[1] != "page" && hs[1] != "sort" && hs[1] != "search" && !(hs[1] == "action" && (hs[2] == "login" || hs[2] == "logout"))) {
+                urls[hs[1]] = this;
+              }
+            } else {
+              urls[this] = this;
             }
-          } else {
-            urls[this] = this;
-          }
-        });
-      }
+          });
+        }
+      });
+
       var us = Object.toArray(urls);
       us.push("page=" + this.page);
       if (this.sort) {

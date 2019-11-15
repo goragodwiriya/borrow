@@ -26,13 +26,21 @@ class Model extends \Kotchasan\Model
     /**
      * อ่านข้อมูลสำหรับใส่ลงในตาราง
      *
+     * @param array $params
+     *
      * @return \Kotchasan\Database\QueryBuilder
      */
-    public static function toDataTable()
+    public static function toDataTable($params)
     {
+        $where = array();
+        if ($params['status'] > -1) {
+            $where[] = array('U.status', $params['status']);
+        }
+
         return static::createQuery()
-            ->select('id', 'username', 'name', 'active', 'social', 'phone', 'status', 'create_date', 'lastvisited', 'visited')
-            ->from('user');
+            ->select('U.id', 'U.username', 'U.name', 'U.active', 'U.social', 'U.phone', 'U.status', 'U.create_date', 'U.lastvisited', 'U.visited')
+            ->from('user U')
+            ->where($where);
     }
 
     /**

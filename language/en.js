@@ -1,6 +1,7 @@
 var CANCEL = 'Cancel';
 var CHANGE_COLOR = 'change color';
 var CHECK = 'check';
+var CHECKBOX = 'Checkbox';
 var DELETE = 'delete';
 var DISABLE = 'Disable';
 var ENABLE = 'Enable';
@@ -15,7 +16,7 @@ var PREV_MONTH = 'Prev Month';
 var SELECT_ALL = 'select all';
 var SELECT_NONE = 'select none';
 var SORRY_XXX_NOT_FOUND = 'Sorry XXX not found';
-var SUCCESSFULLY_COPIED_TO_CLIPBOARD = 'Successfully copy to clipboard';
+var SUCCESSFULLY_COPIED_TO_CLIPBOARD = 'Successfully copied to clipboard';
 var SUCCESSFULLY_UPLOADED_XXX_FILES = 'Successfully uploaded XXX files';
 var THE_TYPE_OF_FILE_IS_INVALID = 'The type of file is invalid';
 var UNCHECK = 'uncheck';

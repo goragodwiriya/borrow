@@ -95,7 +95,7 @@ class Login extends \Kotchasan\Login
             ->toArray();
         $login_result = null;
         foreach ($query->execute() as $item) {
-            if (isset($params['password']) && $item['password'] == sha1($params['password'].$item['salt'])) {
+            if (isset($params['password']) && $item['password'] == sha1(self::$cfg->password_key.$params['password'].$item['salt'])) {
                 // ตรวจสอบรหัสผ่าน
                 $login_result = $item;
             } elseif (isset($params['token']) && $params['token'] == $item['token']) {

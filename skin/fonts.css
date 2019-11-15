@@ -164,6 +164,7 @@ a.icon-uncheck:before {
 .icon-continue:before {
   content: "\e60a";
 }
+.icon-continue:before,
 .icon-next:before {
   content: "\e60b";
 }

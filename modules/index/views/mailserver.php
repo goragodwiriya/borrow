@@ -50,6 +50,7 @@ class View extends \Gcms\View
             'itemClass' => 'item',
             'label' => '{LNG_noreply email}',
             'comment' => '{LNG_Email addresses for sender and do not reply such as no-reply@domain.tld}',
+            'placeholder' => 'no-reply@domain.tld',
             'maxlength' => 255,
             'value' => isset($config->noreply_email) ? $config->noreply_email : self::$cfg->noreply_email,
         ));
@@ -82,6 +83,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-world',
             'itemClass' => 'item',
             'label' => '{LNG_Mail server}',
+            'placeholder' => 'localhost',
             'comment' => '{LNG_The name of the mail server as localhost or smtp.gmail.com (To change the settings of your email is the default. To remove this box entirely.)}',
             'value' => isset($config->email_Host) ? $config->email_Host : self::$cfg->email_Host,
         ));

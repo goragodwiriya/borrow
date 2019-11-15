@@ -64,11 +64,11 @@ class Login extends \Kotchasan\KBase
         if ($params['username'] !== self::$cfg->get($field_name)) {
             self::$login_input = $field_name;
 
-            return 'not a registered user';
+            return Language::get('not a registered user');
         } elseif ($params['password'] !== self::$cfg->get('password')) {
             self::$login_input = 'password';
 
-            return 'password incorrect';
+            return Language::get('password incorrect');
         } else {
             return array(
                 'id' => 1,
@@ -141,7 +141,7 @@ class Login extends \Kotchasan\KBase
                     if (is_string($login_result)) {
                         // ข้อความผิดพลาด
                         self::$login_input = self::$login_input == 'password' ? 'login_password' : 'login_username';
-                        self::$login_message = Language::get($login_result);
+                        self::$login_message = $login_result;
                     }
                     // logout ลบ session และ cookie
                     unset($_SESSION['login']);

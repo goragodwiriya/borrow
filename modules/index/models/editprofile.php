@@ -144,7 +144,7 @@ class Model extends \Kotchasan\Model
                             // แก้ไข
                             if (!empty($password)) {
                                 $save['salt'] = uniqid();
-                                $save['password'] = sha1($password.$save['salt']);
+                                $save['password'] = sha1(self::$cfg->password_key.$password.$save['salt']);
                             }
                             // แก้ไข
                             $db->update($table_user, $user['id'], $save);

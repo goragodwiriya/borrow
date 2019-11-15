@@ -88,7 +88,8 @@
       };
       forEach($E(id).getElementsByTagName("*"), function() {
         if ($G(this).hasClass(self.options.itemClass)) {
-          new GDrag(_find(this), this, o);
+          var drag = new GDrag(_find(this), o);
+          drag.move = this;
           dropitems.push(this);
         }
       });

@@ -80,7 +80,7 @@ class Config
      *
      * @var bool
      */
-    public $email_use_phpMailer = true;
+    public $email_use_phpMailer = false;
     /**
      * รายชื่อภาษาที่รองรับ
      * ตามที่มีในโฟลเดอร์ language/
@@ -100,7 +100,7 @@ class Config
      *
      * @var string
      */
-    public $noreply_email = 'no-reply@locahost';
+    public $noreply_email = '';
     /**
      * คีย์สำหรับการเข้ารหัสข้อความ
      *

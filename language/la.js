@@ -1,6 +1,7 @@
 var CANCEL = 'ຍົກເລີກ';
 var CHANGE_COLOR = 'ປ່ຽນສີ';
 var CHECK = 'ເລືອກ';
+var CHECKBOX = 'ກ່ອງກາເຄື່ອງໝາຍ';
 var DELETE = 'ລຶບ';
 var DISABLE = 'ປິດໃຊ້ການ';
 var ENABLE = 'ເປີດໃຊ້ການ';
@@ -15,7 +16,7 @@ var PREV_MONTH = 'ເດືອນທີ່ຜ່ານມາ';
 var SELECT_ALL = 'ເລືອກທັງໝົດ';
 var SELECT_NONE = 'ບໍ່ເລືອກລາຍການໃດເລີຍ';
 var SORRY_XXX_NOT_FOUND = 'ຂໍອະໄພບໍ່ພົບ XXX ທີ່ຕ້ອງການ';
-var SUCCESSFULLY_COPIED_TO_CLIPBOARD = 'ການສຳເນົາໃສ່ຄລິບບອດສຳເລັດ';
+var SUCCESSFULLY_COPIED_TO_CLIPBOARD = 'ສຳເນົາໄປຍັງຄິບບອດຮຽບຮ້ອຍ';
 var SUCCESSFULLY_UPLOADED_XXX_FILES = 'ອັບໂຫຼດຮຽບຮ້ອຍ XXX ແຟ້ມ';
 var THE_TYPE_OF_FILE_IS_INVALID = 'ຊະນິດຂອງແຟ້ມບໍ່ຖືກຕ້ອງ';
 var UNCHECK = 'ບໍ່ເລືອກ';

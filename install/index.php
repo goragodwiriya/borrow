@@ -13,16 +13,16 @@ $step = isset($_REQUEST['step']) ? (int) $_REQUEST['step'] : 0;
 $new_config = include ROOT_PATH.'install/settings/config.php';
 // ไตเติล
 $title = 'การติดตั้ง &rsaquo; Setup Configuration File';
-$h1 = 'การติดตั้ง';
+$h1 = 'การติดตั้ง เวอร์ชั่น '.$new_config['version'];
 // เนื้อหา
 $content = '';
-if (is_file(ROOT_PATH.'settings/config.php') && is_array(include(ROOT_PATH.'settings/config.php')) && is_file(ROOT_PATH.'settings/database.php') && is_array(include(ROOT_PATH.'settings/database.php'))) {
+if (is_file(ROOT_PATH.'settings/config.php') && is_array(include (ROOT_PATH.'settings/config.php')) && is_file(ROOT_PATH.'settings/database.php') && is_array(include (ROOT_PATH.'settings/database.php'))) {
     // โหลดค่าติดตั้งเก่า
     $config = include ROOT_PATH.'settings/config.php';
     if (empty($config['version']) || version_compare($config['version'], $new_config['version']) == -1) {
         // อัปเกรด
         $title = 'การปรับรุ่น เวอร์ชั่น '.$new_config['version'];
-        $h1 = 'การปรับรุ่น';
+        $h1 = 'การปรับรุ่น เวอร์ชั่น '.$new_config['version'];
         $file = ROOT_PATH.'install/upgrade'.$step.'.php';
     } else {
         // ติดตั้งแล้ว

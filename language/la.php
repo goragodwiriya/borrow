@@ -12,6 +12,7 @@ return array(
   'Attendees number' => 'ຈໍານວນຜູ້ເຂົ້າຮ່ວມ',
   'Authentication require' => 'ການກວດກາຄວາມຖືກຕ້ອງ',
   'Authority' => 'ຜູ້ມີອໍານາດອະນຸມັດ',
+  'Background color' => 'ສີພື້ນຫລັງ',
   'Background image' => 'ພາບພື້ນຫລັງ',
   'Begin date' => 'ວັນເລີ່ມຕົ້ນ',
   'Begin time' => 'ເລີ່ມເວລາ',
@@ -130,6 +131,7 @@ return array(
   'Leave empty for generate auto' => 'ປ່ອຍຫວ່າງໄວ້ເພື່ອສ້າງອັດໂນມັດ',
   'Limit access to only one account per member. Members who have logged in before will be forced to log out.' => 'ຈໍາກັດການເຂົ້າເຖິງບັນຊີຫນຶ່ງ ສະມາຊິກທີ່ເຂົ້າສູ່ລະບົບກ່ອນຈະຖືກບັງຄັບໃຫ້ອອກຈາກລະບົບ.',
   'List of' => 'ລາຍການ',
+  'Local time' => 'ເວລາທ້ອງຖິ່ນ',
   'Login' => 'ເຂົ້າສູ່ລະບົບ',
   'Login information' => 'ຂໍ້ມູນການເຂົ້າລະບົບ',
   'Login per one account' => 'ເຂົ້າສູ່ລະບົບຕໍ່ຫນຶ່ງບັນຊີ',
@@ -205,6 +207,10 @@ return array(
   'Product code' => 'ລະຫັດສິນຄ້າ',
   'Profile' => 'ຂໍ້ມູນສ່ວນຕົວ',
   'Province' => 'ແຂວງ',
+  'PUBLISHEDS' => array(
+    0 => 'ບໍ່ໄດ້ເຜີຍແຜ່',
+    1 => 'ເຜີຍແຜ່'
+  ),
   'Quantity' => 'ຈໍານວນ',
   'Reason' => 'ເຫດ​ຜົນ',
   'Register' => 'ສະໝັກສະມາຊິກ',
