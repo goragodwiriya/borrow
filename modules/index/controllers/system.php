@@ -10,8 +10,8 @@
 
 namespace Index\System;
 
+use Gcms\Config;
 use Gcms\Login;
-use Kotchasan\Config;
 use Kotchasan\Html;
 use Kotchasan\Http\Request;
 use Kotchasan\Language;

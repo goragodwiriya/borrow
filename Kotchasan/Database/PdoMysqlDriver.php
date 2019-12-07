@@ -190,29 +190,30 @@ class PdoMysqlDriver extends Driver
             if (isset($sqls['orupdate'])) {
                 $sql .= ' ON DUPLICATE KEY UPDATE '.implode(', ', $sqls['orupdate']);
             }
-        } elseif (isset($sqls['union'])) {
-            $sql .= '('.implode(') UNION (', $sqls['union']).')';
-        } elseif (isset($sqls['unionAll'])) {
-            $sql .= '('.implode(') UNION ALL (', $sqls['unionAll']).')';
         } else {
-            if (isset($sqls['select'])) {
-                $sql .= 'SELECT '.$sqls['select'];
-                if (isset($sqls['from'])) {
-                    $sql .= ' FROM '.$sqls['from'];
+            if (isset($sqls['union'])) {
+                $sql .= '('.implode(') UNION (', $sqls['union']).')';
+            } elseif (isset($sqls['unionAll'])) {
+                $sql .= '('.implode(') UNION ALL (', $sqls['unionAll']).')';
+            } else {
+                if (isset($sqls['select'])) {
+                    $sql .= 'SELECT '.$sqls['select'];
+                    if (isset($sqls['from'])) {
+                        $sql .= ' FROM '.$sqls['from'];
+                    }
+                } elseif (isset($sqls['update'])) {
+                    $sql .= 'UPDATE '.$sqls['update'];
+                    if (isset($sqls['set'])) {
+                        $sql .= ' SET '.implode(', ', $sqls['set']);
+                    }
+                } elseif (isset($sqls['delete'])) {
+                    $sql .= 'DELETE FROM '.$sqls['delete'];
                 }
-            }
-            if (isset($sqls['update'])) {
-                $sql .= 'UPDATE '.$sqls['update'];
-            } elseif (isset($sqls['delete'])) {
-                $sql .= 'DELETE FROM '.$sqls['delete'];
             }
             if (isset($sqls['join'])) {
                 foreach ($sqls['join'] as $join) {
                     $sql .= $join;
                 }
-            }
-            if (isset($sqls['set'])) {
-                $sql .= ' SET '.implode(', ', $sqls['set']);
             }
             if (isset($sqls['where'])) {
                 $sql .= ' WHERE '.$sqls['where'];

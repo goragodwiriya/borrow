@@ -40,11 +40,9 @@ if (defined('ROOT_PATH')) {
                 if (empty($config['password_key'])) {
                     // อัปเดทข้อมูลผู้ดูแลระบบ
                     $config['password_key'] = uniqid();
-                    updateAdmin($conn, $table, $_POST['username'], $_POST['password'], $config['password_key']);
-                    $content[] = '<li class="correct">อัปเดทข้อมูลผู้ดูแลระบบสำเร็จ</li>';
-                } else {
-                    updateAdmin($conn, $table, $_POST['username'], $_POST['password'], $config['password_key']);
                 }
+                // ตรวจสอบการ login
+                updateAdmin($conn, $table, $_POST['username'], $_POST['password'], $config['password_key']);
                 if (!fieldExists($conn, $table, 'social')) {
                     $conn->query("ALTER TABLE `$table` CHANGE `fb` `social` TINYINT(1) NOT NULL DEFAULT '0'");
                 }
@@ -104,6 +102,8 @@ function updateAdmin($conn, $table_name, $username, $password, $password_key)
         $query->bindValue(':id', $result['id']);
         $query->bindValue(':password', sha1($password_key.$password.$result['salt']));
         $query->execute();
+    } elseif ($result['password'] != sha1($password_key.$password.$result['salt'])) {
+        throw new \Exception('รหัสผ่าน ไม่ถูกต้อง');
     }
 }
 

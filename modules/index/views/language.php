@@ -131,7 +131,7 @@ class View extends \Gcms\View
         setcookie('language_perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
         setcookie('language_sort', $table->sort, time() + 2592000, '/', HOST, HTTPS, true);
         // Javascript
-        $table->script('initLanguageTable("language_table");');
+        $table->script('initCopyToClipboard("language_table");');
         // คืนค่า HTML
 
         return $table->render();

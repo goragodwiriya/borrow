@@ -2511,39 +2511,39 @@ window.$K = (function() {
       this.src = $G(src);
       var self = this;
 
-      function _mousemove(event) {
-        self.mousePos = GEvent.pointer(event);
+      function _mousemove(e) {
+        self.mousePos = GEvent.pointer(e);
         self.options.moveDrag.call(self);
       }
 
-      function cancelEvent(event) {
-        GEvent.stop(event);
+      function cancelEvent(e) {
+        GEvent.stop(e);
       }
 
-      function _mouseup(event) {
+      function _mouseup(e) {
         document.removeEvent("mouseup", _mouseup);
         document.removeEvent("mousemove", _mousemove);
         document.removeEvent("selectstart dragstart", cancelEvent);
         if (self.src.releaseCapture) {
           self.src.releaseCapture();
         }
-        self.mousePos = GEvent.pointer(event);
-        GEvent.stop(event);
+        self.mousePos = GEvent.pointer(e);
+        GEvent.stop(e);
         self.options.endDrag.call(self.src);
       }
 
-      function _mousedown(event) {
+      function _mousedown(e) {
         var delay,
-          src = GEvent.element(event),
+          src = GEvent.element(e),
           temp = this;
 
         function _cancelClick() {
           window.clearTimeout(delay);
           this.removeEvent("mouseup", _cancelClick);
         }
-        if ((!self.options.srcOnly || src == self.src) && GEvent.isLeftClick(event)) {
-          GEvent.stop(event);
-          self.mousePos = GEvent.pointer(event);
+        if ((!self.options.srcOnly || src == self.src) && GEvent.isLeftClick(e)) {
+          GEvent.stop(e);
+          self.mousePos = GEvent.pointer(e);
           if (this.setCapture) {
             this.setCapture();
           }
@@ -2560,11 +2560,11 @@ window.$K = (function() {
       }
       this.src.addEvent("mousedown", _mousedown);
 
-      function touchHandler(event) {
-        var touches = event.changedTouches,
+      function touchHandler(e) {
+        var touches = e.changedTouches,
           first = touches[0],
           type = "";
-        switch (event.type) {
+        switch (e.type) {
           case "touchstart":
             type = "mousedown";
             break;
@@ -2596,7 +2596,7 @@ window.$K = (function() {
           null
         );
         first.target.dispatchEvent(simulatedEvent);
-        event.preventDefault();
+        e.preventDefault();
       }
       this.src.addEvent("touchstart touchmove touchend", touchHandler, false);
     }

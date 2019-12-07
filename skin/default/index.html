@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{LANGUAGE}" dir=ltr>
+<html lang="{LANGUAGE}" dir="ltr" class="smooth">
 
 <head>
   <meta charset=utf-8>
@@ -12,7 +12,9 @@
 
 <body class="responsive {BODYCLASS}" style="background-image:url({BGIMAGE})">
   <div id=slidemenu_content>
-    <div class="wrapper" id="toTop">{MAIN}</div>
+    <div class="wrapper" id="toTop">
+      <div id="scroll-to">{MAIN}</div>
+    </div>
     <footer class="footer">
       <p class=copy>
         copyright 2019, <a href="{WEBURL}" target="_blank">{WEBDESCRIPTION}</a> {LNG_Version} {VERSION}
@@ -20,7 +22,7 @@
       </p>
     </footer>
   </div>
-  <a href=#slidemenu_content class=scroller title="{LNG_scroll to top}">^</a>
+  <a href=#scroll-to class=scroller title="{LNG_scroll to top}">^</a>
   <link href='https://fonts.googleapis.com/css?family=Athiti&subset=thai,latin' rel='stylesheet' type='text/css'>
 </body>
 

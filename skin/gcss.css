@@ -41,6 +41,9 @@ html {
   -ms-touch-action: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.smooth {
+  scroll-behavior: smooth;
+}
 @-webkit-keyframes bugfix {
   from {
     padding: 0;
@@ -840,15 +843,15 @@ td>.wlabel {
 input[readonly]:not([data-keyboard]),
 select[readonly]:not([data-keyboard]),
 textarea[readonly]:not([data-keyboard]) {
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
   cursor: default;
 }
 .input-gcalendar.disabled,
 input:disabled,
 select:disabled,
 textarea:disabled {
-  color: #bbb;
-  background-color: #f5f5f5;
+  color: #333;
+  background-color: #f9f9f9;
   cursor: default;
 }
 input[required],
@@ -4371,6 +4374,7 @@ td.buttons .button:last-child {
   body.responsive .topmenu.slidemenu {
     display: block;
     position: fixed;
+    z-index: 2;
     left: -240px;
     top: 0;
     bottom: 0;
