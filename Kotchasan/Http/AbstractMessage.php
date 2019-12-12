@@ -257,7 +257,7 @@ abstract class AbstractMessage implements MessageInterface
         $headers = array();
         foreach ($_SERVER as $key => $value) {
             if (preg_match('/^HTTP_([A-Z0-9_]+)$/', $key, $match)) {
-                $headers[ucwords(strtolower(str_replace('_', '-', $match[1])), '-')] = $value;
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace(array('_', '-'), ' ', $match[1]))))] = $value;
             }
         }
 

@@ -1887,7 +1887,7 @@ html[dir="rtl"] .gdpanel-arrow {
 .menubutton:after {
   content: "\25BC";
   position: absolute;
-  right: 0;
+  right: 0.2em;
   width: 1em;
   text-align: center;
   border-left: 1px solid rgba(255, 255, 255, 0.1);

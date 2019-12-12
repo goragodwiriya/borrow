@@ -986,19 +986,24 @@ class DataTable extends \Kotchasan\KBase
             $attributes = array();
             foreach ($properties as $name => $item) {
                 if ($name == 'submenus') {
-                    foreach ($item as $menu) {
+                    foreach ($item as $btn => $menu) {
                         $prop = array();
-                        $text = '';
-                        foreach ($menu as $key => $value) {
-                            if ($key == 'text') {
-                                $text = $value;
-                            } else {
-                                $prop[$key] = $key.'="'.$value.'"';
-                            }
+                        if (isset($this->onCreateButton)) {
+                            $menu = call_user_func($this->onCreateButton, $btn, $menu, $item);
                         }
-                        $li .= '<li><a '.implode(' ', $prop).'>'.$text.'</a></li>';
+                        if ($menu && $menu !== false) {
+                            $text = '';
+                            foreach ($menu as $key => $value) {
+                                if ($key == 'text') {
+                                    $text = $value;
+                                } else {
+                                    $prop[$key] = $key.'="'.$value.'"';
+                                }
+                            }
+                            $li .= '<li><a '.implode(' ', $prop).'>'.$text.'</a></li>';
+                        }
                     }
-                } elseif ($name == 'value') {
+                } elseif ($name == 'text') {
                     $innerHTML = $item;
                 } elseif ($name == 'class') {
                     $attributes['class'] = 'class="'.$item.' menubutton"';
