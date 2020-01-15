@@ -42,7 +42,7 @@ class Model extends \Kotchasan\Model
                 array('S.borrow_id', $borrow_id),
                 array('S.id', $id),
             ))
-            ->first('S.borrow_id', 'S.id', 'S.inventory_id', 'S.topic', 'S.amount', 'S.status', 'I.stock', 'C.topic unit');
+            ->first('S.borrow_id', 'S.id', 'S.inventory_id', 'S.topic', 'S.amount', 'S.num_requests', 'S.status', 'I.stock', 'C.topic unit');
     }
 
     /**
@@ -76,7 +76,10 @@ class Model extends \Kotchasan\Model
                         }
                     } elseif ($action === 'delivery') {
                         if ($amount > 0) {
-                            if ($index->stock > -1) {
+                            if ($amount + $index->amount > $index->num_requests) {
+                                // จำนวนที่ส่งมอบมากกว่าจำนวนที่ยืม
+                                $ret['ret_amount'] = Language::get('The amount delivered is greater than the amount borrowed');
+                            } elseif ($index->stock > -1) {
                                 if ($amount > $index->stock) {
                                     // สต๊อคไม่เพียงพอ
                                     $ret['ret_amount'] = Language::replace('There is not enough :name (remaining :stock :unit)', array(':name' => $index->topic, ':stock' => $index->stock, ':unit' => $index->unit));

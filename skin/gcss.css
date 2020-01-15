@@ -610,7 +610,7 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  box-shadow: 0 0 3px rgb(59, 153, 252) inset;
+  box-shadow: 0 0 3px rgb(59, 153, 252);
 }
 button::-moz-focus-inner,
 input::-moz-focus-inner {

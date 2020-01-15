@@ -41,6 +41,7 @@ class Controller extends \Gcms\Controller
         if ($login = Login::notDemoMode(Login::isMember())) {
             // อ่านข้อมูลสมาชิก
             $user = \Index\Editprofile\Model::get($request->request('id', $login['id'])->toInt());
+            // ตัวเอง, แอดมินแก้ไขได้ทุกคน ยกเว้น ID 1
             if ($user && $user['id'] > 0 && ($login['id'] == $user['id'] || Login::isAdmin())) {
                 // แสดงผล
                 $section = Html::create('section', array(

@@ -39,6 +39,9 @@ if (defined('ROOT_PATH')) {
         foreach ($lines as $line) {
             $line = trim($line);
             if ($line && !startsWith($line, '--')) {
+                if (preg_match('/CREATE TABLE `\{prefix\}_([a-z_\-]+)`/i', $line, $match)) {
+                    $commands .= 'DROP TABLE IF EXISTS `'.$_SESSION['prefix'].'_'.$match[1]."`;\n";
+                }
                 $commands .= $line."\n";
             }
         }
@@ -62,9 +65,9 @@ if (defined('ROOT_PATH')) {
             $salt2 = uniqid();
             $username = $_SESSION['username'];
             $password = $_SESSION['password'];
-            $sql = "INSERT INTO `".$_SESSION['prefix']."_user` (`id`, `username`, `salt`, `password`, `token`, `status`, `permission`, `name`, `sex`, `address`, `phone`, `provinceID`, `zipcode`, `visited`, `lastvisited`, `session_id`, `ip`, `create_date`, `active`, `social`) VALUES";
-            $sql .= "(1, '".$username."', '".$salt1."', '".sha1($password_key.$password.$salt1)."', NULL, 1, '', 'แอดมิน', 'm', '', '', '', '', 0, 0, '', '::1', NOW(), 1, 0),";
-            $sql .= "(2, 'demo@localhost', '".$salt2."', '".sha1($password_key.'demo'.$salt2)."', NULL, 0, '', 'ตัวอย่าง', 'f', '', '', '', '', 0, 0, '', '::1', NOW(), 1, 0);";
+            $sql = "INSERT INTO `".$_SESSION['prefix']."_user` (`id`, `username`, `salt`, `password`, `token`, `status`, `permission`, `name`, `create_date`) VALUES";
+            $sql .= "(1, '".$username."', '".$salt1."', '".sha1($password_key.$password.$salt1)."', NULL, 1, '', 'แอดมิน', NOW()),";
+            $sql .= "(2, 'demo@localhost', '".$salt2."', '".sha1($password_key.'demo'.$salt2)."', NULL, 0, '', 'ตัวอย่าง', NOW());";
             $conn->query($sql);
             // บันทึก settings/database.php
             $database_cfg = include 'settings/database.php';

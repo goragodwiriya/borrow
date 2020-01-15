@@ -806,6 +806,7 @@ class Mime
             'jpeg' => 'image/jpeg',
             'jpg' => 'image/jpeg',
             'jpe' => 'image/jpeg',
+            'jfif' => 'image/jpeg',
             'ktx' => 'image/ktx',
             'png' => 'image/png',
             'btif' => 'image/prs.btif',

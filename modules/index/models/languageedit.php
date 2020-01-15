@@ -119,7 +119,7 @@ class Model extends \Kotchasan\Model
                         $language = $model->db()->first($table_language, $id);
                     }
                     if ($id > 0 && !$language) {
-                        $ret['alert'] = Language('Sorry, Item not found It&#39;s may be deleted');
+                        $ret['alert'] = Language::get('Sorry, Item not found It&#39;s may be deleted');
                     } elseif ($save['key'] == '') {
                         $ret['ret_write_key'] = Language::get('Please fill in');
                     } else {

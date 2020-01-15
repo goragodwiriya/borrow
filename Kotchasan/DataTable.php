@@ -98,7 +98,7 @@ class DataTable extends \Kotchasan\KBase
     private $showCaption = true;
     /**
      * URL สำหรับรับค่าจาก action ต่างๆ เช่นการลบ
-     * เช่น index/[controller|model]/className/method.php.
+     * เช่น index/[controller|model]/className/method.php
      *
      * @var string
      */
@@ -224,12 +224,24 @@ class DataTable extends \Kotchasan\KBase
      */
     public $searchForm = 'auto';
     /**
+     * ข้อความค้นหา
+     *
+     * @var string
+     */
+    public $search = '';
+    /**
      * จำนวนรายการต่อหน้า
      * ถ้ากำหนดรายการนี้จะแสดงรายการแบ่งหน้า และตัวเลือกแสดงรายการต่อหน้า.
      *
      * @var int|null
      */
     public $perPage = null;
+    /**
+     * หน้าที่กำลังแสดงผล
+     *
+     * @var int
+     */
+    public $page = 1;
     /**
      * ชื่อคอลัมน์ที่ใช้เรียงลำดับ
      * ค่าเริ่มต้น null สำหรับการรับค่าอัตโนมัติ.
@@ -424,6 +436,8 @@ class DataTable extends \Kotchasan\KBase
         if (!empty($this->sort)) {
             $this->uri = $this->uri->withParams(array('sort' => $this->sort));
         }
+        // search
+        $this->search = self::$request->globals(array('POST', 'GET'), 'search')->text();
     }
 
     /**
@@ -520,27 +534,26 @@ class DataTable extends \Kotchasan\KBase
             $form[] = '</fieldset>';
         }
         // search
-        $search = self::$request->globals(array('POST', 'GET'), 'search')->text();
         if ($this->searchForm === true || ($this->searchForm === 'auto' && !empty($this->searchColumns))) {
-            if (!empty($search)) {
+            if (!empty($this->search)) {
                 if ($this->autoSearch) {
                     if (isset($this->model)) {
                         $sh = array();
                         foreach ($this->searchColumns as $key) {
-                            $sh[] = array($key, 'LIKE', "%$search%");
+                            $sh[] = array($key, 'LIKE', '%'.$this->search.'%');
                         }
                         $this->model->andWhere($sh, 'OR');
                     } elseif (isset($this->datas)) {
                         // filter ข้อมูลจาก array
-                        $this->datas = ArrayTool::filter($this->datas, $search);
+                        $this->datas = ArrayTool::filter($this->datas, $this->search);
                     }
                 }
-                $this->uri = $this->uri->withParams(array('search' => $search));
+                $this->uri = $this->uri->withParams(array('search' => $this->search));
             }
             $form[] = '</div>';
             $form[] = '<div class="table_search">';
             $form[] = '<fieldset class=search>';
-            $form[] = '<label accesskey=f><input type=text name=search value="'.$search.'" placeholder="'.Language::get('Search').'"></label>';
+            $form[] = '<label accesskey=f><input type=text name=search value="'.$this->search.'" placeholder="'.Language::get('Search').'"></label>';
             $form[] = '<button type=submit>&#xe607;</button>';
             $form[] = '<button type=submit class=clear_search>&#x78;</button>';
             $form[] = '</fieldset>';
@@ -576,31 +589,31 @@ class DataTable extends \Kotchasan\KBase
         // การแบ่งหน้า
         if ($this->perPage > 0) {
             // หน้าที่เลือก
-            $page = max(1, self::$request->globals(array('POST', 'GET'), 'page', 1)->toInt());
+            $this->page = max(1, self::$request->globals(array('POST', 'GET'), 'page', 1)->toInt());
             // ตรวจสอบหน้าที่เลือกสูงสุด
             $totalpage = round($count / $this->perPage);
             $totalpage += ($totalpage * $this->perPage < $count) ? 1 : 0;
-            $page = max(1, $page > $totalpage ? $totalpage : $page);
-            $start = $this->perPage * ($page - 1);
+            $this->page = max(1, $this->page > $totalpage ? $totalpage : $this->page);
+            $start = $this->perPage * ($this->page - 1);
             // คำนวณรายการที่แสดง
             $s = $start < 0 ? 0 : $start + 1;
             $e = min($count, $s + $this->perPage - 1);
         } else {
             $start = 0;
             $totalpage = 1;
-            $page = 1;
+            $this->page = 1;
             $s = 1;
             $e = $count;
             $this->perPage = 0;
         }
         // table caption
         if ($this->showCaption) {
-            if (empty($search)) {
+            if (empty($this->search)) {
                 $caption = Language::get('All :count entries, displayed :start to :end, page :page of :total pages');
             } else {
                 $caption = Language::get('Search <strong>:search</strong> found :count entries, displayed :start to :end, page :page of :total pages');
             }
-            $caption = str_replace(array(':search', ':count', ':start', ':end', ':page', ':total'), array($search, number_format($count), number_format($s), number_format($e), number_format($page), number_format($totalpage)), $caption);
+            $caption = str_replace(array(':search', ':count', ':start', ':end', ':page', ':total'), array($this->search, number_format($count), number_format($s), number_format($e), number_format($this->page), number_format($totalpage)), $caption);
         }
         // เรียงลำดับ
         if (!empty($this->sort)) {
@@ -787,14 +800,14 @@ class DataTable extends \Kotchasan\KBase
             }
             // แบ่งหน้า
             if ($this->perPage > 0) {
-                $content[] = '<div class="splitpage">'.$this->uri->pagination($totalpage, $page).'</div>';
+                $content[] = '<div class="splitpage">'.$this->uri->pagination($totalpage, $this->page).'</div>';
             }
         }
         $content[] = '</div>';
         if ($this->enableJavascript && !$this->explain) {
             $script = array(
-                'page' => $page,
-                'search' => $search,
+                'page' => $this->page,
+                'search' => $this->search,
                 'sort' => $this->sort,
                 'action' => $this->action,
                 'actionCallback' => $this->actionCallback,
@@ -823,7 +836,7 @@ class DataTable extends \Kotchasan\KBase
      *
      * @return string
      */
-    public function tbody($start, $end)
+    private function tbody($start, $end)
     {
         $row = array();
         $n = 0;

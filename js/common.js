@@ -33,6 +33,8 @@ function showModal(src, qstr, doClose, className) {
         alert(ds.alert);
       } else if (ds.detail) {
         detail = decodeURIComponent(ds.detail);
+      } else if (ds.modal) {
+        detail = ds.modal;
       }
     } else {
       detail = xhr.responseText;
@@ -560,7 +562,7 @@ function initEditInplace(id, model, addbtn) {
 }
 
 function initCopyToClipboard(id) {
-  forEach($E(id).querySelectorAll('.icon-copy'),function(){
+  forEach($E(id).querySelectorAll('.icon-copy'), function() {
     callClick(this, function() {
       copyToClipboard(this.title);
       document.body.msgBox(trans("successfully copied to clipboard"));

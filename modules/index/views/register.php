@@ -57,7 +57,7 @@ class View extends \Gcms\View
         // name
         $groups->add('text', array(
             'id' => 'register_name',
-            'labelClass' => 'g-input icon-customer',
+            'labelClass' => 'g-input icon-user',
             'itemClass' => 'width50',
             'label' => '{LNG_Name}',
             'comment' => '{LNG_Please fill in} {LNG_Name}',

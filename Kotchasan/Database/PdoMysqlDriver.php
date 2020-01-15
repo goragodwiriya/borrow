@@ -58,7 +58,7 @@ class PdoMysqlDriver extends Driver
             try {
                 $this->connection = new \PDO($sql, $this->settings->username, $this->settings->password, $this->options);
                 if (defined('SQL_MODE')) {
-                    $this->connection->query("SET SESSION sql_mode = '".SQL_MODE."'");
+                    $this->connection->query("SET SESSION sql_mode='".SQL_MODE."'");
                 }
             } catch (\PDOException $e) {
                 throw new \Exception($e->getMessage(), 500, $e);
@@ -203,9 +203,6 @@ class PdoMysqlDriver extends Driver
                     }
                 } elseif (isset($sqls['update'])) {
                     $sql .= 'UPDATE '.$sqls['update'];
-                    if (isset($sqls['set'])) {
-                        $sql .= ' SET '.implode(', ', $sqls['set']);
-                    }
                 } elseif (isset($sqls['delete'])) {
                     $sql .= 'DELETE FROM '.$sqls['delete'];
                 }
@@ -214,6 +211,9 @@ class PdoMysqlDriver extends Driver
                 foreach ($sqls['join'] as $join) {
                     $sql .= $join;
                 }
+            }
+            if (isset($sqls['set'])) {
+                $sql .= ' SET '.implode(', ', $sqls['set']);
             }
             if (isset($sqls['where'])) {
                 $sql .= ' WHERE '.$sqls['where'];

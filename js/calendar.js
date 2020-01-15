@@ -239,9 +239,9 @@ Calendar.prototype = {
       self = this;
     forEach(this.events, function() {
       if (this.start) {
-        start_date = this.start.split('T')[0].replace(/-/g, '/');
+        start_date = this.start.split('T')[0].replace(/-/g, '/').split(' ')[0];
         a = new Date(start_date);
-        end_date = this.end ? new Date(this.end.split('T')[0].replace(/-/g, '/')) : a;
+        end_date = this.end ? new Date(this.end.split('T')[0].replace(/-/g, '/').split(' ')[0]) : a;
         diff_end_first = end_date.compare(self.first_day_of_calendar);
         diff_end_first = diff_end_first.year < 0 ? 0 - diff_end_first.days : diff_end_first.days;
         diff_start_first = a.compare(self.first_day_of_calendar);

@@ -139,19 +139,16 @@ window.$K = (function() {
                 }
                 if (obj.dataset["keyboard"]) {
                   obj.pattern = new RegExp("^(?:[" + obj.dataset["keyboard"].preg_quote() + "]+)$");
-                  if (obj.type == "integer" || obj.type == "currency") {
+                  if (obj.type == "integer" || obj.type == "currency" || obj.type == "number") {
                     new GInput(text, obj.dataset["keyboard"], function() {
-                      var val = floatval(this.value);
                       if (obj.min) {
-                        val = Math.max(obj.min, val);
+                        this.value = Math.max(obj.min, floatval(this.value));
                       }
                       if (obj.max) {
-                        val = Math.min(obj.max, val);
+                        this.value = Math.min(obj.max, floatval(this.value));
                       }
                       if (obj.type == "currency") {
-                        this.value = val.toFixed(2);
-                      } else {
-                        this.value = val;
+                        this.value = floatval(this.value).toFixed(2);
                       }
                     });
                   } else {
@@ -423,18 +420,13 @@ window.$K = (function() {
     return d;
   };
   Date.prototype.compare = function(d) {
-    var date, month, year;
     if (Object.isString(d)) {
-      var ds = d.replace(/\//g, '-').split("-");
-      year = floatval(ds[0]);
-      month = floatval(ds[1]) - 1;
-      date = floatval(ds[2]);
-    } else {
-      date = d.getDate();
-      month = d.getMonth();
-      year = d.getFullYear();
+      d = new Date(d.replace(/-/g, '/'));
     }
-    var dateStr = this.getDate(),
+    var date = d.getDate(),
+      month = d.getMonth(),
+      year = d.getFullYear(),
+      dateStr = this.getDate(),
       monthStr = this.getMonth(),
       yearStr = this.getFullYear(),
       theYear = yearStr - year,
@@ -1266,7 +1258,7 @@ window.$K = (function() {
       return this;
     },
     addEvent: function(t, f, c) {
-      var ts = t.split(" "),
+      var ts = t.split(/[\s,]/),
         input = this;
       forEach(ts, function(e) {
         if (input.addEventListener) {

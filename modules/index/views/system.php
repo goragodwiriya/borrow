@@ -15,7 +15,7 @@ use Kotchasan\Html;
 use Kotchasan\Language;
 
 /**
- * module=system.
+ * module=system
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -27,7 +27,7 @@ class View extends \Gcms\View
      * ฟอร์มตั้งค่า system.
      *
      * @param object $config
-     * @param array  $login
+     * @param array $login
      *
      * @return string
      */

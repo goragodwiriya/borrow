@@ -38,7 +38,7 @@ class AbstractRequest extends AbstractMessage implements \Psr\Http\Message\Reque
      * @param string $uri     ค่าเริ่มต้นคือ index.php
      * @param array  $exclude รายการแอเรย์ของ $_GET ที่ไม่ต้องการให้รวมอยู่ใน URL
      *
-     * @return \static
+     * @return Uri
      */
     public static function createUriWithGet($uri = 'index.php', $exclude = array())
     {
@@ -57,7 +57,7 @@ class AbstractRequest extends AbstractMessage implements \Psr\Http\Message\Reque
      * @param string $uri     ค่าเริ่มต้นคือ index.php
      * @param array  $exclude รายการแอเรย์ของ $_GET และ $_POST ที่ไม่ต้องการให้รวมอยู่ใน URL
      *
-     * @return \static
+     * @return Uri
      */
     public function createUriWithGlobals($uri = 'index.php', $exclude = array())
     {
@@ -77,7 +77,7 @@ class AbstractRequest extends AbstractMessage implements \Psr\Http\Message\Reque
      * @param string $uri     ค่าเริ่มต้นคือ index.php
      * @param array  $exclude รายการแอเรย์ของ $_POST ที่ไม่ต้องการให้รวมอยู่ใน URL
      *
-     * @return \static
+     * @return Uri
      */
     public static function createUriWithPost($uri = 'index.php', $exclude = array())
     {
