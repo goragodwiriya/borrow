@@ -57,6 +57,14 @@ class Model
                 'text' => '{LNG_Home}',
                 'url' => 'index.php?module=home',
             ),
+            'settings' => array(
+                'text' => '{LNG_Settings}',
+                'submenus' => $settings,
+            ),
+            'report' => array(
+                'text' => '{LNG_Report}',
+                'submenus' => array(),
+            ),
             'module' => array(
                 'text' => '{LNG_Module}',
                 'submenus' => array(),
@@ -73,14 +81,6 @@ class Model
                         'url' => 'index.php?module=register',
                     ),
                 ),
-            ),
-            'report' => array(
-                'text' => '{LNG_Report}',
-                'submenus' => array(),
-            ),
-            'settings' => array(
-                'text' => '{LNG_Settings}',
-                'submenus' => $settings,
             ),
             'signout' => array(
                 'text' => '{LNG_Logout}',

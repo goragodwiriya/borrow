@@ -62,7 +62,7 @@ class Controller extends \Kotchasan\KBase
                 'text' => '{LNG_Un-Returned items}',
                 'url' => 'index.php?module=borrow-report&amp;status=2&amp;due=1',
             );
-            $menu->addTopLvlMenu('report', '{LNG_Report}', null, $submenus, 'signout');
+            $menu->add('report', '{LNG_Borrow} &amp; {LNG_Return}', null, $submenus);
             if (Login::checkPermission($login, 'can_config')) {
                 $menu->add('settings', '{LNG_Settings} {LNG_Borrow} &amp; {LNG_Return}', 'index.php?module=borrow-settings');
             }
