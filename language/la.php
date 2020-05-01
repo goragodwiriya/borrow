@@ -114,7 +114,7 @@ return array(
   'Image' => 'ຮູບພາບ',
   'Image size is in pixels' => 'ຂະໜາດຂອງຮູບພາບເປັນພິກເຊວ',
   'Import' => 'ນຳເຂົ້າ',
-  'Incorrect :name' => ':name ບໍ່ຖືກຕ້ອງ',
+  'Invalid :name' => ':name ບໍ່ຖືກຕ້ອງ',
   'Inventory' => 'ຄັງສິນຄ້າ',
   'INVENTORY_CATEGORIES' => array(
     'category_id' => 'ຫມວດຫມູ່',

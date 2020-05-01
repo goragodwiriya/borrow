@@ -40,7 +40,7 @@ class Tab
      * Construct.
      *
      * @param string $id    ID ของ Tab ห้ามซ้ำกับอันอื่น
-     * @param string $url   URL ของหน้่านี้ ใช้เป็นค่าเริ่มต้นของเมนู
+     * @param string $url   URL ของหน้านี้ ใช้เป็นค่าเริ่มต้นของเมนู
      * @param array  $items รายการเริ่มต้น
      */
     public function __construct($id, $url, $items = array())

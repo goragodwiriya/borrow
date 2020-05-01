@@ -196,7 +196,7 @@ class Request extends AbstractRequest implements \Psr\Http\Message\RequestInterf
     public function getParsedBody()
     {
         if ($this->parsedBody === null) {
-            $this->parsedBody = $this->normalize($_POST);
+            $this->parsedBody = $_POST;
         }
 
         return $this->parsedBody;
@@ -210,7 +210,7 @@ class Request extends AbstractRequest implements \Psr\Http\Message\RequestInterf
     public function getQueryParams()
     {
         if ($this->queryParams === null) {
-            $this->queryParams = $this->normalize($_GET);
+            $this->queryParams = $_GET;
         }
 
         return $this->queryParams;
@@ -567,39 +567,5 @@ class Request extends AbstractRequest implements \Psr\Http\Message\RequestInterf
         } else {
             return is_array($default) ? new \Kotchasan\Inputs($default) : new \Kotchasan\InputItem($default);
         }
-    }
-
-    /**
-     * remove slashes (/).
-     *
-     * @param array $vars ตัวแปร Global เช่น POST GET
-     */
-    private function normalize($vars)
-    {
-        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
-            return $this->stripSlashes($vars);
-        }
-
-        return $vars;
-    }
-
-    /**
-     * ฟังก์ชั่น remove slashes (/).
-     *
-     * @param array $datas
-     *
-     * @return array
-     */
-    private function stripSlashes($datas)
-    {
-        if (is_array($datas)) {
-            foreach ($datas as $key => $value) {
-                $datas[$key] = $this->stripSlashes($value);
-            }
-
-            return $datas;
-        }
-
-        return stripslashes($datas);
     }
 }

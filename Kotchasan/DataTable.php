@@ -559,7 +559,7 @@ class DataTable extends \Kotchasan\KBase
             $form[] = '</fieldset>';
         }
         if (!$this->explain && !empty($form)) {
-            $content[] = '<form class="table_nav" method="get" action="'.$this->uri.'"><div>'.implode('', $form).'</div></form>';
+            $content[] = '<form class="table_nav clear" method="get" action="'.$this->uri.'"><div>'.implode('', $form).'</div></form>';
         }
         if (isset($this->model)) {
             if ($this->explain) {
@@ -796,7 +796,7 @@ class DataTable extends \Kotchasan\KBase
         }
         if (!$this->explain) {
             if (!empty($table_nav)) {
-                $content[] = '<div class="table_nav action">'.implode('', $table_nav).'</div>';
+                $content[] = '<div class="table_nav clear action">'.implode('', $table_nav).'</div>';
             }
             // แบ่งหน้า
             if ($this->perPage > 0) {
@@ -1170,6 +1170,31 @@ class DataTable extends \Kotchasan\KBase
                 $datalist = '';
             }
             $row = '<fieldset><label>'.(isset($item['text']) ? $item['text'] : '').' <input '.implode(' ', $prop).'>'.$datalist.'</label></fieldset>';
+        } elseif (isset($item['items'])) {
+            $button = '';
+            foreach ($item['items'] as $link) {
+                foreach ($link as $key => $value) {
+                    if ($key != 'text') {
+                        $prop[$key] = $key.'="'.$value.'"';
+                    }
+                }
+                if (isset($item['name'])) {
+                    $prop['name'] = 'name="'.$item['name'].'"';
+                }
+                if (isset($item['href'])) {
+                    $button .= '<a '.implode(' ', $prop).'>'.(isset($link['text']) ? $link['text'] : '').'</a>';
+                } else {
+                    $button .= '<button '.implode(' ', $prop).'>'.(isset($link['text']) ? $link['text'] : '').'</button>';
+                }
+            }
+            $row = '<fieldset class="buttons"><label>'.(isset($item['text']) ? $item['text'] : '').'</label>'.$button.'</fieldset>';
+        } elseif (isset($item['href'])) {
+            foreach ($item as $key => $value) {
+                if ($key != 'text') {
+                    $prop[$key] = $key.'="'.$value.'"';
+                }
+            }
+            $row .= '<a '.implode(' ', $prop).'>'.(isset($item['text']) ? $item['text'] : '').'</a>';
         } else {
             $prop = array();
             foreach ($item as $key => $value) {

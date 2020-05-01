@@ -25,7 +25,7 @@ use Kotchasan\Language;
 class Controller extends \Gcms\Controller
 {
     /**
-     * ตั้งค่าโมดูล
+     * ตั้งค่าโมดูล Inventory
      *
      * @param Request $request
      *

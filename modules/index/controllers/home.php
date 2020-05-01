@@ -89,21 +89,17 @@ class Controller extends \Gcms\Controller
             'class' => 'dashboard',
         ));
         // render card
-        $n = 0;
-        foreach ($card as $k => $item) {
-            if ($n == 0 || $n % 4 == 0) {
-                $ggrid = $dashboard->add('div', array(
-                    'class' => 'ggrid row',
-                ));
-            }
-            $ggrid->add('section', array(
-                'class' => 'card block3 float-left',
+        foreach ($card as $item) {
+            $dashboard->add('div', array(
+                'class' => 'card',
                 'innerHTML' => $item,
             ));
-            ++$n;
         }
         // render quick menu
         if ($menu->count() > 0) {
+            $dashboard = $section->add('div', array(
+                'class' => 'dashboard',
+            ));
             $dashboard->add('h3', array(
                 'innerHTML' => '<span class=icon-menus>{LNG_Quick Menu}</span>',
             ));
@@ -124,7 +120,10 @@ class Controller extends \Gcms\Controller
         // render block
         if ($block->count() > 0) {
             foreach ($block as $k => $item) {
-                $dashboard->appendChild($item);
+                $section->add('div', array(
+                    'class' => 'dashboard',
+                    'innerHTML' => $item,
+                ));
             }
         }
 
@@ -141,14 +140,14 @@ class Controller extends \Gcms\Controller
      * @param string     $link
      * @param string     $url
      */
-    public static function renderCard($card, $icon, $title, $value, $link, $url)
+    public static function renderCard($card, $icon, $title, $value, $link, $url = null)
     {
-        $content = '<a class="table fullwidth" href="'.$url.'">';
-        $content .= '<span class="td '.$icon.' notext"></span>';
-        $content .= '<span class="td right">';
-        $content .= '<span class="cuttext">'.$title.'</span>';
+        $content = '<a class="card-item"'.($url === null ? '' : ' href="'.$url.'"').'>';
+        $content .= '<span class="card-subitem '.$icon.' icon"></span>';
+        $content .= '<span class="card-subitem">';
+        $content .= '<span class="cuttext title">'.$title.'</span>';
         $content .= '<b class="cuttext">'.$value.'</b>';
-        $content .= '<span class="cuttext">'.$link.'</span>';
+        $content .= '<span class="cuttext title">'.$link.'</span>';
         $content .= '</span>';
         $content .= '</a>';
         $card->set(uniqid(), $content);

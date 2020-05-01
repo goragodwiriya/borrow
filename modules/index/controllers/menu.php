@@ -107,10 +107,18 @@ class Controller
         $menus = array();
         foreach ($this->menus as $_module => $_menus) {
             if ($_module === $before) {
-                $menus[$toplvl] = $menu;
+                if (isset($menus[$toplvl])) {
+                    $menus[$toplvl] += $menu;
+                } else {
+                    $menus[$toplvl] = $menu;
+                }
                 $menu = null;
             }
-            $menus[$_module] = $_menus;
+            if (isset($menus[$_module])) {
+                $menus[$_module] += $_menus;
+            } else {
+                $menus[$_module] = $_menus;
+            }
         }
         if (!empty($menu)) {
             $menus[$toplvl] = $menu;

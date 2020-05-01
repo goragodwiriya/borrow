@@ -20,6 +20,12 @@ namespace Gcms;
 class Category
 {
     /**
+     * ชื่อตารางหมวดหมู่
+     *
+     * @var string
+     */
+    protected $table = 'category';
+    /**
      * @var array
      */
     private $datas = array();
@@ -89,7 +95,7 @@ class Category
             // Query
             $query = \Kotchasan\Model::createQuery()
                 ->select('category_id', 'topic', 'type')
-                ->from('category')
+                ->from($obj->table)
                 ->where($where)
                 ->order('category_id')
                 ->cacheOn();
@@ -145,5 +151,18 @@ class Category
         }
 
         return null;
+    }
+
+    /**
+     * ตรวจสอบ $category_id ว่ามีหรือไม่
+     * คืนค่า true ถ้ามี ไม่มีคืนค่า false
+     *
+     * @param string $type
+     *
+     * @return bool
+     */
+    public function exists($type, $category_id)
+    {
+        return isset($this->datas[$type][$category_id]);
     }
 }

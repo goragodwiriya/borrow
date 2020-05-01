@@ -465,5 +465,7 @@ final class Language extends \Kotchasan\KBase
                 ),
             );
         }
+        /* ลงทะเบียนภาษาที่ใช้งานอยู่ */
+        define('LANGUAGE', self::$language_name);
     }
 }

@@ -122,6 +122,24 @@ class ArrayTool
     }
 
     /**
+     * คืนค่าข้อมูลแอเรย์ที่ $key
+     * ไม่พบคืนค่า $default
+     *
+     * @assert (array('one', 'two', 'three'), 0, '') [==] 'one'
+     * @assert (array('one', 'two', 'three'), 4, '') [==] ''
+     *
+     * @param array $array
+     * @param string|int $key
+     * @param mix $array
+     *
+     * @return mix
+     */
+    public static function get($array, $key, $default = '')
+    {
+        return isset($array[$key]) ? $array[$key] : $default;
+    }
+
+    /**
      * อ่านคีย์รายการแรก
      *
      * @param array $array

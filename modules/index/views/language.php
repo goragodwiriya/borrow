@@ -78,7 +78,7 @@ class View extends \Gcms\View
                     'text' => '{LNG_Add New}',
                 ),
                 'import' => array(
-                    'class' => 'button add icon-import',
+                    'class' => 'button pink icon-import',
                     'id' => 'import_0',
                     'text' => '{LNG_Import} {LNG_Language}',
                     'data-confirm' => Language::trans('{LNG_You want to} {LNG_Import} {LNG_Language}?'),

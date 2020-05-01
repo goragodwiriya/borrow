@@ -51,6 +51,7 @@ class Controller extends \Gcms\Controller
             // Javascript
             self::$view->addScript('var FIRST_MODULE="'.self::$menus->home().'";');
             // โหลดค่าติดตั้งโมดูล
+            $modules = array();
             $dir = ROOT_PATH.'modules/';
             $f = @opendir($dir);
             if ($f) {
@@ -58,14 +59,17 @@ class Controller extends \Gcms\Controller
                     if ($text != '.' && $text != '..' && $text != 'index' && $text != 'css' && $text != 'js' && is_dir($dir.$text)) {
                         if (is_file($dir.$text.'/controllers/init.php')) {
                             require_once $dir.$text.'/controllers/init.php';
-                            $className = '\\'.ucfirst($text).'\Init\Controller';
-                            if (method_exists($className, 'execute')) {
-                                $className::execute($request, self::$menus, $login);
-                            }
+                            $modules[] = '\\'.ucfirst($text).'\Init\Controller';
                         }
                     }
                 }
                 closedir($f);
+                sort($modules);
+                foreach ($modules as $className) {
+                    if (method_exists($className, 'execute')) {
+                        $className::execute($request, self::$menus, $login);
+                    }
+                }
             }
             // Controller หลัก
             $page = createClass('Index\Main\Controller')->execute($request);
@@ -86,8 +90,10 @@ class Controller extends \Gcms\Controller
             $bg_image = '';
         }
         if (is_file(ROOT_PATH.DATA_FOLDER.'images/logo.png')) {
-            $logo = '<img src="'.WEB_URL.DATA_FOLDER.'images/logo.png" alt="{WEBTITLE}">&nbsp;{WEBTITLE}';
+            $logo_image = '<img src="'.WEB_URL.DATA_FOLDER.'images/logo.png" alt="{WEBTITLE}">';
+            $logo = $logo_image.'<span class=mobile>&nbsp;{WEBTITLE}</span>';
         } else {
+            $logo_image = '';
             $logo = '<span class="'.self::$cfg->default_icon.'">{WEBTITLE}</span>';
         }
         // เนื้อหา
@@ -96,6 +102,7 @@ class Controller extends \Gcms\Controller
             '/{MAIN}/' => $page->detail(),
             // โลโก
             '/{LOGO}/' => $logo,
+            '/{LOGOIMAGE}/' => $logo_image,
             // language menu
             '/{LANGUAGES}/' => $languages,
             // title

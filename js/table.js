@@ -96,13 +96,7 @@
         });
         var doAction = function() {
           var action = "",
-            cs = new Array(),
-            chk = /check_[0-9]+/;
-          forEach(temp.table.elems("a"), function() {
-            if (chk.test(this.id) && $G(this).hasClass("icon-check")) {
-              cs.push(this.id.replace("check_", ""));
-            }
-          });
+            cs = temp.getCheck();
           if (cs.length == 0) {
             alert(trans("Please select at least one item").replace(/XXX/, trans('Checkbox')));
           } else {
@@ -223,6 +217,16 @@
         });
       }
     },
+    getCheck: function() {
+      var cs = new Array(),
+        chk = /check_[0-9]+/;
+      forEach(this.table.elems("a"), function() {
+        if (chk.test(this.id) && $G(this).hasClass("icon-check")) {
+          cs.push(this.id.replace("check_", ""));
+        }
+      });
+      return cs;
+    },
     callAction: function(el, action) {
       var hs = this.options.action.split("?");
       if (hs[1]) {
@@ -250,8 +254,17 @@
     },
     _doButton: function(input) {
       var action = "",
+        cs = [],
         patt = /^([a-z_\-]+)_([0-9]+)(_([0-9]+))?$/,
-        q = input.get("data-confirm");
+        q = input.get("data-confirm"),
+        chk = input.get("data-checkbox");
+      if (chk) {
+        cs = this.getCheck();
+        if (cs.length == 0) {
+          alert(trans("Please select at least one item").replace(/XXX/, trans('Checkbox')));
+          return;
+        }
+      }
       if (this.options.actionConfirm) {
         var fn = window[this.options.actionConfirm],
           hs = patt.exec(input.id);
@@ -266,7 +279,9 @@
         hs = patt.exec(input.id);
         if (hs) {
           if (hs[1] == "delete" || hs[1] == "cancel") {
-            if (confirm(trans("You want to XXX ?").replace(/XXX/, trans(hs[1])))) {
+            if (cs.length > 0 && confirm(trans("You want to XXX the selected items ?").replace(/XXX/, trans(hs[1])))) {
+              action = "action=" + hs[1] + "&id=" + hs[2] + (hs[4] ? '&opt=' + hs[4] : '');
+            } else if (confirm(trans("You want to XXX ?").replace(/XXX/, trans(hs[1])))) {
               action = "action=" + hs[1] + "&id=" + hs[2] + (hs[4] ? '&opt=' + hs[4] : '');
             }
           } else if (hs[4]) {
@@ -279,6 +294,9 @@
         }
       }
       if (action != "") {
+        if (cs.length > 0) {
+          action += '&ids=' + cs.join(',');
+        }
         this.callAction(input, action);
       }
     },

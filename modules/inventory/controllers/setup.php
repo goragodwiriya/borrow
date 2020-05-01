@@ -25,7 +25,7 @@ use Kotchasan\Language;
 class Controller extends \Gcms\Controller
 {
     /**
-     * ตารางรายการ สินค้า.
+     * ตารางรายการ สินค้า
      *
      * @param Request $request
      *
@@ -37,7 +37,7 @@ class Controller extends \Gcms\Controller
         $this->title = Language::trans('{LNG_List of} {LNG_Equipment}');
         // เลือกเมนู
         $this->menu = 'settings';
-        // สามารถบริหารจัดการ inventory ได้
+        // สามารถบริหารจัดการคลังสินค้าได้
         if (Login::checkPermission(Login::isMember(), 'can_manage_inventory')) {
             // แสดงผล
             $section = Html::create('section', array(

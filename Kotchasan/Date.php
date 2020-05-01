@@ -240,7 +240,7 @@ class Date
                         $ret .= self::$lang['MONTH_LONG'][date('n', $time)];
                         break;
                     case 'Y':
-                        $ret .= (int) date('Y', $time) + self::$lang['YEAR_OFFSET'];
+                        $ret .= (int) date('Y', $time) + (int) self::$lang['YEAR_OFFSET'];
                         break;
                     default:
                         $ret .= trim($item) == '' ? ' ' : date($item, $time);
@@ -269,7 +269,7 @@ class Date
             new static();
         }
 
-        return $year + self::$lang['YEAR_OFFSET'];
+        return $year + (int) self::$lang['YEAR_OFFSET'];
     }
 
     /**

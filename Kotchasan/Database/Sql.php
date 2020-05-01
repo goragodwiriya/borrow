@@ -780,9 +780,8 @@ class Sql
     {
         if (is_array($condition)) {
             $qs = array();
-            $ps = array();
             if (is_array($condition[0])) {
-                foreach ($condition as $n => $item) {
+                foreach ($condition as $item) {
                     if ($item instanceof QueryBuilder) {
                         $qs[] = '('.$item->text().')';
                         $values = $item->getValues($values);

@@ -3012,7 +3012,7 @@ window.$K = (function() {
         this.panel.style.zIndex = 1001;
         this.input.readOnly = true;
         this.input.addEvent("click", function(e) {
-          self.input.select();
+          self.input.setCaretPosition(self.input.value.length, 1);
           self._draw();
           GEvent.stop(e);
           return false;
@@ -3470,19 +3470,24 @@ window.$K = (function() {
               canclick = cell.oDate <= this.xdate;
             }
             if (canclick) {
-              $G(cell).addEvent("click", function(e) {
-                if (self.date === null) {
-                  self.date = new Date();
-                }
-                self.date.setTime(this.oDate.valueOf());
-                self._dochanged();
-                var input = $E(self.input);
-                input.focus();
-              });
               cls = tmp_month == intmonth ? "curr" : "ex";
             } else {
               cls = "ex";
             }
+            $G(cell).addEvent("click", function(e) {
+              var c = this.hasClass('curr ex'),
+                input = $E(self.input);
+              if (c == 'curr') {
+                if (self.date === null) {
+                  self.date = new Date();
+                }
+                self.date.setTime(this.oDate.valueOf());
+              } else if (c == 'ex') {
+                self.date = null;
+              }
+              self._dochanged();
+              input.focus();
+            });
             if (tmp_year == sel_year && tmp_month == sel_month && pointer == sel_date) {
               cls = cls + " select";
             }

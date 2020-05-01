@@ -223,6 +223,21 @@ class Form extends \Kotchasan\KBase
      *
      * @return \static
      */
+    public static function integer($attributes = array())
+    {
+        $obj = new static();
+        $obj->tag = 'input';
+        $attributes['type'] = 'integer';
+        $obj->attributes = $attributes;
+
+        return $obj;
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return \static
+     */
     public static function password($attributes = array())
     {
         $obj = new static();

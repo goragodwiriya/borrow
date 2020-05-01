@@ -16,7 +16,7 @@ use Kotchasan\Http\Request;
 use Kotchasan\Language;
 
 /**
- * module=editprofile.
+ * module=editprofile
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -101,15 +101,14 @@ class View extends \Gcms\View
             'maxlength' => 100,
             'value' => $user['name'],
         ));
-        // id_card
-        $groups->add('number', array(
-            'id' => 'register_id_card',
-            'labelClass' => 'g-input icon-profile',
+        // sex
+        $groups->add('select', array(
+            'id' => 'register_sex',
+            'labelClass' => 'g-input icon-sex',
             'itemClass' => 'width50',
-            'label' => '{LNG_Identification No.}',
-            'maxlength' => 13,
-            'value' => $user['id_card'],
-            'validator' => array('keyup,change', 'checkIdcard'),
+            'label' => '{LNG_Sex}',
+            'options' => Language::get('SEXES'),
+            'value' => $user['sex'],
         ));
         $groups = $fieldset->add('groups');
         // phone
@@ -121,14 +120,15 @@ class View extends \Gcms\View
             'maxlength' => 32,
             'value' => $user['phone'],
         ));
-        // sex
-        $groups->add('select', array(
-            'id' => 'register_sex',
-            'labelClass' => 'g-input icon-sex',
+        // id_card
+        $groups->add('number', array(
+            'id' => 'register_id_card',
+            'labelClass' => 'g-input icon-profile',
             'itemClass' => 'width50',
-            'label' => '{LNG_Sex}',
-            'options' => Language::get('SEXES'),
-            'value' => $user['sex'],
+            'label' => '{LNG_Identification No.}',
+            'maxlength' => 13,
+            'value' => $user['id_card'],
+            'validator' => array('keyup,change', 'checkIdcard'),
         ));
         // address
         $fieldset->add('text', array(

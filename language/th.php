@@ -114,7 +114,7 @@ return array(
   'Image' => 'รูปภาพ',
   'Image size is in pixels' => 'ขนาดของรูปภาพเป็นพิกเซล',
   'Import' => 'นำเข้า',
-  'Incorrect :name' => ':name ไม่ถูกต้อง',
+  'Invalid :name' => ':name ไม่ถูกต้อง',
   'Inventory' => 'คลังสินค้า',
   'INVENTORY_CATEGORIES' => array(
     'category_id' => 'หมวดหมู่',

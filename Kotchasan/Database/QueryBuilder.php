@@ -613,6 +613,9 @@ class QueryBuilder extends \Kotchasan\Database\Query
      * @assert update('user')->set(array('id' => 1, '`reply`=`reply`+1'))->text() [==] "UPDATE `user` SET `id`=:Sid, `reply`=`reply`+1"
      * @assert update('user')->set(array('create_date' => Sql::NOW()))->text() [==] "UPDATE `user` SET `create_date`=NOW()"
      * @assert update('user')->set(array('create_date' => Sql::create('SELECT * FROM `a`')))->text() [==] "UPDATE `user` SET `create_date`=SELECT * FROM `a`"
+     * @assert update('user')->set(array('create_date' => 'U.id'))->text() [==] "UPDATE `user` SET `create_date`=U.`id`"
+     * @assert update('user')->set(array('create_date' => '111.11'))->text() [==] "UPDATE `user` SET `create_date`=:Screatedate"
+     * @assert update('user')->set(array('create_date' => 'user.user'))->text() [==] "UPDATE `user` SET `create_date`=:Screatedate"
      *
      * @param array|string $datas รูปแบบ array(key1 => value1, query_string) หรือ query_string
      *
@@ -621,7 +624,6 @@ class QueryBuilder extends \Kotchasan\Database\Query
     public function set($datas)
     {
         if (is_array($datas) || is_object($datas)) {
-            $keys = array();
             foreach ($datas as $key => $value) {
                 if (is_int($key)) {
                     $this->sqls['set'][$value] = $value;
@@ -632,8 +634,15 @@ class QueryBuilder extends \Kotchasan\Database\Query
                         $this->sqls['set'][$key] = $field.'=('.$value->text().')';
                     } elseif ($value instanceof Sql) {
                         $this->sqls['set'][$key] = $field.'='.$value->text();
-                    } elseif (strlen($value) > 2 && $value[0] === '(' && $value[strlen($value) - 1] === ')') {
-                        $this->sqls['set'][$key] = $field.'='.$value;
+                    } elseif (is_string($value)) {
+                        if (preg_match('/^([A-Z][0-9]?)\.`?([A-Za-z0-9_]+)`?$/', $value, $match)) {
+                            $this->sqls['set'][$key] = $field.'='.$match[1].'.`'.$match[2].'`';
+                        } elseif (mb_strlen($value) > 2 && $value[0] === '(' && $value[mb_strlen($value) - 1] === ')') {
+                            $this->sqls['set'][$key] = $field.'='.$value;
+                        } else {
+                            $this->sqls['set'][$key] = $field.'='.$key;
+                            $this->sqls['values'][$key] = $value;
+                        }
                     } else {
                         $this->sqls['set'][$key] = $field.'='.$key;
                         $this->sqls['values'][$key] = $value;
@@ -717,18 +726,22 @@ class QueryBuilder extends \Kotchasan\Database\Query
     }
 
     /**
-     * UPDATE.
+     * UPDATE
      *
      * @assert update('user')->set(array('key1'=>'value1', 'key2'=>2))->where(array(array('id', 1), array('id', 1)))->text() [==] "UPDATE `user` SET `key1`=:Skey1, `key2`=:Skey2 WHERE `id` = 1 AND `id` = 1"
      *
-     * @param string $table ชื่อตาราง
+     * @param string $table [$table1, $table2, ....] ชื่อตาราง
      *
      * @return \static
      */
     public function update($table)
     {
         $this->sqls['function'] = 'query';
-        $this->sqls['update'] = $this->quoteTableName($table);
+        $updates = array();
+        foreach (func_get_args() as $tbl) {
+            $updates[] = $this->quoteTableName($tbl);
+        }
+        $this->sqls['update'] = implode(',', $updates);
 
         return $this;
     }
