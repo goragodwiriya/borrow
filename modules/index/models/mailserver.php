@@ -17,7 +17,7 @@ use Kotchasan\Language;
 use Kotchasan\Validator;
 
 /**
- * บันทึกการตั้งค่าระบบอีเมล.
+ * module=mailserver
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -26,7 +26,7 @@ use Kotchasan\Validator;
 class Model extends \Kotchasan\KBase
 {
     /**
-     * form submit (mailserver.php).
+     * บันทึกการตั้งค่าระบบอีเมล (mailserver.php).
      *
      * @param Request $request
      */
@@ -63,7 +63,7 @@ class Model extends \Kotchasan\KBase
                             $config->email_Password = $email_Password;
                         }
                     }
-                    $config->email_use_phpMailer = $request->post('email_use_phpMailer')->toBoolean();
+                    $config->email_use_phpMailer = $request->post('email_use_phpMailer')->toInt();
                     $config->email_SMTPAuth = $request->post('email_SMTPAuth')->toBoolean();
                     if (empty($ret)) {
                         // save config

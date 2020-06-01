@@ -375,12 +375,13 @@ class InputItem
      *
      * @assert create(0.454)->toDouble() [==] 0.454
      * @assert create(0.545)->toDouble() [==] 0.545
+     * @assert create(15,362.454)->toDouble() [==] 15362.454
      *
      * @return float|array
      */
     public function toDouble()
     {
-        return (float) $this->value;
+        return (float) str_replace(',', '', $this->value);
     }
 
     /**

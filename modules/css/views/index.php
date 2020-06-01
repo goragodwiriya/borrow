@@ -31,23 +31,21 @@ class View extends \Kotchasan\KBase
         // css ของ template
         $data2 = file_get_contents(ROOT_PATH.self::$cfg->skin.'/style.css');
         $data2 = preg_replace('/url\(([\'"])?(img|fonts)\//isu', 'url(\\1'.WEB_URL.self::$cfg->skin.'/\\2/', $data2);
-        // โหลด css ของ module
-        $dir = ROOT_PATH.'modules/';
-        $f = @opendir($dir);
-        if ($f) {
-            while (false !== ($text = readdir($f))) {
-                if ($text != '.' && $text != '..') {
-                    if (is_dir($dir.$text)) {
-                        if (is_file($dir.$text.'/style.css')) {
-                            $data2 .= preg_replace('/url\(img\//isu', 'url('.WEB_URL.'modules/'.$text.'/img/', file_get_contents($dir.$text.'/style.css'));
-                        }
-                    }
-                }
+        // โหลดโมดูลที่ติดตั้งแล้ว
+        $modules = \Gcms\Modules::create();
+        // ไดเร็คทอรี่โมดูล
+        $dir = $modules->getDir();
+        // css ของโมดูล
+        foreach ($modules->get() as $module) {
+            if (is_file($dir.$module.'/style.css')) {
+                $data2 .= preg_replace('/url\(img\//isu', 'url('.WEB_URL.'modules/'.$module.'/img/', file_get_contents($dir.$module.'/style.css'));
+
             }
-            closedir($f);
         }
-        $data2 .= 'header.header,body.loginpage,.language-menu li>a:hover,.topmenu>ul ul>li.hover>a,.topmenu>ul ul>li:hover>a,.gdpanel a:hover{background-color:'.self::$cfg->bg_color.'}';
+        $data2 .= 'header.header,body.mainpage .footer,body.loginpage,.language-menu li>a:hover,.topmenu>ul ul>li.hover>a,.topmenu>ul ul>li:hover>a,.gdpanel a:hover{background-color:'.self::$cfg->bg_color.'}';
         $data2 .= 'header.header .td,.topmenu>ul>li,.language-menu li>a:hover,.topmenu>ul ul>li.hover>a,.topmenu>ul ul>li:hover>a,.gdpanel a:hover{color:'.self::$cfg->color.'}';
+        $data2 .= '.tab_menus>li.select,.tab_menus>li:hover{background-color:'.self::$cfg->bg_color.';color:'.self::$cfg->color.'}';
+        $data2 .= '.tab_menus ul>li:hover{background-color:'.self::$cfg->bg_color.';color:'.self::$cfg->color.'}';
         foreach (self::$cfg->color_status as $key => $value) {
             $data2 .= '.status'.$key.'{color:'.$value.'}';
         }

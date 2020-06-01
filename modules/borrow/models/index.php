@@ -116,10 +116,7 @@ class Model extends \Kotchasan\Model
                 $borrow_id = $request->post('borrow_id')->toInt();
                 // ตรวจสอบรายการที่เลือก
                 $borrow = self::get($borrow_id, $login);
-                if (!$borrow) {
-                    // ไม่พบข้อมูลที่แก้ไข
-                    $ret['alert'] = Language::get('Sorry, Item not found It&#39;s may be deleted');
-                } else {
+                if ($borrow) {
                     // ชื่อตาราง
                     $table_borrow = $this->getTableName('borrow');
                     $table_borrow_items = $this->getTableName('borrow_items');

@@ -94,12 +94,16 @@ class Controller
      * @param string|null $url      ถ้าไมได้ระบุ (null) เป็นเมนุเปล่าหรือเมนูที่มีเมนูย่อย
      * @param array|null  $submenus ถ้าไมได้ระบุ (null) จะไม่มีเมนูย่อย
      * @param string|null $before   เพิ่มเมนูลงในตำแหน่งก่อนหน้าเมนูที่เลือก ถ้าไม่พบหรือไม่ได้ระบุ (null) จะเพิ่มไปรายการสุดท้าย
+     * @param string $target target ของลิงค์ (ถ้าระบุ $url)
      */
-    public function addTopLvlMenu($toplvl, $text, $url = null, $submenus = null, $before = null)
+    public function addTopLvlMenu($toplvl, $text, $url = null, $submenus = null, $before = null, $target = null)
     {
         $menu = array('text' => $text);
         if (!empty($url)) {
             $menu['url'] = $url;
+        }
+        if (!empty($target)) {
+            $menu['target'] = $target;
         }
         if (!empty($submenus)) {
             $menu['submenus'] = $submenus;
@@ -133,8 +137,9 @@ class Controller
      * @param string      $text     ข้อความแสดงบนเมนู
      * @param string|null $url      ถ้าไมได้ระบุ (null) เป็นเมนุเปล่าหรือเมนูที่มีเมนูย่อย
      * @param array|null  $submenus ถ้าไมได้ระบุ (null) จะไม่มีเมนูย่อย
+     * @param string      $name     ชื่อเมนู
      */
-    public function add($toplvl, $text, $url = null, $submenus = null)
+    public function add($toplvl, $text, $url = null, $submenus = null, $name = null)
     {
         if (isset($this->menus[$toplvl])) {
             $menu = array('text' => $text);
@@ -144,7 +149,24 @@ class Controller
             if (!empty($submenus)) {
                 $menu['submenus'] = $submenus;
             }
-            $this->menus[$toplvl]['submenus'][] = $menu;
+            if ($name === null) {
+                $this->menus[$toplvl]['submenus'][] = $menu;
+            } else {
+                $this->menus[$toplvl]['submenus'][$name] = $menu;
+            }
         }
+    }
+
+    /**
+     * คืนค่าเมนูระดับบนสุด
+     * ไม่พบ คืนค่า null
+     *
+     * @param string $toplvl
+     *
+     * @return array|null
+     */
+    public function getTopLvlMenu($toplvl)
+    {
+        return isset($this->menus[$toplvl]) ? $this->menus[$toplvl] : null;
     }
 }

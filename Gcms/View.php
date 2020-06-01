@@ -34,13 +34,13 @@ class View extends \Kotchasan\View
     {
         $query_url = array();
         foreach (self::$request->getQueryParams() as $key => $value) {
-            if ($value != '' && $key != 'module' && (is_string($value) || is_int($value))) {
+            if ($value != '' && !preg_match('/^(module|.*?username|.*?password)$/', $key) && (is_string($value) || is_int($value))) {
                 $key = ltrim($key, '_');
                 $query_url[$key] = $key.'='.$value;
             }
         }
         foreach (self::$request->getParsedBody() as $key => $value) {
-            if ($value != '' && $key != 'module' && (is_string($value) || is_int($value))) {
+            if ($value != '' && !preg_match('/^(module|.*?username|.*?password)$/', $key) && (is_string($value) || is_int($value))) {
                 $key = ltrim($key, '_');
                 $query_url[$key] = $key.'='.$value;
             }

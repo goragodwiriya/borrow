@@ -69,7 +69,7 @@ class Model extends \Kotchasan\Model
     public function submit(Request $request)
     {
         $ret = array();
-        // session, token, member, สามารถอนุมัติได้
+        // session, token, สมาชิก, สามารถอนุมัติได้
         if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
             if (Login::checkPermission($login, 'can_approve_borrow')) {
                 $order = array(
@@ -81,10 +81,11 @@ class Model extends \Kotchasan\Model
                 );
                 // ตรวจสอบรายการที่เลือก
                 $borrow = self::get($request->post('borrow_id')->toInt());
-                if (!$borrow) {
-                    // ไม่พบข้อมูลที่แก้ไข
-                    $ret['alert'] = Language::get('Sorry, Item not found It&#39;s may be deleted');
-                } else {
+                if ($borrow) {
+                    if ($order['borrower_id'] == 0) {
+                        // ไม่ได้กรอก borrower
+                        $ret['ret_borrower'] = 'this';
+                    }
                     // ชื่อตาราง
                     $table_borrow = $this->getTableName('borrow');
                     // Database

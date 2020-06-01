@@ -53,6 +53,8 @@ class Controller extends \Gcms\Controller
             $section->add('header', array(
                 'innerHTML' => '<h2 class="icon-users">'.$this->title.'</h2>',
             ));
+            // menu
+            $section->appendChild(\Index\Tabmenus\View::render($request, 'settings', 'memberstatus'));
             // แสดงฟอร์ม
             $section->appendChild(createClass('Index\Memberstatus\View')->render());
             // คืนค่า HTML

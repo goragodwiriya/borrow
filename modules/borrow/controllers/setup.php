@@ -38,6 +38,7 @@ class Controller extends \Gcms\Controller
         // ค่าที่ส่งมา
         $index = (object) array(
             'borrower_id' => $login['id'],
+            'inventory_id' => $request->request('inventory_id')->toInt(),
             'due' => $request->request('due')->toInt(),
             'status' => $request->request('status')->toInt(),
             'borrow_status' => Language::get('BORROW_STATUS'),

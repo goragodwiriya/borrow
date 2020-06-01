@@ -132,7 +132,7 @@ window.$K = (function() {
                   if (obj.type == "integer") {
                     obj.dataset["keyboard"] = "1234567890-";
                   } else if (obj.type == "currency") {
-                    obj.dataset["keyboard"] = "1234567890-.";
+                    obj.dataset["keyboard"] = "1234567890-.,";
                   } else if (obj.type == "number" || obj.type == "tel") {
                     obj.dataset["keyboard"] = "1234567890";
                   }
@@ -148,7 +148,7 @@ window.$K = (function() {
                         this.value = Math.min(obj.max, floatval(this.value));
                       }
                       if (obj.type == "currency") {
-                        this.value = floatval(this.value).toFixed(2);
+                        this.value = toCurrency(this.value);
                       }
                     });
                   } else {
@@ -283,8 +283,11 @@ window.$K = (function() {
     };
   }
   window.floatval = function(val) {
-    var n = parseFloat(val);
+    var n = parseFloat(typeof val == 'string' ? val.replace(/[^0-9\-\.]/g, '') : val);
     return isNaN(n) ? 0 : n;
+  };
+  window.toCurrency = function(val) {
+    return floatval(val).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
   };
   window.round = function(val, digit) {
     var value = Math.round(val * Math.pow(10, digit)) / Math.pow(10, digit);
@@ -1127,23 +1130,25 @@ window.$K = (function() {
       return false;
     },
     addClass: function(v) {
-      if (!v) {
-        this.className = "";
-      } else {
-        var rm = v.split(" ");
-        var cs = [];
-        forEach(this.className.split(" "), function(c) {
-          if (c !== "" && rm.indexOf(c) == -1) {
-            cs.push(c);
-          }
-        });
-        cs.push(v);
-        this.className = cs.join(" ");
+      if (this.className) {
+        if (!v) {
+          this.className = "";
+        } else {
+          var rm = v.split(" "),
+            cs = [];
+          forEach(this.className.split(" "), function(c) {
+            if (c !== "" && rm.indexOf(c) == -1) {
+              cs.push(c);
+            }
+          });
+          cs.push(v);
+          this.className = cs.join(" ");
+        }
       }
       return this;
     },
     removeClass: function(v) {
-      if (!Object.isNull(this.className)) {
+      if (this.className) {
         var rm = v.split(" ");
         var cs = [];
         forEach(this.className.split(" "), function(c) {
@@ -1156,7 +1161,7 @@ window.$K = (function() {
       return this;
     },
     replaceClass: function(source, replace) {
-      if (!Object.isNull(this.className)) {
+      if (this.className) {
         var rm = (replace + " " + source).split(" ");
         var cs = [];
         forEach(this.className.split(" "), function(c) {
@@ -2701,6 +2706,10 @@ window.$K = (function() {
           self._draw();
         }
         var caret = self.input.getCaretPosition();
+        if (caret.start == 5 && caret.end == 5) {
+          caret.start = 0;
+          caret.end = 2;
+        }
         self._setCaret(caret.start);
         self.firstKey = null;
       };
@@ -3262,7 +3271,9 @@ window.$K = (function() {
       this.placeholder.style.display =
         this.hidden_value == "" ? "block" : "none";
       this.hidden.value = this.hidden_value;
-      this.hidden.callEvent("change");
+      if (this.hidden.callEvent) {
+        this.hidden.callEvent("change");
+      }
     },
     _toogle: function(e) {
       if (this.calendar.style.display == "block") {

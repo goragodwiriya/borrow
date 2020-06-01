@@ -110,6 +110,8 @@ class Controller extends \Gcms\Controller
             $section->add('header', array(
                 'innerHTML' => '<h2 class="icon-language">'.$this->title.'</h2>',
             ));
+            // menu
+            $section->appendChild(\Index\Tabmenus\View::render($request, 'settings', 'language'));
             // แสดงฟอร์ม
             $section->appendChild(createClass('Index\Languageedit\View')->render($request, $language));
             // คืนค่า HTML

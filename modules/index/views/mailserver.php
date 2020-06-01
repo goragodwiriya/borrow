@@ -66,7 +66,7 @@ class View extends \Gcms\View
         // email_use_phpMailer
         $fieldset->add('select', array(
             'id' => 'email_use_phpMailer',
-            'labelClass' => 'g-input icon-clock',
+            'labelClass' => 'g-input icon-host',
             'itemClass' => 'item',
             'label' => '{LNG_Mail program}',
             'comment' => '{LNG_Set the application for send an email}',
@@ -99,7 +99,7 @@ class View extends \Gcms\View
         // email_SMTPAuth
         $fieldset->add('select', array(
             'id' => 'email_SMTPAuth',
-            'labelClass' => 'g-input icon-config',
+            'labelClass' => 'g-input icon-verfied',
             'itemClass' => 'item',
             'label' => '{LNG_Authentication require}',
             'comment' => '{LNG_How to define user authentication for mail servers. If you enable it, you must configure below correctly.}',

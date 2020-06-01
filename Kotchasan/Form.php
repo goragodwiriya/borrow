@@ -483,7 +483,7 @@ class Form extends \Kotchasan\KBase
             } else {
                 if (isset($dataPreview)) {
                     $input .= '<div class="file-preview" id="'.$dataPreview.'">';
-                    $input .= isset($previewSrc) ? '<div class="file-thumb" style="background-image:url('.$previewSrc.')"></div>' : '';
+                    $input .= isset($previewSrc) ? '<a href="'.$previewSrc.'" target="preview" class="file-thumb" style="background-image:url('.$previewSrc.')"></a>' : '';
                     $input .= '</div>';
                 }
                 if (isset($label) && isset($id)) {

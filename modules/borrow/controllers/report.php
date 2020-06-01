@@ -33,7 +33,10 @@ class Controller extends \Gcms\Controller
      */
     public function render(Request $request)
     {
+        // ค่าที่ส่งมา
         $index = (object) array(
+            'borrow_id' => $request->request('borrow_id')->toInt(),
+            'inventory_id' => $request->request('inventory_id')->toInt(),
             'borrower_id' => $request->request('borrower_id')->toInt(),
             'due' => $request->request('due')->toInt(),
             'status' => $request->request('status')->toInt(),

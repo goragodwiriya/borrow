@@ -40,4 +40,18 @@ class Number
 
         return number_format((float) $values[0], 0, '', $thousands_sep).(empty($values[1]) ? '' : '.'.$values[1]);
     }
+
+    /**
+     * หังก์ชั่นหาร
+     * $divisor เท่ากับ 0 คืนค่า 0
+     *
+     * @param $actual ตัวตั้ง
+     * @param $divisor ตัวหาร
+     *
+     * @return mixed
+     */
+    public static function division($actual, $divisor)
+    {
+        return empty($divisor) ? 0 : $actual / $divisor;
+    }
 }

@@ -34,7 +34,7 @@ class Controller extends \Gcms\Controller
         // session, referer
         if ($request->initSession() && $request->isReferer()) {
             // ตัวแปรป้องกันการเรียกหน้าเพจโดยตรง
-            define('MAIN_INIT', 'indexhtml');
+            define('MAIN_INIT', 'loader');
             // ตรวจสอบการ login
             Login::create();
             // สมาชิก

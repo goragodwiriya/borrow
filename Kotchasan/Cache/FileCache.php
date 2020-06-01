@@ -28,13 +28,13 @@ class FileCache extends Cache
      *
      * @var string /root/to/dir/cache/
      */
-    private $cache_dir = null;
+    protected $cache_dir = null;
     /**
      * อายุของแคช (วินาที) 0 หมายถึงไม่มีการแคช.
      *
      * @var int
      */
-    private $cache_expire = 0;
+    protected $cache_expire = 0;
 
     /**
      * class constructor.

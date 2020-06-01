@@ -54,6 +54,8 @@ class Controller extends \Gcms\Controller
             $section->add('header', array(
                 'innerHTML' => '<h2 class="icon-email">'.$this->title.'</h2>',
             ));
+            // menu
+            $section->appendChild(\Index\Tabmenus\View::render($request, 'settings', 'mailserver'));
             // โหลด config
             $config = Config::load(ROOT_PATH.'settings/config.php');
             // แสดงฟอร์ม

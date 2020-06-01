@@ -159,4 +159,14 @@ class Controller extends \Kotchasan\Controller
     {
         return $this->detail;
     }
+
+    /**
+     * คืนค่าเมนู
+     *
+     * @return \Index\Menu\Controller
+     */
+    public static function menus()
+    {
+        return self::$menus;
+    }
 }

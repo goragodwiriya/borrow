@@ -486,7 +486,7 @@ class Sql
     }
 
     /**
-     * หาความแตกต่างระหว่างเวลา (คืนค่าเป็น H:m:i ที่แตกต่างกัน).
+     * หาความแตกต่างระหว่างเวลา (คืนค่าเป็น H:m:i ที่แตกต่างกัน)
      *
      * @assert ('create_date', Sql::NOW())->text() [==] "TIMEDIFF(`create_date`, NOW())"
      * @assert ('2017-04-04', 'create_date')->text() [==] "TIMEDIFF('2017-04-04', `create_date`)"
@@ -500,6 +500,24 @@ class Sql
     public static function TIMEDIFF($column_name1, $column_name2, $alias = null)
     {
         return self::create('TIMEDIFF('.self::fieldName($column_name1).', '.self::fieldName($column_name2).')'.($alias ? " AS `$alias`" : ''));
+    }
+
+    /**
+     * หาความแตกต่างระหว่างเวลา (คืนค่าตามรูปแบบ $unit)
+     *
+     * @assert ('HOUR', 'create_date', Sql::NOW())->text() [==] "TIMESTAMPDIFF(HOUR, `create_date`, NOW())"
+     * @assert ('MONTH', '2017-04-04', 'create_date')->text() [==] "TIMESTAMPDIFF(MONTH, '2017-04-04', `create_date`)"
+     *
+     * @param string $unit FRAC_SECOND (microseconds), SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, or YEAR.
+     * @param string $column_name1
+     * @param string $column_name2
+     * @param string $alias
+     *
+     * @return \static
+     */
+    public static function TIMESTAMPDIFF($unit, $column_name1, $column_name2, $alias = null)
+    {
+        return self::create('TIMESTAMPDIFF('.$unit.', '.self::fieldName($column_name1).', '.self::fieldName($column_name2).')'.($alias ? " AS `$alias`" : ''));
     }
 
     /**

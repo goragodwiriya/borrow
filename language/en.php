@@ -41,7 +41,8 @@ return array(
   ),
   'MAIL_PROGRAMS' => array(
     0 => 'Send with PHP',
-    1 => 'Send with PHPMailer (recommended).'
+    1 => 'Send with PHPMailer+SMTP (recommended)',
+    2 => 'Send with PHPMailer+PHP Mail'
   ),
   'MONTH_LONG' => array(
     1 => 'January',

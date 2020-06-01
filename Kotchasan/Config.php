@@ -78,9 +78,9 @@ class Config
     /**
      * เลือกโปรแกรมที่ใช้ในการส่งอีเมลเป็น PHPMailer.
      *
-     * @var bool
+     * @var int
      */
-    public $email_use_phpMailer = false;
+    public $email_use_phpMailer = 1;
     /**
      * รายชื่อภาษาที่รองรับ
      * ตามที่มีในโฟลเดอร์ language/

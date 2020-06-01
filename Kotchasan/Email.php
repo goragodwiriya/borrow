@@ -92,8 +92,13 @@ class Email extends \Kotchasan\KBase
             include_once VENDOR_DIR.'PHPMailer/class.phpmailer.php';
             // Create a new PHPMailer instance
             $mail = new \PHPMailer();
-            // Tell PHPMailer to use SMTP
-            $mail->isSMTP();
+            if (self::$cfg->email_use_phpMailer == 1) {
+                // Send messages using SMTP
+                $mail->isSMTP();
+            } else {
+                // Send messages using PHP's mail() function
+                $mail->isMail();
+            }
             // charset
             $mail->CharSet = $charset;
             // use html
