@@ -60,7 +60,7 @@ class Controller extends \Kotchasan\KBase
                 'text' => '{LNG_Units}',
                 'url' => 'index.php?module=inventory-categories&amp;type=unit',
             );
-            $menu->add('settings', '{LNG_Inventory}', null, $submenus);
+            $menu->add('settings', '{LNG_Inventory}', null, $submenus, 'inventory');
         }
     }
 }

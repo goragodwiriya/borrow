@@ -65,7 +65,7 @@ class Controller extends \Kotchasan\KBase
             );
             $menu->add('report', '{LNG_Borrow} &amp; {LNG_Return}', null, $submenus);
             if (Login::checkPermission($login, 'can_config')) {
-                $menu->add('settings', '{LNG_Settings} {LNG_Borrow} &amp; {LNG_Return}', 'index.php?module=borrow-settings');
+                $menu->add('settings', '{LNG_Settings} {LNG_Borrow} &amp; {LNG_Return}', 'index.php?module=borrow-settings', null, 'borrow');
             }
         }
     }
