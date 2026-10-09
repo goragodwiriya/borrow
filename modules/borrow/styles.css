@@ -1,0 +1,48 @@
+/* modules/borrow/styles.css — สไตล์เฉพาะโมดูลยืม-คืน */
+
+/* ป้ายสถานะของรายการยืม อ้างอิงเลขสถานะจาก BORROW_STATUS */
+.borrow-status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm, 4px);
+  color: #fff;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.borrow-status.status0 {
+  background-color: #e67e22;
+}
+
+.borrow-status.status1 {
+  background-color: #c0392b;
+}
+
+.borrow-status.status2 {
+  background-color: #27ae60;
+}
+
+.borrow-status.status3 {
+  background-color: #2980b9;
+}
+
+/* กำหนดคืนที่เลยกำหนดแล้ว */
+.borrow-overdue {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* modal รายละเอียด */
+.borrow-detail table + .tablebody {
+  margin-top: var(--space-3, 12px);
+}
+
+.borrow-detail-image {
+  max-width: 100%;
+  max-height: 240px;
+}
+
+.borrow-detail small {
+  display: block;
+  color: var(--color-text-muted, #888);
+}

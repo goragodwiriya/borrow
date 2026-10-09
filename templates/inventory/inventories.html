@@ -1,0 +1,64 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-product" data-i18n>{LNG_List of} {LNG_Inventory}</h1>
+            <p data-i18n>Equipment register available for borrow & return</p>
+          </div>
+          <div>
+            <a class="btn btn-primary icon-new" href="/inventory-write" data-i18n>{LNG_Add} {LNG_Inventory}</a>
+            <!-- นำเข้า/ส่งออกเป็นไฟล์ CSV — ไฟล์ที่ส่งออกใช้เป็นแม่แบบของการนำเข้าได้เลย -->
+            <a class="btn icon-import" href="/inventory-import?type=product" data-i18n>{LNG_Import}</a>
+            <a class="btn icon-export" target="_blank" href="export.php?module=inventory&typ=csv&type=product" data-i18n>{LNG_Export}</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="inventories" data-source="api/inventory/inventories" data-default-sort="id desc" data-page-size="25"
+                   data-search-columns="topic,product_no,description" data-show-checkbox="true" data-actions='{"delete":"Delete"}'
+                   data-action-url="api/inventory/inventories/action" data-row-actions='{
+                     "edit": {
+                      "title": "Edit",
+                      "className": "btn btn-success icon-edit",
+                      "url": "/inventory-write?id={id}",
+                      "method": "get"
+                    },
+                     "barcode": {
+                      "title": "Serial/Registration No.",
+                      "className": "btn btn-secondary icon-barcode",
+                      "url": "/inventory-barcode?id={id}",
+                      "method": "get"
+                    }
+                   }'>
+              <thead>
+                <tr>
+                  <th data-field="topic" data-template="<span class='userinfo'><span class='usericon' style='background-image:url(${image})'></span> ${topic}</span>"
+                      data-sort="topic" data-i18n>{LNG_Equipment}</th>
+                  <th data-field="product_no" data-size="16" data-i18n>{LNG_Serial/Registration No.}</th>
+                  <th data-field="category_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                      data-format="lookup" data-i18n>{LNG_Category}</th>
+                  <th data-field="model_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                      data-format="lookup" data-i18n>{LNG_Model}</th>
+                  <th data-field="type_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup"
+                      data-i18n>{LNG_Type}</th>
+                  <th data-field="stock" class="center" data-cell-class="center" data-sort="stock" data-format="number" data-i18n>{LNG_Stock}</th>
+                  <th data-field="unit" class="center" data-cell-class="center" data-i18n>{LNG_Unit}</th>
+                  <th data-field="is_active" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value=""
+                      data-template="<button class='btn-table-action' data-action='active' data-value='${is_active}'></button>" data-i18n>{LNG_Active}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2025 Now.js - <a href="https://nowjs.net">nowjs.net</a></p>
+  </footer>
+</div>

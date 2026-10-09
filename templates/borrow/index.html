@@ -1,0 +1,102 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="borrow" action="api/borrow/borrow/save" method="post" data-ajax-submit="true" data-load-api="api/borrow/borrow/get" data-load-query-params="true"
+            autocomplete="off">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-exchange" data-i18n>{LNG_Add Borrow}</h1>
+              <p data-i18n>{LNG_Find equipment by} {LNG_Equipment}, {LNG_Serial/Registration No.}</p>
+            </div>
+            <div>
+              <a class="btn icon-list" href="/myborrow?status=2" data-i18n>{LNG_My Borrow}</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-cart" data-i18n>{LNG_Transaction details}</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="borrower" data-i18n>{LNG_Borrower}</label>
+                  <span class="form-control icon-customer">
+                    <input type="text" id="borrower" data-attr="value:borrower" readonly>
+                  </span>
+                </div>
+                <div class="width50">
+                  <label for="borrow_date" data-i18n>{LNG_Borrowed date}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="borrow_date" name="borrow_date" data-attr="value:borrow_date" required>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="borrow_no" data-i18n>{LNG_Transaction No.}</label>
+                  <span class="form-control icon-number">
+                    <input type="text" id="borrow_no" name="borrow_no" data-attr="value:borrow_no" maxlength="20">
+                  </span>
+                  <div class="comment" data-i18n>{LNG_Leave empty for generate auto}</div>
+                </div>
+                <div class="width50">
+                  <label for="return_date" data-i18n>{LNG_Date of return}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="return_date" name="return_date" data-attr="value:return_date">
+                  </span>
+                  <div class="comment" id="result_return_date" data-i18n>{LNG_Leave empty for generate auto}</div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-barcode" data-i18n>{LNG_Equipment}</legend>
+              <div class="form-group">
+                <div class="width75">
+                  <label for="borrow_product" data-i18n>{LNG_Find equipment by} {LNG_Equipment}, {LNG_Serial/Registration No.}</label>
+                  <span class="form-control icon-search">
+                    <input type="text" id="borrow_product" name="product" data-role="product" data-autocomplete="true" data-source="api/borrow/autocomplete/find"
+                           data-min-length="2" data-max-results="20" maxlength="150" placeholder="{LNG_Find equipment by} {LNG_Equipment}, {LNG_Serial/Registration No.}"
+                           autocomplete="off">
+                  </span>
+                </div>
+                <div class="width25">
+                  <label for="borrow_quantity" data-i18n>{LNG_Quantity}</label>
+                  <span class="form-control icon-number">
+                    <input type="number" id="borrow_quantity" data-role="quantity" value="1" min="1" step="1">
+                  </span>
+                </div>
+              </div>
+              <div class="tablebody">
+                <table class="table border fullwidth" data-line-items="items" data-detail-api="api/borrow/autocomplete/product" data-listen-select="[data-role='product']"
+                       data-api-params="[data-role]" data-merge="true" data-merge-key="product_no" data-allow-delete="true" data-reindex-on-remove="true"
+                       data-on-calculate="calculateBorrowItems" data-attr="data:items">
+                  <thead>
+                    <tr>
+                      <th data-field="stock" data-hidden="true">stock</th>
+                      <th data-field="topic" data-readonly="true" data-i18n>{LNG_Equipment}</th>
+                      <th data-field="product_no" data-readonly="true" data-size="20" data-i18n>{LNG_Serial/Registration No.}</th>
+                      <th data-field="quantity" data-type="number" data-min="1" data-size="5" class="center" data-cell-class="center" data-i18n>{LNG_Quantity}</th>
+                      <th data-field="unit" data-readonly="true" data-size="8" class="center" data-cell-class="center" data-i18n>{LNG_Unit}</th>
+                      <th data-field="stock_text" data-display-only="true" class="center" data-cell-class="center" data-i18n>{LNG_Stock}</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="comment" id="result_items" data-i18n>{LNG_Please fill in}</div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+              <input type="hidden" name="id" data-attr="value:id">
+              <input type="hidden" name="transaction_date" data-attr="value:transaction_date">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

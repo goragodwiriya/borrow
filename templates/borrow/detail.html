@@ -1,0 +1,53 @@
+<article class="borrow-detail">
+  <table class="table border fullwidth">
+    <tbody>
+      <tr>
+        <th data-i18n>{LNG_Transaction No.}</th>
+        <td data-text="borrow_no"></td>
+      </tr>
+      <tr>
+        <th data-i18n>{LNG_Borrower}</th>
+        <td data-text="borrower"></td>
+      </tr>
+      <tr>
+        <th data-i18n>{LNG_Transaction date}</th>
+        <td data-text="transaction_date" data-format="date"></td>
+      </tr>
+      <tr>
+        <th data-i18n>{LNG_Borrowed date}</th>
+        <td data-text="borrow_date" data-format="date"></td>
+      </tr>
+      <tr>
+        <th data-i18n>{LNG_Date of return}</th>
+        <td data-text="return_date" data-format="date"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="tablebody">
+    <table class="table border fullwidth">
+      <thead>
+        <tr>
+          <th data-i18n>{LNG_Equipment}</th>
+          <th class="center" data-i18n>{LNG_Quantity}</th>
+          <th class="center" data-i18n>{LNG_Delivery}</th>
+          <th class="center" data-i18n>{LNG_Status}</th>
+        </tr>
+      </thead>
+      <tbody data-for="item in items">
+        <template>
+          <tr>
+            <td>
+              <span data-text="item.topic"></span>
+              <small data-text="item.product_no"></small>
+            </td>
+            <td class="center"><span data-text="item.num_requests"></span> <span data-text="item.unit"></span></td>
+            <td class="center"><span data-text="item.amount"></span> <span data-text="item.unit"></span></td>
+            <td class="center">
+              <span class="borrow-status" data-class="'status' + item.status" data-text="item.status_text"></span>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</article>

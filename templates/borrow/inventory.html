@@ -1,0 +1,54 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-barcode" data-i18n>{LNG_List of} {LNG_Equipment}</h1>
+            <p data-i18n>{LNG_Find equipment by} {LNG_Equipment}, {LNG_Serial/Registration No.}</p>
+          </div>
+          <div>
+            <a class="btn btn-primary icon-new" href="/borrow?id=0" data-i18n>{LNG_Add Borrow}</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="borrowInventory" data-source="api/borrow/inventory" data-default-sort="topic asc" data-page-size="25"
+                   data-search-columns="topic,product_no" data-action-url="api/borrow/inventory/action"
+                   data-row-actions='{
+                      "detail": {
+                        "title": "{LNG_Details of} {LNG_Inventory}",
+                        "className": "btn btn-info icon-file"
+                      },
+                      "borrow": {
+                        "title": "Add Borrow",
+                        "className": "btn btn-success icon-exchange",
+                        "condition": "count_stock == 0 || stock > 0"
+                      }
+                    }'>
+              <thead>
+                <tr>
+                  <th data-field="topic" data-sort="topic"
+                      data-template="<span class='userinfo'><span class='usericon' style='background-image:url(${image})'></span><span class='two_line' title='${topic}'>${topic}</span></span>"
+                      data-i18n>{LNG_Equipment}</th>
+                  <th data-field="product_no" data-sort="product_no" class="center" data-cell-class="center" data-i18n>{LNG_Serial/Registration No.}</th>
+                  <th data-field="category_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup" data-i18n>{LNG_Category}</th>
+                  <th data-field="type_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup" data-i18n>{LNG_Type}</th>
+                  <th data-field="model_id" class="center" data-cell-class="center" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup" data-i18n>{LNG_Brand}</th>
+                  <th data-field="stock" class="center" data-cell-class="center" data-sort="stock" data-format="number" data-i18n>{LNG_Stock}</th>
+                  <th data-field="unit" class="center" data-cell-class="center" data-i18n>{LNG_Unit}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

@@ -1,0 +1,138 @@
+<!-- ฟอร์มทะเบียนพัสดุ — เทียบเท่า module=inventory-write ของระบบเดิม
+     ⚠️ เทมเพลตนี้เป็นของโปรเจ็ค inventory เท่านั้น ไม่ใช่ของโมดูลกลาง
+     ผลิตภัณฑ์ที่ขายของ (oas / oms.in.th) ใช้ฟอร์มเต็มที่มีรหัสสินค้า ราคา ภาษี
+     และเก็บรูปไว้ในหน้าย่อย "รายละเอียดอื่น ๆ" ตามเดิม
+
+     ทะเบียนพัสดุไม่มีเรื่องการขาย จึงตัดช่องเหล่านั้นออกแล้วเอา
+       - รุ่น (model_id) และประเภท (type_id) ของระบบเดิมกลับเข้ามา
+       - รูปพัสดุ ขึ้นในหน้าเดียวกันแทนที่จะต้องเข้าหน้าย่อยอีกหน้า
+     จึงไม่มีแถบแท็บในหน้านี้ -->
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventoryProduct" action="api/inventory/product/save" method="post" data-ajax-submit="true"
+            data-load-api="api/inventory/product/get" data-load-query-params="true" autocomplete="off"
+            enctype="multipart/form-data" data-confirm="Confirm save">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-product" data-text="id > 0 ? topic : '{LNG_Add} {LNG_Equipment}'" data-i18n></h1>
+            </div>
+            <div>
+              <!-- พัสดุที่บันทึกแล้วเพิ่มเลขครุภัณฑ์ได้อีกหลายรหัสในหน้าถัดไป -->
+              <a class="btn btn-secondary icon-barcode" data-if="id > 0"
+                 data-attr="href:'/inventory-barcode?id=' + id" data-i18n>{LNG_Serial/Registration No.}</a>
+              <a class="btn icon-arrow-left" href="/inventory-setup" data-i18n>{LNG_Back}</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-product" data-i18n>{LNG_Details of} {LNG_Equipment}</legend>
+              <div>
+                <label for="topic" data-i18n>{LNG_Equipment}</label>
+                <span class="form-control icon-product">
+                  <input type="text" id="topic" name="topic" maxlength="150" data-attr="value:topic" required>
+                </span>
+                <div class="comment" id="result_topic"></div>
+              </div>
+              <div class="form-group">
+                <div class="width33">
+                  <label for="category_id" data-i18n>{LNG_Category}</label>
+                  <span class="form-control icon-tags">
+                    <input type="text" id="category_id" name="category_id" data-options-key="category_id" data-attr="value:category_id">
+                  </span>
+                  <div class="comment" data-i18n>Type a new name to add it to the list</div>
+                </div>
+                <div class="width33">
+                  <label for="model_id" data-i18n>{LNG_Model}</label>
+                  <span class="form-control icon-tags">
+                    <input type="text" id="model_id" name="model_id" data-options-key="model_id" data-attr="value:model_id">
+                  </span>
+                  <div class="comment" data-i18n>Type a new name to add it to the list</div>
+                </div>
+                <div class="width33">
+                  <label for="type_id" data-i18n>{LNG_Type}</label>
+                  <span class="form-control icon-tags">
+                    <input type="text" id="type_id" name="type_id" data-options-key="type_id" data-attr="value:type_id">
+                  </span>
+                  <div class="comment" data-i18n>Type a new name to add it to the list</div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-barcode" data-i18n>{LNG_Serial/Registration No.}</legend>
+              <div class="form-group">
+                <!-- เลขครุภัณฑ์รหัสแรกกรอกที่นี่ตอนสร้างรายการใหม่ เหมือนระบบเดิม
+                     รหัสถัดไปเพิ่มได้ที่หน้า /inventory-barcode ซึ่งแก้จำนวนรายรหัสได้ด้วย -->
+                <div class="width50" data-if="id == 0">
+                  <label for="product_no" data-i18n>{LNG_Serial/Registration No.}</label>
+                  <span class="form-control icon-barcode">
+                    <input type="text" id="product_no" name="product_no" maxlength="150" required>
+                  </span>
+                  <div class="comment" id="result_product_no"></div>
+                </div>
+                <div class="width50" data-if="id == 0">
+                  <label for="stock" data-i18n>{LNG_Stock}</label>
+                  <span class="form-control icon-list">
+                    <input type="number" step="0.01" id="stock" name="stock" value="1">
+                  </span>
+                </div>
+                <!-- ยอดของรายการเดิมเป็นผลรวมของทุกเลขครุภัณฑ์ แก้ที่หน้าเลขครุภัณฑ์ -->
+                <div class="width50" data-if="id > 0">
+                  <label data-i18n>{LNG_Balance}</label>
+                  <span class="form-control icon-list">
+                    <input type="text" readonly data-attr="value:balance">
+                  </span>
+                  <div class="comment" data-i18n>The quantity is calculated from the total number of parcels on the barcode page.</div>
+                </div>
+                <div class="width50">
+                  <label for="unit" data-i18n>{LNG_Unit}</label>
+                  <span class="form-control icon-tags">
+                    <input type="text" id="unit" name="unit" data-options-key="unit" data-attr="value:unit">
+                  </span>
+                  <div class="comment" data-i18n>Type a new name to add it to the list</div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-image" data-i18n>{LNG_Image}</legend>
+              <div>
+                <label for="image" data-i18n>{LNG_Image}</label>
+                <span class="form-control icon-image">
+                  <input type="file" id="image" name="image" data-files="image" data-preview="true"
+                         data-allow-remove-existing="true" data-action-url="api/inventory/product/remove-image"
+                         data-action-params="id" data-file-reference="url" accept="image/*">
+                </span>
+                <div class="comment" id="result_image"></div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="icon-file" data-i18n>{LNG_Other details}</legend>
+              <div>
+                <label for="description" data-i18n>{LNG_Description}</label>
+                <span class="form-control icon-file">
+                  <textarea id="description" name="description" rows="3" data-attr="value:description"></textarea>
+                </span>
+              </div>
+              <div>
+                <input type="checkbox" id="is_active" name="is_active" class="switch" value="1" data-attr="checked:is_active">
+                <label for="is_active" data-i18n>{LNG_Active}</label>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+              <span data-if="id == 0">
+                <input type="checkbox" id="save_and_create" name="save_and_create" class="switch" value="1"
+                       data-persist="local" data-persist-key="inventory_save_and_create">
+                <label for="save_and_create" data-i18n>{LNG_Save and create new}</label>
+              </span>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+</div>

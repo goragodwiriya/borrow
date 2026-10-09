@@ -1,0 +1,45 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="borrowSettings" action="api/borrow/settings/save" method="post" data-ajax-submit="true" data-load-api="api/borrow/settings/get"
+            autocomplete="off">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-settings" data-i18n>{LNG_Module Settings} {LNG_Borrow} &amp; {LNG_Return}</h1>
+              <p data-i18n>{LNG_Transaction No.}</p>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="borrow_prefix" data-i18n>{LNG_Prefix}</label>
+                  <span class="form-control icon-number">
+                    <input type="text" id="borrow_prefix" name="borrow_prefix" data-attr="value:borrow_prefix" placeholder="B%Y%M-" maxlength="20">
+                  </span>
+                  <div class="comment" data-i18n>{LNG_Prefix, if changed The number will be counted again. You can enter %Y%M (year, month).}</div>
+                </div>
+                <div class="width50">
+                  <label for="borrow_no" data-i18n>{LNG_Transaction No.}</label>
+                  <span class="form-control icon-number">
+                    <input type="text" id="borrow_no" name="borrow_no" data-attr="value:borrow_no" placeholder="%04d" maxlength="20">
+                  </span>
+                  <div class="comment" data-i18n>{LNG_Number such as %04d (%04d means 4 digits, maximum 11 digits)}</div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

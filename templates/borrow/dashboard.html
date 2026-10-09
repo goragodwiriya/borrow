@@ -1,0 +1,51 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-dashboard" data-i18n>{LNG_Dashboard}</h1>
+            <p data-i18n>{LNG_Borrow} &amp; {LNG_Return}</p>
+          </div>
+          <div>
+            <a class="btn icon-barcode" href="/borrow-inventory" data-i18n>{LNG_Equipment}</a>
+            <a class="btn btn-primary icon-new" href="/borrow?id=0" data-i18n>{LNG_Add Borrow}</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <section class="ggrid" data-component="api" data-endpoint="api/borrow/home">
+            <a class="block3 large6 stat-card" href="/myborrow?status=0">
+              <div class="stat-header icon-clock">
+                <div class="stat-title" data-i18n>{LNG_Waiting list}</div>
+              </div>
+              <div class="stat-value" data-text="pending">0</div>
+            </a>
+            <a class="block3 large6 stat-card positive" href="/myborrow?status=2">
+              <div class="stat-header icon-valid">
+                <div class="stat-title" data-i18n>{LNG_Approve}</div>
+              </div>
+              <div class="stat-value" data-text="confirmed">0</div>
+            </a>
+            <a class="block3 large6 stat-card negative" href="/myborrow?status=2&amp;due=1">
+              <div class="stat-header icon-warning">
+                <div class="stat-title" data-i18n>{LNG_Un-Returned items}</div>
+              </div>
+              <div class="stat-value" data-text="returned">0</div>
+            </a>
+            <a class="block3 large6 stat-card" href="/borrow-report?status=0" data-if="allpending !== undefined">
+              <div class="stat-header icon-report">
+                <div class="stat-title" data-i18n>{LNG_Waiting list} ({LNG_All items})</div>
+              </div>
+              <div class="stat-value" data-text="allpending">0</div>
+            </a>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>
