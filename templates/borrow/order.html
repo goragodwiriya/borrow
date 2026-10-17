@@ -1,0 +1,122 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="borrowOrder" action="api/borrow/order/save" method="post" data-ajax-submit="true" data-load-api="api/borrow/order/get"
+            data-load-query-params="true" autocomplete="off">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-exchange" data-text="'{LNG_Transaction details} ' + borrow_no" data-i18n></h1>
+              <p data-text="borrower"></p>
+            </div>
+            <div>
+              <a class="btn icon-arrow-left" href="/borrow-report" data-i18n>{LNG_Borrow Report}</a>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-customer" data-i18n>{LNG_Details of} {LNG_Borrower}</legend>
+              <div class="form-group">
+                <div class="width50">
+                  <label for="borrower_id" data-i18n>{LNG_Borrower}</label>
+                  <span class="form-control icon-customer">
+                    <input type="text" id="borrower_id" name="borrower_id" data-attr="value:borrower_id" data-autocomplete="true"
+                           data-source="api/borrow/autocomplete/user" data-min-length="2" data-max-results="20" required>
+                  </span>
+                  <div class="comment" id="result_borrower_id" data-i18n>{LNG_Fill some of the} {LNG_Name}, {LNG_Email}, {LNG_Phone} {LNG_to find}</div>
+                </div>
+                <div class="width50">
+                  <label for="borrow_no" data-i18n>{LNG_Transaction No.}</label>
+                  <span class="form-control icon-number">
+                    <input type="text" id="borrow_no" name="borrow_no" data-attr="value:borrow_no" maxlength="20">
+                  </span>
+                  <div class="comment" data-i18n>{LNG_Leave empty for generate auto}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="width33">
+                  <label for="transaction_date" data-i18n>{LNG_Transaction date}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="transaction_date" name="transaction_date" data-attr="value:transaction_date">
+                  </span>
+                </div>
+                <div class="width33">
+                  <label for="borrow_date" data-i18n>{LNG_Borrowed date}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="borrow_date" name="borrow_date" data-attr="value:borrow_date" required>
+                  </span>
+                </div>
+                <div class="width33">
+                  <label for="return_date" data-i18n>{LNG_Date of return}</label>
+                  <span class="form-control icon-calendar">
+                    <input type="date" id="return_date" name="return_date" data-attr="value:return_date">
+                  </span>
+                </div>
+              </div>
+              <div data-if="send_mail == 1">
+                <input type="checkbox" class="switch" id="send_mail" name="send_mail" value="1">
+                <label for="send_mail" data-i18n>{LNG_Email the relevant person}</label>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+              <input type="hidden" name="id" data-attr="value:id">
+            </fieldset>
+            <fieldset>
+              <legend class="icon-cart" data-i18n>{LNG_Equipment}</legend>
+              <div class="tablebody">
+                <table class="table border fullwidth" data-table="borrowOrderItems" data-attr="data:items"
+                       data-row-actions='{
+                          "delivery": {
+                            "title": "Delivery",
+                            "className": "btn btn-success icon-download",
+                            "url": "api/borrow/orderstatus/get",
+                            "method": "get",
+                            "navigate": false,
+                            "params": {"mode": "delivery", "borrow_id": "{borrow_id}", "id": "{id}"},
+                            "condition": "remaining > 0"
+                          },
+                          "return": {
+                            "title": "Return",
+                            "className": "btn btn-warning icon-upload",
+                            "url": "api/borrow/orderstatus/get",
+                            "method": "get",
+                            "navigate": false,
+                            "params": {"mode": "return", "borrow_id": "{borrow_id}", "id": "{id}"},
+                            "condition": "amount > 0"
+                          },
+                          "status": {
+                            "title": "Status update",
+                            "className": "btn btn-primary icon-star0",
+                            "url": "api/borrow/orderstatus/get",
+                            "method": "get",
+                            "navigate": false,
+                            "params": {"mode": "status", "borrow_id": "{borrow_id}", "id": "{id}"}
+                          }
+                        }'>
+                  <thead>
+                    <tr>
+                      <th data-field="topic" data-i18n>{LNG_Equipment}</th>
+                      <th data-field="product_no" class="center" data-cell-class="center" data-i18n>{LNG_Serial/Registration No.}</th>
+                      <th data-field="num_requests" class="center" data-cell-class="center" data-format="number" data-i18n>{LNG_Quantity}</th>
+                      <th data-field="unit" class="center" data-cell-class="center" data-i18n>{LNG_Unit}</th>
+                      <th data-field="amount" class="center" data-cell-class="center" data-format="number" data-i18n>{LNG_Delivery}</th>
+                      <th data-field="status" class="center" data-cell-class="center"
+                          data-template="<span class='borrow-status status${status}'>${status_text}</span>" data-i18n>{LNG_Status}</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

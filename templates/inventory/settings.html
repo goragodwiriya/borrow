@@ -1,0 +1,55 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <form data-form="inventorySettings" action="api/inventory/settings/save" method="post" data-ajax-submit="true" data-load-api="api/inventory/settings/get"
+            data-confirm="Confirm save">
+        <div class="card-groups">
+          <header>
+            <div>
+              <h1 class="icon-settings" data-i18n>{LNG_Module Settings} {LNG_Inventory}</h1>
+              <p data-i18n>{LNG_Size of} {LNG_Image}, {LNG_Import} / {LNG_Export} CSV</p>
+            </div>
+          </header>
+          <div class="content-body">
+            <fieldset>
+              <legend class="icon-image" data-i18n>{LNG_Size of} {LNG_Image}</legend>
+              <div>
+                <label for="inventory_w" data-i18n>{LNG_Width}</label>
+                <span class="form-control icon-width">
+                  <input type="number" id="inventory_w" name="inventory_w" data-attr="value:inventory_w" min="100" step="10">
+                </span>
+                <div class="comment" data-i18n>{LNG_Image size is in pixels} ({LNG_resized automatically})</div>
+              </div>
+            </fieldset>
+            <!-- รูปแบบไฟล์ CSV ค่าเดียว ใช้ร่วมกันทั้งหน้านำเข้าและปุ่มส่งออก
+                 เก็บเป็น "รูปแบบ" ไม่ใช่ชื่อชาร์เซ็ต เพราะ UTF-8 กับ UTF-8 with BOM
+                 เป็นชาร์เซ็ตเดียวกัน ต่างกันแค่ไบต์นำ 3 ตัว -->
+            <fieldset>
+              <legend class="icon-file" data-i18n>{LNG_Import} / {LNG_Export} CSV</legend>
+              <div>
+                <label for="csv_language" data-i18n>CSV file format</label>
+                <span class="form-control icon-file">
+                  <select id="csv_language" name="csv_language" data-attr="value:csv_language">
+                    <option value="auto" data-i18n>Auto detect</option>
+                    <option value="UTF-8-BOM">UTF-8 with BOM</option>
+                    <option value="UTF-8">UTF-8</option>
+                    <option value="TIS-620">TIS-620</option>
+                  </select>
+                </span>
+                <div class="comment" id="result_csv_language" data-i18n>Used by both import and export. Auto detect reads the encoding from the file being imported, and exports as UTF-8 with BOM.</div>
+              </div>
+            </fieldset>
+            <fieldset class="submit">
+              <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

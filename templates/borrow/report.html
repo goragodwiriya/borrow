@@ -1,0 +1,66 @@
+<aside data-component="sidebar"></aside>
+<div class="main-content">
+  <div>
+    <header data-component="topbar"></header>
+    <main class="content">
+      <div class="card-groups">
+        <header>
+          <div>
+            <h1 class="icon-report" data-i18n>{LNG_Borrow Report}</h1>
+            <p data-i18n>{LNG_Borrow} &amp; {LNG_Return}</p>
+          </div>
+          <div>
+            <a class="btn icon-clock" href="/borrow-report?status=0" data-i18n>{LNG_Waiting list}</a>
+            <a class="btn icon-valid" href="/borrow-report?status=2" data-i18n>{LNG_Approve}</a>
+            <a class="btn btn-danger icon-warning" href="/borrow-report?status=2&amp;due=1" data-i18n>{LNG_Un-Returned items}</a>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="tablebody">
+            <table class="table border fullwidth" data-table="borrowReport" data-source="api/borrow/report" data-default-sort="borrow_date desc" data-page-size="25"
+                   data-search-columns="borrow_no,topic,product_no,borrower" data-show-checkbox="true" data-actions='{"delete":"Delete"}'
+                   data-action-url="api/borrow/report/action" data-action-params="status,due"
+                   data-row-actions='{
+                      "edit": {
+                        "title": "Transaction details",
+                        "className": "btn btn-success icon-edit"
+                      },
+                      "detail": {
+                        "title": "{LNG_Details of} {LNG_Borrow} & {LNG_Return}",
+                        "className": "btn btn-info icon-file"
+                      },
+                      "delete": {
+                        "title": "Delete",
+                        "className": "btn btn-danger icon-delete",
+                        "confirm": "Do you want to delete the selected information ?",
+                        "condition": "status == 0 || status == 1"
+                      }
+                    }'>
+              <thead>
+                <tr>
+                  <th data-field="borrow_no" data-sort="borrow_no" class="nowrap" data-i18n>{LNG_Transaction No.}</th>
+                  <th data-field="borrower_id" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-format="lookup"
+                      data-i18n>{LNG_Borrower}</th>
+                  <th data-field="topic" data-sort="topic" data-i18n>{LNG_Equipment}</th>
+                  <th data-field="product_no" data-sort="product_no" class="center" data-cell-class="center" data-i18n>{LNG_Serial/Registration No.}</th>
+                  <th data-field="stock_text" class="center" data-cell-class="center" data-i18n>{LNG_Stock}</th>
+                  <th data-field="num_requests" class="center" data-cell-class="center" data-format="number" data-i18n>{LNG_Quantity}</th>
+                  <th data-field="amount_text" class="center" data-cell-class="center" data-i18n>{LNG_Delivery}</th>
+                  <th data-field="borrow_date" data-sort="borrow_date" class="center" data-cell-class="center" data-format="date" data-i18n>{LNG_Borrowed date}</th>
+                  <th data-field="return_date" data-sort="return_date" class="center" data-cell-class="center" data-formatter="formatBorrowReturnDate"
+                      data-i18n>{LNG_Date of return}</th>
+                  <th data-field="status" data-sort="status" data-filter="true" data-type="select" data-show-all="true" data-all-value="" data-formatter="formatTableOptionStatus"
+                      class="center" data-cell-class="center" data-i18n>{LNG_Status}</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <footer class="footer">
+    <p class="center">&copy; 2026 Admin Framework - Powered by <a href="https://nowjs.net">Now.js</a></p>
+  </footer>
+</div>

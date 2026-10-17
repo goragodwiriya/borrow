@@ -1,0 +1,42 @@
+<article class="borrow-detail">
+  <figure class="center">
+    <img data-attr="src:image" alt="" class="borrow-detail-image">
+  </figure>
+  <table class="table border fullwidth">
+    <tbody>
+      <tr>
+        <th data-i18n>{LNG_Equipment}</th>
+        <td data-text="topic"></td>
+      </tr>
+      <tr>
+        <th data-i18n>{LNG_Serial/Registration No.}</th>
+        <td>
+          <span class="inventory-barcode">
+            <img data-attr="src:barcode" alt="" data-if="barcode != ''">
+            <span data-text="product_no"></span>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th data-i18n>{LNG_Stock}</th>
+        <td data-text="stock_text"></td>
+      </tr>
+    </tbody>
+    <tbody data-for="row in categories">
+      <template>
+        <tr>
+          <th data-text="row.label"></th>
+          <td data-text="row.value"></td>
+        </tr>
+      </template>
+    </tbody>
+    <tbody data-for="meta in metas">
+      <template>
+        <tr>
+          <th data-text="meta.label"></th>
+          <td data-text="meta.value"></td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+</article>

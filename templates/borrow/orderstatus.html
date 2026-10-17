@@ -1,0 +1,34 @@
+<form data-form="borrowOrderStatus" action="api/borrow/orderstatus/save" method="post" data-ajax-submit="true" data-validate="false" data-reset="false"
+      autocomplete="off">
+  <fieldset>
+    <div class="form-group">
+      <div class="width50">
+        <label data-i18n>{LNG_Quantity}</label>
+        <p data-text="num_requests"></p>
+      </div>
+      <div class="width50">
+        <label data-i18n>{LNG_Stock}</label>
+        <p data-text="stock_text"></p>
+      </div>
+    </div>
+    <div data-if="show_amount == 1">
+      <label for="amount" data-i18n>{LNG_Quantity}</label>
+      <span class="form-control icon-number">
+        <input type="number" id="amount" name="amount" data-attr="value:max_amount,max:max_amount" min="1" step="1">
+      </span>
+      <div class="comment" id="result_amount" data-i18n>{LNG_Quantity}</div>
+    </div>
+    <div>
+      <label for="status" data-i18n>{LNG_Status}</label>
+      <span class="form-control icon-star0">
+        <select id="status" name="status" data-options-key="status" data-attr="value:selected_status"></select>
+      </span>
+    </div>
+  </fieldset>
+  <fieldset class="submit right">
+    <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+    <input type="hidden" name="mode" data-attr="value:mode">
+    <input type="hidden" name="borrow_id" data-attr="value:borrow_id">
+    <input type="hidden" name="id" data-attr="value:id">
+  </fieldset>
+</form>
