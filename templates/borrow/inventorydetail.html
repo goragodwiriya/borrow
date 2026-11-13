@@ -1,0 +1,33 @@
+<article class="borrow-detail">
+  <figure class="center">
+    <img data-attr="src:image" alt="" class="borrow-detail-image">
+  </figure>
+  <dl class="detail-list">
+    <dt data-i18n>{LNG_Equipment}</dt>
+    <dd data-text="topic"></dd>
+    <dt data-i18n>{LNG_Serial/Registration No.}</dt>
+    <dd>
+      <span class="inventory-barcode">
+        <img data-attr="src:barcode" alt="" data-if="barcode != ''">
+        <span data-text="product_no"></span>
+      </span>
+    </dd>
+    <dt data-i18n>{LNG_Stock}</dt>
+    <dd>
+      <span data-if="unlimited" data-i18n>{LNG_Unlimited}</span>
+      <span data-if="!unlimited"><span data-text="stock | number"></span> <span data-text="unit"></span></span>
+    </dd>
+    <div data-for="row in categories">
+      <template>
+        <dt data-text="row.label"></dt>
+        <dd data-text="row.value"></dd>
+      </template>
+    </div>
+    <div data-for="meta in metas">
+      <template>
+        <dt data-text="meta.label"></dt>
+        <dd data-text="meta.value"></dd>
+      </template>
+    </div>
+  </dl>
+</article>

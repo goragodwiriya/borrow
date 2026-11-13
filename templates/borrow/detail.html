@@ -1,0 +1,27 @@
+<article class="borrow-detail">
+  <dl class="detail-list">
+    <dt data-i18n>{LNG_Transaction No.}</dt>
+    <dd data-text="borrow_no"></dd>
+    <dt data-i18n>{LNG_Borrower}</dt>
+    <dd data-text="borrower"></dd>
+    <dt data-i18n>{LNG_Transaction date}</dt>
+    <dd data-text="transaction_date | date"></dd>
+    <dt data-i18n>{LNG_Borrowed date}</dt>
+    <dd data-text="borrow_date | date"></dd>
+    <dt data-i18n>{LNG_Date of return}</dt>
+    <dd data-text="return_date | date"></dd>
+  </dl>
+  <div class="tablebody">
+    <table class="table border fullwidth" data-table="borrowDetailItems" data-attr="data:items" data-url-params="false" data-show-caption="false">
+      <thead>
+        <tr>
+          <th data-field="topic" data-template="${topic} <small>${product_no}</small>" data-i18n>{LNG_Equipment}</th>
+          <th data-field="num_requests" class="center" data-cell-class="center" data-template="${num_requests} ${unit}" data-i18n>{LNG_Quantity}</th>
+          <th data-field="amount" class="center" data-cell-class="center" data-template="${amount} ${unit}" data-i18n>{LNG_Delivery}</th>
+          <th data-field="status" class="center" data-cell-class="center" data-template="<span class='borrow-status status${status}'>${status_text}</span>" data-i18n>{LNG_Status}</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</article>

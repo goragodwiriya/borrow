@@ -1,0 +1,41 @@
+<!-- เลขครุภัณฑ์ของพัสดุหนึ่งรายการ — ระบบเดิมคือ module=inventory-write&tab=items
+     ตารางแก้ไขทั้งตารางแล้วกดบันทึกครั้งเดียว (เพิ่ม/ลบแถวได้) เหมือนหน้าหมวดหมู่
+     รูปบาร์โค้ดของแต่ละรหัสมาเป็น URL ในข้อมูลของแถว -->
+<form data-form="inventoryItems" action="api/inventory/items/save" method="post" data-ajax-submit="true"
+      data-load-api="api/inventory/items/get" data-load-query-params="true" autocomplete="off">
+  <div class="card-groups">
+    <header>
+      <div>
+        <h1 class="icon-barcode" data-text="topic"></h1>
+        <p data-i18n>One item can hold many serial numbers, each with its own quantity</p>
+      </div>
+      <div>
+        <a class="btn icon-arrow-left" data-attr="href:'/inventory-write?id=' + id" data-i18n>{LNG_Back}</a>
+      </div>
+    </header>
+    <div class="content-body">
+      <fieldset class="grid">
+        <div class="tablebody">
+          <table class="table border fullwidth" data-table="inventoryItems" data-editable-rows="true"
+                 data-attr="data:options" data-url-params="false">
+            <!-- คอลัมน์อยู่ที่นี่ — API ส่งเฉพาะแถว (รูปบาร์โค้ดเป็น URL ในข้อมูล) -->
+            <thead>
+              <tr>
+                <th data-field="barcode" class="center" data-cell-class="center" data-template="<img class='inventory-barcode' src='${barcode}' alt=''>" data-i18n>{LNG_Barcode}</th>
+                <th data-field="product_no" data-cell-element="text" data-max-length="150" data-size="10" data-i18n>{LNG_Serial/Registration No.}</th>
+                <th data-field="topic" data-cell-element="text" data-max-length="150" data-i18n>{LNG_Detail}</th>
+                <th data-field="stock" class="center" data-cell-class="center" data-cell-element="number" data-size="2" data-i18n>{LNG_Stock}</th>
+                <th data-field="unit" class="center" data-cell-element="text" data-size="5" data-max-length="50" data-i18n>{LNG_Unit}</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </fieldset>
+      <fieldset class="submit">
+        <button type="submit" class="btn btn-primary icon-save" data-i18n>{LNG_Save}</button>
+        <input type="hidden" name="id" data-attr="value:id">
+      </fieldset>
+    </div>
+  </div>
+</form>
